@@ -1,0 +1,91 @@
+#!/bin/bash
+################################################################
+##
+## ASPD changer
+##
+## wocson (c)
+##
+## Requare: zsh, lftp, mc
+##
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+
+str="$1"
+str="@e-mail:wocson@yandex.ru;SUBJ:TEST wocson vrs"
+echo "0. strlen=$str"
+
+strlen=${str:1}
+echo "1. удалить первый символ strlen=$strlen"
+
+strlen1=${str#'@'} 
+echo "2. удалить в начале символ @ strlen=$strlen1"
+
+strlen=${str%'@'} 
+echo "3. удалить с конца strlen=$strlen"
+
+strlen=${str//'@'} 
+echo "4. удалить все @ strlen=$strlen"
+
+strlen=${str//[@-]/'&'}
+echo "5. заменить все символы @ и - на & strlen=$strlen"
+
+strdel0="e-mail:"
+strdel1="${strdel0^^}"
+
+strlen=${strlen1//$strdel0} 
+strlen=${strlen//$strdel1} 
+echo "6. удалить все $strdel0 и $strdel1 в строке strlen=$strlen"
+
+echo "7. вывести 4 символ строки: ${str:4:1}"
+
+string="  ASD010201.txt ASD010202.txt ASD010203.txt"
+echo "8.0 Удалить два пробела в начале строки:$string"
+string=${string//"  "} 
+echo "8.1 Удалить два пробела в начале строки:$string"
+
+#strlen=${str:0:13}&${str:14}
+i=15 
+strlen=${str:0:$i-1}'&'${str:$i}
+echo "9. заменить символ @ на & в $i поз. strlen=$strlen"
+
+RPATHFN="/usr/local/directory/filename.zzz"
+namefile="${RPATHFN##*/}" # namefile
+pathfile="${RPATHFN%/*}"  # fullpath
+echo -e "10. Получить имя файла и путь из полного пути: \n$RPATHFN"
+echo -e "Name: $namefile\nPath: $pathfile"
+
+
+stringContain() { [ -z "${2##*$1*}" ] && { [ -z "$1" ] || [ -n "$2" ] ;} ; }
+
+str="@e-mail:wocson@yandex.ru;SUBJ:TEST wocson vrs"
+
+
+
+WCODE="ASDF"
+
+echo "================================================================="
+
+AddFnamePath()
+{
+  echo "File    = $1"
+  echo "e-mail  = $2"  
+  echo "TXTMAIL = $3"
+  echo "SUBJ    = $4"
+}
+
+
+sdel0="e-mail:"; sdel1="${sdel0^^}";
+email=`echo "$str" | cut -d";" -f1`; 
+echo ":001: email=$email"
+email=${email#'@'}; email=${email//$sdel0}; email=${email//$sdel1} 
+echo ":002: email=$email"
+
+TXTMAIL="Примите файл от станции $STATION. Смотрите вложение."
+SUBJ=`echo "$str" | cut -d";" -f2`; 
+echo ":003: SUBJ=$SUBJ"
+SUBJ=`echo "$SUBJ" | cut -d":" -f2-`; 
+echo ":003: SUBJ=$SUBJ"
+
+echo "================================================================="
+AddFnamePath "vrs020802.7z" "$email" "$TXTMAIL" "$SUBJ"
+echo "================================================================="

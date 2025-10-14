@@ -1,0 +1,129 @@
+.TH "mt::StrUtils" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::StrUtils \- 
+.PP
+Miscellaneous functions for string processing.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <StrUtils.h>\fP
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBtokenize\fP (const std::string &subject, const std::string &delimiters, std::vector< std::string > &out)"
+.br
+.RI "\fISeparate string \fIsubject\fP into tokens using each symbol from \fIdelimeters\fP as delimiter. \fP"
+.ti -1c
+.RI "static std::string \fBdetokenize\fP (const std::vector< std::string > &in, const std::string &delimiters)"
+.br
+.RI "\fISplit tokens to string and use \fIdelimiters\fP as delimiter. \fP"
+.ti -1c
+.RI "static uint32_t \fBstringToIp\fP (const std::string &ip_str)"
+.br
+.RI "\fIConvert std::string to IP address as integer. \fP"
+.ti -1c
+.RI "static std::string \fBipToString\fP (uint32_t ip)"
+.br
+.RI "\fIConvert IP address as integer to std::string. \fP"
+.ti -1c
+.RI "static std::string \fBintToString\fP (int32_t i)"
+.br
+.RI "\fIConvert integer to string. \fP"
+.ti -1c
+.RI "static std::string \fBbinaryView\fP (const uint8_t *data, uint32_t len)"
+.br
+.RI "\fIConvert binary data to HEX string. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Miscellaneous functions for string processing. 
+.PP
+Definition at line 23 of file StrUtils.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "std::string mt::StrUtils::binaryView (const uint8_t * data, uint32_t len)\fC [static]\fP"
+.PP
+Convert binary data to HEX string. \fBParameters:\fP
+.RS 4
+\fIdata\fP Binary data. 
+.br
+\fIlen\fP Length of the binary data.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Binary as HEX string. 
+.RE
+.PP
+
+.PP
+Definition at line 86 of file StrUtils.cpp.
+.SS "std::string mt::StrUtils::detokenize (const std::vector< std::string > & in, const std::string & delimiters)\fC [static]\fP"
+.PP
+Split tokens to string and use \fIdelimiters\fP as delimiter. 
+.PP
+Definition at line 44 of file StrUtils.cpp.
+.SS "std::string mt::StrUtils::intToString (int32_t i)\fC [static]\fP"
+.PP
+Convert integer to string. \fBParameters:\fP
+.RS 4
+\fIi\fP Integer for convert.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Integer as string. 
+.RE
+.PP
+
+.PP
+Definition at line 80 of file StrUtils.cpp.
+.SS "std::string mt::StrUtils::ipToString (uint32_t ip)\fC [static]\fP"
+.PP
+Convert IP address as integer to std::string. \fBParameters:\fP
+.RS 4
+\fIip\fP IP address as integer.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+IP address as string. 
+.RE
+.PP
+
+.PP
+Definition at line 70 of file StrUtils.cpp.
+.SS "uint32_t mt::StrUtils::stringToIp (const std::string & ip_str)\fC [static]\fP"
+.PP
+Convert std::string to IP address as integer. \fBParameters:\fP
+.RS 4
+\fIip_str\fP IP address as string.
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if ip_str isn't IP in string format. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+IP address as unsigned integer. 
+.RE
+.PP
+
+.PP
+Definition at line 54 of file StrUtils.cpp.
+.SS "void mt::StrUtils::tokenize (const std::string & subject, const std::string & delimiters, std::vector< std::string > & out)\fC [static]\fP"
+.PP
+Separate string \fIsubject\fP into tokens using each symbol from \fIdelimeters\fP as delimiter. Result tokens are \fBappended\fP to \fIout\fP. 
+.PP
+Definition at line 23 of file StrUtils.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

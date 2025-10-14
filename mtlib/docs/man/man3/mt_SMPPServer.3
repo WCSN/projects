@@ -1,0 +1,57 @@
+.TH "mt::SMPPServer" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::SMPPServer \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <SMPPServer.h>\fP
+.PP
+Inherits \fBmt::Logable\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSMPPServer\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~SMPPServer\fP ()"
+.br
+.ti -1c
+.RI "int \fBinit\fP (\fBXmlConfigPtr\fP cfg)"
+.br
+.ti -1c
+.RI "\fBMessage\fP * \fBrecv\fP ()"
+.br
+.ti -1c
+.RI "int \fBsend\fP (\fBMessage\fP *)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 28 of file SMPPServer.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::SMPPServer::SMPPServer ()"
+.PP
+Definition at line 20 of file SMPPServer.cpp.
+.SS "virtual mt::SMPPServer::~SMPPServer ()\fC [inline, virtual]\fP"
+.PP
+Definition at line 55 of file SMPPServer.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "int mt::SMPPServer::init (\fBXmlConfigPtr\fP cfg)"
+.PP
+Definition at line 36 of file SMPPServer.cpp.
+.SS "\fBMessage\fP * mt::SMPPServer::recv ()"
+.PP
+Definition at line 73 of file SMPPServer.cpp.
+.SS "int mt::SMPPServer::send (\fBMessage\fP * msg)"
+.PP
+Definition at line 96 of file SMPPServer.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

@@ -1,0 +1,79 @@
+#############################################################
+##
+## Check required and nameprj for Phonograph
+##
+## wocson (c)
+##
+#############################################################
+[[ -f "./Makefile" ]] && DEBUG="YES" || DEBUG="NO"; [[ "${DEBUG^^}" == "YES" ]] && PRFXDIR="$PWD/src" || PRFXDIR="$HOME" # $PRFXDIR
+
+CONFDIR="$PRFXDIR/.config/Phonograph"
+LIBDIR="$PRFXDIR/.local/share/Phonograph/lib"
+CONFFILE="$CONFDIR/phonograph.conf"
+
+declare -a REQMOD
+declare -a REQPACKETS
+declare -a REQPACKETS_LINUX
+
+REQMOD=( mc ffmpeg cuetag.sh shntool flac wavpack mac enca most bc zsh)
+REQPACKETS=( mc ffmpeg cuetools shntool flac wavpack mac enca most zsh)
+REQPACKETS_LINUX=( mc ffmpeg cuetools shntool flac wavpack mac enca most bc zsh)
+tracktype=( flac mp3 wma ogg ape opus wav aac mp4 avi mkv wv dsf )
+
+VERBOSE="NO"; FFMPEGMAJOR=4; FFMPEGMINOR=2;
+OSTYPE="$(uname)"
+
+function showinstreq()
+{
+    echo -e " Install:"
+
+    if [[ "$OSTYPE" == "FreeBSD" ]]; then
+        echo -e " FreeBSD:       '# pkg install ${REQPACKETS[@]}'"
+    else
+        echo -e " openSuse:      '# zypper install ${REQPACKETS_LINUX[@]}'"
+        echo -e " Debian/Ubuntu: '# apt install ${REQPACKETS_LINUX[@]}'"
+        echo -e " RedHat:        '# yum install ${REQPACKETS_LINUX[@]}'"
+    fi
+}
+
+function reqcheck()
+{
+    for mod in ${REQMOD[@]}; do
+        if [[ -z $(whereis $mod | grep -i "bin" | cut -f2 -d':') ]]; then
+            echo " For Phonograph required: $mod !";
+            echo -e "\n Install all this packets, please."
+            echo -e " --> ${REQMOD[@]}\n"
+            showinstreq
+            echo ""
+            exit -3
+        fi
+    done
+
+    ffver=$(ffmpeg -version | grep -i "ffmpeg version" | cut -f1-3 -d' ')
+    ffvermajor=$(echo "$ffver" | grep -i "ffmpeg version" | cut -f3 -d' ' | cut -f1 -d'.')
+    msgnover=(" Installed $ffver\n This version does not meet the minimum required!\n"
+              "Need version >= $FFMPEGMAJOR.$FFMPEGMINOR\n" )
+   
+    if (( $ffvermajor < $FFMPEGMAJOR )); then
+        echo -e "${msgnover[@]}"
+        exit 5
+    elif (( $ffvermajor == $FFMPEGMAJOR )); then
+        ffverminor=$(echo "$ffver" | grep -i "ffmpeg version" | cut -f3 -d' ' | cut -f2 -d'.')
+        if (( $ffverminor < $FFMPEGMINOR )); then
+            echo -e "${msgnover[@]}"
+            exit 4
+        fi
+    fi
+}
+
+function writeconf()
+{
+    local namephonogram="$1"
+    cat "$LIBDIR/phonograph.cnf0" > "$CONFFILE"
+}
+
+function genconfdef()
+{
+    [[ "${DEBUG^^}" == "NO" ]] && return
+    writeconf "$1"
+}

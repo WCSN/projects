@@ -1,0 +1,22 @@
+#!/bin/bash
+
+
+DIALOG=${DIALOG=kdialog}
+
+
+$DIALOG --textbox yed 200 300
+
+$DIALOG --yesno "Вы хотите продолжить?"
+
+case $? in
+    0)
+        echo "Выбрано 'Да'.";;
+    1)
+        echo "Выбрано 'Нет'.";;
+    255)
+        echo "Нажата клавиша ESC.";;
+esac
+
+name=$(kdialog --title "Ввод данных" --inputbox "Введите ваше имя:" 2>&1)
+echo "Ваше имя: $name"
+

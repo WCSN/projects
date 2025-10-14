@@ -1,0 +1,450 @@
+.TH "mt::XmlConfig" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::XmlConfig \- 
+.PP
+XML files parser.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <XmlConfig.h>\fP
+.PP
+Inherits \fBmt::Logable\fP.
+.SS "Public Member Functions"
+
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBXmlConfig\fP (const std::string &file_name)"
+.br
+.RI "\fILoad XML from file. \fP"
+.ti -1c
+.RI "\fBXmlConfig\fP (const \fBXmlConfig\fP &xcfg, const std::string &xpath)"
+.br
+.RI "\fILoad XML's element from XML config. \fP"
+.ti -1c
+.RI "\fBXmlConfig\fP (const char *file_content)"
+.br
+.RI "\fILoad XML from string. \fP"
+.ti -1c
+.RI "\fBXmlConfig\fP (const \fBXmlConfig\fP &cfg)"
+.br
+.RI "\fICopy constructor. \fP"
+.ti -1c
+.RI "virtual \fB~XmlConfig\fP ()"
+.br
+.in -1c
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBConfigList\fP \fBgetConfigs\fP (const std::string xpath) const "
+.br
+.RI "\fILoad all element's from the XML config. \fP"
+.ti -1c
+.RI "\fBXmlConfigPtr\fP \fBgetConfig\fP (const std::string xpath) const "
+.br
+.RI "\fILoad first element from the XML config. \fP"
+.ti -1c
+.RI "std::string \fBgetName\fP () const "
+.br
+.RI "\fIName of the element. \fP"
+.ti -1c
+.RI "std::string \fBget\fP (const std::string &a, const std::string &b) const "
+.br
+.RI "\fIGet value of the parameter from the element. \fP"
+.ti -1c
+.RI "std::string \fBget\fP (const std::string &b) const "
+.br
+.RI "\fIGet value of the parameter from the XML config's root element. \fP"
+.ti -1c
+.RI "std::string \fBgetMandatory\fP (const std::string &b) const "
+.br
+.RI "\fIGet value of the parameter from the XML config's root element. \fP"
+.ti -1c
+.RI "void \fBput\fP (const std::string &a, const std::string &b, const std::string &c)"
+.br
+.RI "\fISet value of the parameter from the element. \fP"
+.ti -1c
+.RI "void \fBput\fP (const std::string &b, const std::string &c)"
+.br
+.RI "\fISet value of the parameter from the XML config's root element. \fP"
+.ti -1c
+.RI "void \fBreadFromFile\fP (const std::string &filename)"
+.br
+.RI "\fILoad XML config from file. \fP"
+.ti -1c
+.RI "void \fBreload\fP (const char *new_file_name=0)"
+.br
+.RI "\fIReload XML config. \fP"
+.ti -1c
+.RI "time_t \fBlastChangeTime\fP () const "
+.br
+.RI "\fIGet configuration file's last changing time. \fP"
+.ti -1c
+.RI "\fBXmlConfig\fP & \fBoperator=\fP (const \fBXmlConfig\fP &cfg)"
+.br
+.in -1c
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "int32_t \fBgetValue\fP (const char *xpath, std::string &value) const "
+.br
+.RI "\fIGet parameter's value from XML. \fP"
+.ti -1c
+.RI "int32_t \fBgetValue\fP (const std::string &xpath, std::string &value) const "
+.br
+.RI "\fIGet parameter's value from XML. \fP"
+.ti -1c
+.RI "int32_t \fBgetValue\fP (std::string &value) const "
+.br
+.RI "\fIGet parameter's value from the element. \fP"
+.ti -1c
+.RI "int32_t \fBsetValue\fP (const std::string &xpath, const std::string &value)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+XML files parser. 
+.PP
+Definition at line 23 of file XmlConfig.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::XmlConfig::XmlConfig (const std::string & file_name)"
+.PP
+Load XML from file. \fBParameters:\fP
+.RS 4
+\fIfile_name\fP File to load. 
+.RE
+.PP
+
+.PP
+Definition at line 10 of file XmlConfig.cpp.
+.SS "mt::XmlConfig::XmlConfig (const \fBXmlConfig\fP & xcfg, const std::string & xpath)"
+.PP
+Load XML's element from XML config. \fBParameters:\fP
+.RS 4
+\fIxcfg\fP XML config. 
+.br
+\fIxpath\fP The element's name. 
+.RE
+.PP
+
+.PP
+Definition at line 30 of file XmlConfig.cpp.
+.SS "mt::XmlConfig::XmlConfig (const char * file_content)"
+.PP
+Load XML from string. \fBParameters:\fP
+.RS 4
+\fIfile_content\fP XML string. 
+.RE
+.PP
+
+.PP
+Definition at line 20 of file XmlConfig.cpp.
+.SS "mt::XmlConfig::XmlConfig (const \fBXmlConfig\fP & cfg)"
+.PP
+Copy constructor. 
+.PP
+Definition at line 64 of file XmlConfig.cpp.
+.SS "mt::XmlConfig::~XmlConfig ()\fC [virtual]\fP"
+.PP
+Definition at line 92 of file XmlConfig.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "std::string mt::XmlConfig::get (const std::string & a, const std::string & b) const"
+.PP
+Get value of the parameter from the element. \fBParameters:\fP
+.RS 4
+\fIa\fP The element's name. 
+.br
+\fIb\fP The parameter's name.
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fImt::XmlException\fP if the document is empty. 
+.br
+\fImt::XmlException\fP if error occurred at initializing the element context. 
+.br
+\fImt::XmlException\fP if error occurred at parsing the element. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Value of the parameter. 
+.RE
+.PP
+
+.PP
+Definition at line 165 of file XmlConfig.cpp.
+.SS "std::string mt::XmlConfig::get (const std::string & b) const"
+.PP
+Get value of the parameter from the XML config's root element. \fBParameters:\fP
+.RS 4
+\fIb\fP The parameter's name.
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fImt::XmlException\fP if the document is empty. 
+.br
+\fImt::XmlException\fP if error occurred at initializing the element context. 
+.br
+\fImt::XmlException\fP if error occurred at parsing the element. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Value of the parameter. 
+.RE
+.PP
+
+.PP
+Definition at line 179 of file XmlConfig.cpp.
+.SS "\fBXmlConfigPtr\fP mt::XmlConfig::getConfig (const std::string xpath) const"
+.PP
+Load first element from the XML config. \fBParameters:\fP
+.RS 4
+\fIxpath\fP The element's path.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Pointer to element. NULL pointer will be returned if no such element. 
+.RE
+.PP
+
+.PP
+Definition at line 301 of file XmlConfig.cpp.
+.SS "\fBConfigList\fP mt::XmlConfig::getConfigs (const std::string xpath) const"
+.PP
+Load all element's from the XML config. \fBParameters:\fP
+.RS 4
+\fIxpath\fP The element's path.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+List of element's. 
+.RE
+.PP
+
+.PP
+Definition at line 276 of file XmlConfig.cpp.
+.SS "std::string mt::XmlConfig::getMandatory (const std::string & b) const"
+.PP
+Get value of the parameter from the XML config's root element. If no such parameter or the parameter's value is empty than throws exception.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIb\fP The parameter's name.
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fImt::XmlException\fP if the document is empty. 
+.br
+\fImt::XmlException\fP if error occurred at initializing the element context. 
+.br
+\fImt::XmlException\fP if error occurred at parsing the element. 
+.br
+\fImt::XmlExceptionNoMandatoryParamter\fP if no such parameter. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Value of the parameter. 
+.RE
+.PP
+
+.PP
+Definition at line 183 of file XmlConfig.cpp.
+.SS "std::string mt::XmlConfig::getName () const"
+.PP
+Name of the element. \fBReturns:\fP
+.RS 4
+Name of the config's root element . 
+.RE
+.PP
+
+.PP
+Definition at line 311 of file XmlConfig.cpp.
+.SS "int32_t mt::XmlConfig::getValue (std::string & value) const\fC [protected]\fP"
+.PP
+Get parameter's value from the element. \fBParameters:\fP
+.RS 4
+\fIvalue\fP The parameter's value was set to it.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if success. 
+.RE
+.PP
+
+.SS "int32_t mt::XmlConfig::getValue (const char * xpath, std::string & value) const\fC [protected]\fP"
+.PP
+Get parameter's value from XML. \fBParameters:\fP
+.RS 4
+\fIxpath\fP The element's path. 
+.br
+\fIvalue\fP The parameter's value was set to it.
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fImt::XmlException\fP if the document is empty. 
+.br
+\fImt::XmlException\fP if error occurred at initializing the element context. 
+.br
+\fImt::XmlException\fP if error occurred at parsing the element. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if success. 
+.RE
+.PP
+
+.PP
+Definition at line 217 of file XmlConfig.cpp.
+.SS "int32_t mt::XmlConfig::getValue (const std::string & xpath, std::string & value) const\fC [protected]\fP"
+.PP
+Get parameter's value from XML. \fBParameters:\fP
+.RS 4
+\fIxpath\fP The element's name. 
+.br
+\fIvalue\fP The parameter's value was set to it.
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fImt::XmlException\fP if the document is empty. 
+.br
+\fImt::XmlException\fP if error occurred at initializing the element context. 
+.br
+\fImt::XmlException\fP if error occurred at parsing the element. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if success. 
+.RE
+.PP
+
+.PP
+Definition at line 221 of file XmlConfig.cpp.
+.SS "time_t mt::XmlConfig::lastChangeTime () const\fC [inline]\fP"
+.PP
+Get configuration file's last changing time. \fBReturns:\fP
+.RS 4
+Time in seconds since the Epoch. 
+.RE
+.PP
+
+.PP
+Definition at line 228 of file XmlConfig.h.
+.SS "\fBXmlConfig\fP & mt::XmlConfig::operator= (const \fBXmlConfig\fP & cfg)"
+.PP
+Definition at line 306 of file XmlConfig.cpp.
+.SS "void mt::XmlConfig::put (const std::string & b, const std::string & c)"
+.PP
+Set value of the parameter from the XML config's root element. \fBParameters:\fP
+.RS 4
+\fIb\fP The parameter's name. 
+.br
+\fIc\fP Putted value of the parameter. 
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fImt::XmlException\fP if the document is empty. 
+.br
+\fImt::XmlException\fP if error occurred at initializing the element context. 
+.br
+\fImt::XmlException\fP if error occurred at parsing the element. 
+.RE
+.PP
+
+.PP
+Definition at line 208 of file XmlConfig.cpp.
+.SS "void mt::XmlConfig::put (const std::string & a, const std::string & b, const std::string & c)"
+.PP
+Set value of the parameter from the element. \fBParameters:\fP
+.RS 4
+\fIa\fP The element's name. 
+.br
+\fIb\fP The parameter's name. 
+.br
+\fIc\fP Putted value of the parameter. 
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fImt::XmlException\fP if the document is empty. 
+.br
+\fImt::XmlException\fP if error occurred at initializing the element context. 
+.br
+\fImt::XmlException\fP if error occurred at parsing the element. 
+.RE
+.PP
+
+.PP
+Definition at line 190 of file XmlConfig.cpp.
+.SS "void mt::XmlConfig::readFromFile (const std::string & filename)"
+.PP
+Load XML config from file. \fBParameters:\fP
+.RS 4
+\fIfilename\fP File's name. 
+.RE
+.PP
+
+.PP
+Definition at line 212 of file XmlConfig.cpp.
+.SS "void mt::XmlConfig::reload (const char * new_file_name = \fC0\fP)"
+.PP
+Reload XML config. If new_file_name not 0 than XML config will loaded from file 'new_file_name'
+.PP
+\fBParameters:\fP
+.RS 4
+\fInew_file_name\fP File's name. 
+.RE
+.PP
+
+.PP
+Definition at line 102 of file XmlConfig.cpp.
+.SS "int32_t mt::XmlConfig::setValue (const std::string & xpath, const std::string & value)\fC [protected]\fP"\fBParameters:\fP
+.RS 4
+\fIxpath\fP The element's path. 
+.br
+\fIvalue\fP Putted value if the parameter.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if success. 
+.RE
+.PP
+
+.PP
+Definition at line 247 of file XmlConfig.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

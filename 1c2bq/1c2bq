@@ -1,0 +1,30 @@
+#!/usr/local/bin/python
+#
+# 1C to Bisquit
+#
+#	Wocson (c) 2012
+#
+
+import sys
+import codecs
+import os
+
+tmp = 'conv.tmp'
+
+if len(sys.argv) < 2:
+  sys.exit("Usage: 1c2bq xmlfile csvfile")
+
+xml_file = sys.argv[1]
+csv_file = sys.argv[2]
+
+os.system('xsltproc -o ' + tmp + ' xml2csv.xslt '+ xml_file)
+
+indata = codecs.open(tmp, 'r', 'utf-8')
+buff = indata.readlines()   
+
+del buff[:1]
+
+out = codecs.open(csv_file, 'w', 'cp1251')
+out.writelines(buff)
+
+os.system('rm ' + tmp)

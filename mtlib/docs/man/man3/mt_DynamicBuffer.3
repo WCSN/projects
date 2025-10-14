@@ -1,0 +1,224 @@
+.TH "mt::DynamicBuffer" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::DynamicBuffer \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <DynamicBuffer.h>\fP
+.SS "Public Member Functions"
+
+.PP
+.RI "\fBConstructors & Destructor\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBDynamicBuffer\fP ()"
+.br
+.RI "\fIDefault constructor. \fP"
+.ti -1c
+.RI "\fBDynamicBuffer\fP (size_t capacity)"
+.br
+.RI "\fICreates buffer with given capacity. \fP"
+.ti -1c
+.RI "\fBDynamicBuffer\fP (const \fBDynamicBuffer\fP< T > &source)"
+.br
+.RI "\fICopy constructor. \fP"
+.ti -1c
+.RI "\fB~DynamicBuffer\fP ()"
+.br
+.RI "\fIDestructor. \fP"
+.in -1c
+.in -1c
+.PP
+.RI "\fBOperators\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBoperator T *\fP ()"
+.br
+.ti -1c
+.RI "\fBoperator const T *\fP () const "
+.br
+.ti -1c
+.RI "\fBDynamicBuffer\fP< T > & \fBoperator=\fP (const \fBDynamicBuffer\fP< T > &source)"
+.br
+.RI "\fIAssignment operator. \fP"
+.in -1c
+.in -1c
+.SS "Friends"
+
+.PP
+.RI "\fBFriends\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "template<typename U > bool \fBoperator==\fP (const \fBDynamicBuffer\fP< U > &lhs, const \fBDynamicBuffer\fP< U > &rhs)"
+.br
+.in -1c
+.in -1c
+.SS "Functions"
+ 
+.in +1c
+.ti -1c
+.RI "void \fBappend\fP (const T *data, size_t count)"
+.br
+.RI "\fIAppends \fIcount\fP elements to currently stored data. \fP"
+.ti -1c
+.RI "void \fBappend\fP (const \fBDynamicBuffer\fP< T > buffer)"
+.br
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.RI "\fISets initial all-zero values. \fP"
+.ti -1c
+.RI "void \fBreallocate\fP (size_t newCapacity)"
+.br
+.RI "\fIDelete all data. \fP"
+.ti -1c
+.RI "void \fBreallocateSave\fP (size_t newCapacity)"
+.br
+.RI "\fIReallocates internal buffer. \fP"
+.ti -1c
+.RI "T * \fBgetDataPtr\fP ()"
+.br
+.ti -1c
+.RI "const T * \fBgetDataPtr\fP () const "
+.br
+.ti -1c
+.RI "size_t \fBgetSize\fP () const "
+.br
+.ti -1c
+.RI "size_t \fBgetCapacity\fP () const "
+.br
+.ti -1c
+.RI "void \fBsetSize\fP (size_t size)"
+.br
+.RI "\fISets data size, e.g. \fP"
+.ti -1c
+.RI "void \fBinit\fP ()"
+.br
+.ti -1c
+.RI "void \fBcopy\fP (const \fBDynamicBuffer\fP< T > &source)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename T> class mt::DynamicBuffer< T >"
+
+.PP
+Definition at line 17 of file DynamicBuffer.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename T> \fBmt::DynamicBuffer\fP< T >::\fBDynamicBuffer\fP ()\fC [inline]\fP"
+.PP
+Default constructor. 
+.PP
+Definition at line 25 of file DynamicBuffer.h.
+.SS "template<typename T> \fBmt::DynamicBuffer\fP< T >::\fBDynamicBuffer\fP (size_t capacity)\fC [inline]\fP"
+.PP
+Creates buffer with given capacity. \fBParameters:\fP
+.RS 4
+\fIcapacity\fP Dynamic Buffer initial capacity. 
+.RE
+.PP
+
+.PP
+Definition at line 31 of file DynamicBuffer.h.
+.SS "template<typename T> \fBmt::DynamicBuffer\fP< T >::\fBDynamicBuffer\fP (const \fBDynamicBuffer\fP< T > & source)\fC [inline]\fP"
+.PP
+Copy constructor. 
+.PP
+Definition at line 38 of file DynamicBuffer.h.
+.SS "template<typename T> \fBmt::DynamicBuffer\fP< T >::~\fBDynamicBuffer\fP ()\fC [inline]\fP"
+.PP
+Destructor. 
+.PP
+Definition at line 47 of file DynamicBuffer.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename T> void \fBmt::DynamicBuffer\fP< T >::append (const T * data, size_t count)\fC [inline]\fP"
+.PP
+Appends \fIcount\fP elements to currently stored data. \fBParameters:\fP
+.RS 4
+\fIdata\fP - pointer to start of the data to append. 
+.br
+\fIcount\fP - number of elements to append. 
+.RE
+.PP
+
+.PP
+Definition at line 77 of file DynamicBuffer.h.
+.SS "template<typename T> void \fBmt::DynamicBuffer\fP< T >::append (const \fBDynamicBuffer\fP< T > buffer)\fC [inline]\fP"
+.PP
+Definition at line 85 of file DynamicBuffer.h.
+.SS "template<typename T> void \fBmt::DynamicBuffer\fP< T >::clear ()\fC [inline]\fP"
+.PP
+Sets initial all-zero values. Releases allocated internal memory. 
+.PP
+Definition at line 92 of file DynamicBuffer.h.
+.SS "template<typename T> void \fBmt::DynamicBuffer\fP< T >::copy (const \fBDynamicBuffer\fP< T > & source)\fC [inline, protected]\fP"
+.PP
+Definition at line 152 of file DynamicBuffer.h.
+.SS "template<typename T> size_t \fBmt::DynamicBuffer\fP< T >::getCapacity () const\fC [inline]\fP"
+.PP
+Definition at line 132 of file DynamicBuffer.h.
+.SS "template<typename T> T* \fBmt::DynamicBuffer\fP< T >::getDataPtr ()\fC [inline]\fP"
+.PP
+Definition at line 126 of file DynamicBuffer.h.
+.SS "template<typename T> const T* \fBmt::DynamicBuffer\fP< T >::getDataPtr () const\fC [inline]\fP"
+.PP
+Definition at line 128 of file DynamicBuffer.h.
+.SS "template<typename T> size_t \fBmt::DynamicBuffer\fP< T >::getSize () const\fC [inline]\fP"
+.PP
+Definition at line 130 of file DynamicBuffer.h.
+.SS "template<typename T> void \fBmt::DynamicBuffer\fP< T >::init ()\fC [inline, protected]\fP"
+.PP
+Definition at line 147 of file DynamicBuffer.h.
+.SS "template<typename T> \fBmt::DynamicBuffer\fP< T >::operator const T * () const\fC [inline]\fP"
+.PP
+Definition at line 54 of file DynamicBuffer.h.
+.SS "template<typename T> \fBmt::DynamicBuffer\fP< T >::operator T * ()\fC [inline]\fP"
+.PP
+Definition at line 52 of file DynamicBuffer.h.
+.SS "template<typename T> \fBDynamicBuffer\fP<T>& \fBmt::DynamicBuffer\fP< T >::operator= (const \fBDynamicBuffer\fP< T > & source)\fC [inline]\fP"
+.PP
+Assignment operator. 
+.PP
+Definition at line 59 of file DynamicBuffer.h.
+.SS "template<typename T> void \fBmt::DynamicBuffer\fP< T >::reallocate (size_t newCapacity)\fC [inline]\fP"
+.PP
+Delete all data. Reallocate memory. Size sets to 0. 
+.PP
+Definition at line 102 of file DynamicBuffer.h.
+.SS "template<typename T> void \fBmt::DynamicBuffer\fP< T >::reallocateSave (size_t newCapacity)\fC [inline]\fP"
+.PP
+Reallocates internal buffer. Currently stored data are saved. Reallocates if and only if \fInewCapacity\fP is greater then current size. 
+.PP
+Definition at line 115 of file DynamicBuffer.h.
+.SS "template<typename T> void \fBmt::DynamicBuffer\fP< T >::setSize (size_t size)\fC [inline]\fP"
+.PP
+Sets data size, e.g. number of actual stored elements. 
+.PP
+Definition at line 137 of file DynamicBuffer.h.
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "template<typename T> template<typename U > bool operator== (const \fBDynamicBuffer\fP< U > & lhs, const \fBDynamicBuffer\fP< U > & rhs)\fC [friend]\fP"
+.PP
+Definition at line 165 of file DynamicBuffer.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

@@ -1,0 +1,154 @@
+.TH "mt::ReloadableConfig" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::ReloadableConfig \- 
+.PP
+Realize reloadable configuration.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ReloadableConfig.h>\fP
+.SS "Public Member Functions"
+
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBReloadableConfig\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~ReloadableConfig\fP ()"
+.br
+.in -1c
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "void \fBinit\fP (const std::string &file_name, uint32_t timer=DEFAULT_TIMER_MS)"
+.br
+.RI "\fIInitialize reloadable config. \fP"
+.ti -1c
+.RI "\fBmt::XmlConfigPtr\fP \fBgetConfig\fP (const std::string &section_name)"
+.br
+.RI "\fIGet first element from config by name. \fP"
+.ti -1c
+.RI "bool \fBgetConfigs\fP (const std::string &section_name, \fBmt::ConfigList\fP *const config_list)"
+.br
+.RI "\fIGet all elements from config by name. \fP"
+.ti -1c
+.RI "bool \fBneedReinitConfiguration\fP ()"
+.br
+.RI "\fIReturn TRUE if configuration was changed. \fP"
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+Realize reloadable configuration. 
+
+Configuration file will be loaded and parsed by \fBReloadableConfig\fP. To get element's configuration you can use \fBgetConfig()\fP and \fBgetConfigs()\fP. You should check for file changes by call method \fBneedReinitConfiguration()\fP. If will returned TRUE, you should reinitialize all your objects.
+.PP
+\fBExample: \fP 
+.PP
+.nf
+ class Foo {
+ public:
+  Foo() {
+    m_config.init('config.xml', 10);
+    initFoo();
+  }
+
+  void initFoo() {
+    mt::XmlCondigPtr config = m_configs.getConfig('foo_element');
+    //... Initialize Foo with confuguartion.
+  }
+
+  void process() { //The method  periodically called.
+    if(m_config.needReinitConfiguration()) {
+       initFoo();
+    }
+    //... Process.
+  }
+ private:
+   mt::ReloadableConfig m_config;
+ };
+
+.fi
+.PP
+ 
+.PP
+Definition at line 46 of file ReloadableConfig.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::ReloadableConfig::ReloadableConfig ()"
+.PP
+Definition at line 5 of file ReloadableConfig.cpp.
+.SS "mt::ReloadableConfig::~ReloadableConfig ()\fC [virtual]\fP"
+.PP
+Definition at line 8 of file ReloadableConfig.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBmt::XmlConfigPtr\fP mt::ReloadableConfig::getConfig (const std::string & section_name)"
+.PP
+Get first element from config by name. \fBParameters:\fP
+.RS 4
+\fIsection_name\fP The element's name.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Smart pointer to xml config. If no such element, will returned null-pointer. 
+.RE
+.PP
+
+.PP
+Definition at line 20 of file ReloadableConfig.cpp.
+.SS "bool mt::ReloadableConfig::getConfigs (const std::string & section_name, \fBmt::ConfigList\fP *const  config_list)"
+.PP
+Get all elements from config by name. \fBParameters:\fP
+.RS 4
+\fIsection_name\fP The element's name. 
+.br
+\fIconfig_list\fP Pointers to xml config will pushed in the list.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+FALSE if no elements with such name. Otherwise, will returned TRUE. 
+.RE
+.PP
+
+.PP
+Definition at line 27 of file ReloadableConfig.cpp.
+.SS "void mt::ReloadableConfig::init (const std::string & file_name, uint32_t timer = \fCDEFAULT_TIMER_MS\fP)"
+.PP
+Initialize reloadable config. \fBParameters:\fP
+.RS 4
+\fIfile_name\fP XML configuration file name. 
+.br
+\fItimer\fP The interval between file last change time checking. Set to 5 sec by default. 
+.RE
+.PP
+
+.PP
+Definition at line 13 of file ReloadableConfig.cpp.
+.SS "bool mt::ReloadableConfig::needReinitConfiguration ()"
+.PP
+Return TRUE if configuration was changed. 
+.PP
+Definition at line 43 of file ReloadableConfig.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

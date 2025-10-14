@@ -1,0 +1,46 @@
+#!/bin/bash
+##############################################################################
+##
+## template_c++
+##
+## wocson (c)
+##
+##############################################################################
+
+if [[ -f ./Makefile ]]; then
+
+    while :; do
+
+        read -p " MakeFile exist. Owerwrite? (y/n)': " ans
+
+        case $ans in
+        y|Y)
+            break
+        ;;
+        n|N)
+            exit 0
+        ;;
+        *)
+        ;;
+        esac
+    done
+fi
+
+OSTYPE=$(uname)
+
+echo -en " MakeFile create. OS $OSTYPE\n"
+
+defansw=$(basename $PWD)
+read -p " Project name [$defansw]: " PRJNAME; PRJNAME=${PRJNAME:-$defansw}
+
+[[ $PRJNAME == "q" ]] && exit 0
+
+if [[ "$OSTYPE" == "FreeBSD" ]]; then
+    MKTYPE=Makefile.BSD
+elif [[ "$OSTYPE" == "Linux" ]]; then
+    MKTYPE=Makefile.LNX
+fi
+
+cat ./.settings/$MKTYPE | sed "s/##PROJECT_NAME/PROJECT_NAME=${PRJNAME}/" > ./Makefile
+echo " Done"
+exit 0

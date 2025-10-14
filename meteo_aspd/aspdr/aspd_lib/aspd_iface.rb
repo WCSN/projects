@@ -1,0 +1,2 @@
+module Aspd_iface
+end

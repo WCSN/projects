@@ -1,0 +1,74 @@
+.TH "mt::smpp::ServerProcessor" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::ServerProcessor \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ServerProcessor.h>\fP
+.PP
+Inherits \fBmt::smpp::Processor\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBrunLoop\fP ()"
+.br
+.RI "\fIThe method will called in infinite loop created thread. \fP"
+.ti -1c
+.RI "int \fBGetMessage\fP (\fBData\fP *data)"
+.br
+.ti -1c
+.RI "virtual \fB~ServerProcessor\fP ()"
+.br
+.ti -1c
+.RI "\fBClientConnection\fP * \fBGetClient\fP (std::string sysId)"
+.br
+.ti -1c
+.RI "int \fBRegisterClient\fP (std::string sysId, \fBClientConnection\fP *clnt)"
+.br
+.ti -1c
+.RI "void \fBUnRegisterClient\fP (std::string sysId)"
+.br
+.ti -1c
+.RI "\fBServerProcessor\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 25 of file ServerProcessor.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "virtual mt::smpp::ServerProcessor::~ServerProcessor ()\fC [inline, virtual]\fP"
+.PP
+Definition at line 40 of file ServerProcessor.h.
+.SS "mt::smpp::ServerProcessor::ServerProcessor ()\fC [inline]\fP"
+.PP
+Definition at line 78 of file ServerProcessor.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBClientConnection\fP* mt::smpp::ServerProcessor::GetClient (std::string sysId)\fC [inline]\fP"
+.PP
+Definition at line 43 of file ServerProcessor.h.
+.SS "int mt::smpp::ServerProcessor::GetMessage (\fBData\fP * data)"
+.PP
+Definition at line 125 of file ServerProcessor.cpp.
+.SS "int mt::smpp::ServerProcessor::RegisterClient (std::string sysId, \fBClientConnection\fP * clnt)\fC [inline]\fP"
+.PP
+Definition at line 54 of file ServerProcessor.h.
+.SS "void mt::smpp::ServerProcessor::runLoop ()\fC [virtual]\fP"
+.PP
+The method will called in infinite loop created thread. Client MUST define this method. 
+.PP
+Implements \fBmt::InfiniteThread\fP.
+.PP
+Definition at line 74 of file ServerProcessor.cpp.
+.SS "void mt::smpp::ServerProcessor::UnRegisterClient (std::string sysId)\fC [inline]\fP"
+.PP
+Definition at line 66 of file ServerProcessor.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

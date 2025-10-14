@@ -1,0 +1,173 @@
+.TH "mt::smpp::Data" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::Data \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <DataTypes.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBesm_class\fP (uint8_t i)"
+.br
+.ti -1c
+.RI "bool \fBisNormalMessage\fP ()"
+.br
+.ti -1c
+.RI "\fBData\fP (Smpp::Header *h, bool direct=true)"
+.br
+.ti -1c
+.RI "\fBData\fP ()"
+.br
+.ti -1c
+.RI "\fB~Data\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fBterminate\fP"
+.br
+.ti -1c
+.RI "pthread_mutex_t \fBunbindMtx\fP"
+.br
+.ti -1c
+.RI "unsigned char \fBudhMsgId\fP"
+.br
+.ti -1c
+.RI "unsigned char \fBudhTotal\fP"
+.br
+.ti -1c
+.RI "unsigned char \fBudhPartNum\fP"
+.br
+.ti -1c
+.RI "std::string \fBsystemId\fP"
+.br
+.ti -1c
+.RI "std::string \fBcontext\fP"
+.br
+.ti -1c
+.RI "\fBRequest\fP * \fBreq\fP"
+.br
+.ti -1c
+.RI "\fBMessage\fP * \fBmsg\fP"
+.br
+.ti -1c
+.RI "int \fBid\fP"
+.br
+.ti -1c
+.RI "int \fBlastSend\fP"
+.br
+.ti -1c
+.RI "Smpp::Header * \fBhdr\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBlength\fP"
+.br
+.ti -1c
+.RI "bool \fBisMultipart\fP"
+.br
+.ti -1c
+.RI "bool \fBfromUser\fP"
+.br
+.ti -1c
+.RI "std::string \fBmsgId\fP"
+.br
+.ti -1c
+.RI "int \fBstatus\fP"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "uint8_t \fBm_esmClass\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 178 of file DataTypes.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::smpp::Data::Data (Smpp::Header * h, bool direct = \fCtrue\fP)\fC [inline]\fP"
+.PP
+Definition at line 212 of file DataTypes.h.
+.SS "mt::smpp::Data::Data ()\fC [inline]\fP"
+.PP
+Definition at line 227 of file DataTypes.h.
+.SS "mt::smpp::Data::~Data ()\fC [inline]\fP"
+.PP
+Definition at line 242 of file DataTypes.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "void mt::smpp::Data::esm_class (uint8_t i)\fC [inline]\fP"
+.PP
+Definition at line 184 of file DataTypes.h.
+.SS "bool mt::smpp::Data::isNormalMessage ()\fC [inline]\fP"
+.PP
+Definition at line 188 of file DataTypes.h.
+.SH "Member Data Documentation"
+.PP 
+.SS "std::string \fBmt::smpp::Data::context\fP"
+.PP
+Definition at line 201 of file DataTypes.h.
+.SS "bool \fBmt::smpp::Data::fromUser\fP"
+.PP
+Definition at line 209 of file DataTypes.h.
+.SS "Smpp::Header* \fBmt::smpp::Data::hdr\fP"
+.PP
+Definition at line 206 of file DataTypes.h.
+.SS "int \fBmt::smpp::Data::id\fP"
+.PP
+Definition at line 204 of file DataTypes.h.
+.SS "bool \fBmt::smpp::Data::isMultipart\fP"
+.PP
+Definition at line 208 of file DataTypes.h.
+.SS "int \fBmt::smpp::Data::lastSend\fP"
+.PP
+Definition at line 205 of file DataTypes.h.
+.SS "unsigned int \fBmt::smpp::Data::length\fP"
+.PP
+Definition at line 207 of file DataTypes.h.
+.SS "uint8_t \fBmt::smpp::Data::m_esmClass\fP\fC [protected]\fP"
+.PP
+Definition at line 181 of file DataTypes.h.
+.SS "\fBMessage\fP* \fBmt::smpp::Data::msg\fP"
+.PP
+Definition at line 203 of file DataTypes.h.
+.SS "std::string \fBmt::smpp::Data::msgId\fP"
+.PP
+Definition at line 210 of file DataTypes.h.
+.SS "\fBRequest\fP* \fBmt::smpp::Data::req\fP"
+.PP
+Definition at line 202 of file DataTypes.h.
+.SS "int \fBmt::smpp::Data::status\fP"
+.PP
+Definition at line 211 of file DataTypes.h.
+.SS "std::string \fBmt::smpp::Data::systemId\fP"
+.PP
+Definition at line 200 of file DataTypes.h.
+.SS "bool \fBmt::smpp::Data::terminate\fP"
+.PP
+Definition at line 195 of file DataTypes.h.
+.SS "unsigned char \fBmt::smpp::Data::udhMsgId\fP"
+.PP
+Definition at line 197 of file DataTypes.h.
+.SS "unsigned char \fBmt::smpp::Data::udhPartNum\fP"
+.PP
+Definition at line 199 of file DataTypes.h.
+.SS "unsigned char \fBmt::smpp::Data::udhTotal\fP"
+.PP
+Definition at line 198 of file DataTypes.h.
+.SS "pthread_mutex_t \fBmt::smpp::Data::unbindMtx\fP"
+.PP
+Definition at line 196 of file DataTypes.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

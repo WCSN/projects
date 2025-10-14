@@ -1,0 +1,128 @@
+.TH "mt::Directory" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::Directory \- 
+.PP
+Incapsulate functions and properties related to UNIX directory.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Directory.h>\fP
+.SS "Public Member Functions"
+
+.PP
+.RI "\fBConstructors & Destructor\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBDirectory\fP (const std::string &path)"
+.br
+.RI "\fICreate object related to directory having path \fIpath\fP. \fP"
+.in -1c
+.in -1c
+.PP
+.RI "\fBConvenient functions\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "const std::vector< std::string > & \fBgetEntries\fP ()"
+.br
+.in -1c
+.in -1c
+.SS "Protected Member Functions"
+
+.PP
+.RI "\fBDirectory operations.\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "void \fBrewind\fP ()"
+.br
+.RI "\fISame-name POSIX function. \fP"
+.in -1c
+.in -1c
+.SS "Protected Attributes"
+
+.PP
+.RI "\fBData members.\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "DIR * \fBm_dirPtr\fP"
+.br
+.ti -1c
+.RI "const std::string \fBm_dirPath\fP"
+.br
+.RI "\fIPointer to DIR structure. \fP"
+.ti -1c
+.RI "std::vector< std::string > \fBm_entries\fP"
+.br
+.RI "\fIPath to directory. \fP"
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+Incapsulate functions and properties related to UNIX directory. 
+.PP
+Definition at line 22 of file Directory.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::Directory::Directory (const std::string & path)"
+.PP
+Create object related to directory having path \fIpath\fP. \fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if error occures while opening directory. 
+.RE
+.PP
+
+.PP
+Definition at line 13 of file Directory.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "const std::vector< std::string > & mt::Directory::getEntries ()"\fBReturns:\fP
+.RS 4
+const-ref to vector containing all entries' names currenly presented in directory. 
+.RE
+.PP
+
+.PP
+Definition at line 20 of file Directory.cpp.
+.SS "void mt::Directory::rewind ()\fC [inline, protected]\fP"
+.PP
+Same-name POSIX function. Definitions of the inline-functions.
+.PP
+Definition at line 56 of file Directory.h.
+.SH "Member Data Documentation"
+.PP 
+.SS "const std::string \fBmt::Directory::m_dirPath\fP\fC [protected]\fP"
+.PP
+Pointer to DIR structure. 
+.PP
+Definition at line 50 of file Directory.h.
+.SS "DIR* \fBmt::Directory::m_dirPtr\fP\fC [protected]\fP"
+.PP
+Definition at line 49 of file Directory.h.
+.SS "std::vector<std::string> \fBmt::Directory::m_entries\fP\fC [protected]\fP"
+.PP
+Path to directory. 
+.PP
+Definition at line 51 of file Directory.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

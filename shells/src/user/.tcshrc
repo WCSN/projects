@@ -1,0 +1,59 @@
+##############################################################################
+##
+## .tcshrc - resource script, read at beginning of execution by each shell
+##
+## wocson (c) 2008 BSD
+##
+## see also csh(1), environ(7).
+##
+##############################################################################
+
+##
+## Solution:
+## fstat /dev/dsp* /dev/mixer* | tail -n +2 | awk '{print $3}' | xargs sh -c 'sudo kill -9 $0 $*'
+##
+set LIBINCPATH="$HOME/.local/share/shells"
+source $LIBINCPATH/tcshrc.sh
+#set PROXY = "10.10.3.210:3128"
+
+if (`id -u` == 0) then
+	set root
+endif
+
+set path = ( $path $HOME/bin )
+
+## ENVIRONMENT VARIABLES
+
+#setenv PKG_FETCH '/usr/local/bin/wget -O '%2\$s' '%1\$s''
+#setenv FORCE_PKG_REGISTER 	YES
+#setenv PACKAGEROOT ftp://ftp.corbina.ru
+#setenv PACKAGESITE $PACKAGEROOT/pub/FreeBSD/ports/`uname -p`/packages-9-stable/All/
+#export NEWSSERVER=your.news.server
+
+if ( -f `which most` ) then
+    setenv PAGER most
+else
+    setenv PAGER less
+endif
+
+if ( -f `which mc` ) then
+    setenv EDITOR mcedit
+else
+    setenv EDITOR vim
+endif    
+
+setenv GDK_USE_XFT 		1
+setenv BLOCKSIZE		K
+#setenv CLICOLOR		true
+
+setenv LD_LIBRARY_PATH $LD_LIBRARY_PATH:$HOME/lib
+
+## LOCALE
+utf > /dev/null
+
+# A righteous umask
+umask 22
+
+if ($?root) then
+    unset root
+endif

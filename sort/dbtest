@@ -1,0 +1,10 @@
+#!/bin/bash
+
+OBJECT="$1"
+
+DBFILE="./db/$OBJECT/camlist_$OBJECT.csv"
+
+
+cat "$DBFILE" | grep -v "#" | sort -u -t',' -k1
+
+

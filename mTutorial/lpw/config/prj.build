@@ -1,0 +1,117 @@
+#!/bin/bash
+################################################
+##
+## prj.build
+##
+## (c) wocson
+##
+################################################
+PROJECT_NAME=$1
+MAKETYPE=$2
+PREFIXDIR=$3
+BINDIR=$4
+CDIR=`pwd`
+INST="no"
+
+function usage()
+{
+	echo "usage: make [debug | release | clean | install | deinstall | reinstall | help]"
+}
+
+function cleaning()
+{
+    echo "Clean ..."
+
+    if [ -d ./work ]; then
+		rm -Rf ./work
+		rm -Rf "$CDIR/config/CMakeLists.txt"
+	fi
+	
+	if [ -d ./Release ]; then
+		rm -Rfv ./Release
+	fi
+
+	if [ -d ./Debug ]; then
+		rm -Rfv ./Debug
+	fi
+
+	echo "Done."
+}
+
+function diradd()
+{
+	if ! [[ -d "$1" ]]; then mkdir -p "$1";	fi
+}
+
+function makeprj()
+{
+    
+    if ! [[ -d "$CDIR/work/$DIRBLD" ]]; then diradd "$CDIR/work/$DIRBLD"; fi
+
+
+    cd "$CDIR/work/$DIRBLD"
+
+    if ! [[ -f "$CDIR/work/$DIRBLD/Makefile" ]]; then
+        echo "project($PROJECT_NAME)" > "$CDIR/config/CMakeLists.txt"
+        cat "$CDIR/config/CMakeLists.inc" >> "$CDIR/config/CMakeLists.txt"
+        cmake -D CMAKE_BUILD_TYPE=$BTYPE -D PROJECT_ROOT_PATH="`pwd`/../.." "$CDIR/config/"
+    fi
+
+    if [[ -f "$CDIR/work/$DIRBLD/Makefile" ]]; then 
+        make
+ 
+        if [[ -f "$CDIR/work/$DIRBLD/$PROJECT_NAME" ]]; then 
+            
+            if ! [[ -d "$CDIR/$DIRBLD" ]]; then  diradd "$CDIR/$DIRBLD"; fi
+                cp -f "$CDIR/work/$DIRBLD/$PROJECT_NAME" "$CDIR/$DIRBLD/$PROJECT_NAME"
+                # if need exec file in ./ dir incomment next line 
+                 # cp -f $CDIR/work/$DIRBLD/$PROJECT_NAME "$CDIR/$PROJECT_NAME"
+        fi
+    fi
+
+    if [[ "$INST" == "yes" ]]; then
+        echo -n "Install: "
+        cp -fv "$CDIR/work/$DIRBLD/$PROJECT_NAME" "$PREFIXDIR$BINDIR/$PROJECT_NAME"
+    fi
+    cd "$CDIR"
+}
+
+
+case "$MAKETYPE" in
+
+[H,h]elp )
+    usage 
+    exit 3
+;;
+[C,c]lean )
+	cleaning
+;;
+[D,d]einstall )
+	whereis "$PROJECT_NAME"
+	if [ -f "$PREFIXDIR$BINDIR/$PROJECT_NAME" ]; then
+		rm -fv "$PREFIXDIR$BINDIR/$PROJECT_NAME"
+		echo " $PROJECT_NAME delete from your system"
+	else
+		echo " $PROJECT_NAME not installed."
+	fi
+;;
+[I,i]nstall|[R,r]einstall )
+	INST="yes"
+;&
+[R,r]elease )
+	DIRBLD=Release
+	BTYPE=RELEASE
+	makeprj
+;;
+[D,d]ebug )
+	DIRBLD=Debug
+	BTYPE=DEBUG
+	makeprj
+;;
+*)
+	echo "$0: Unknowmn options..."
+	usage
+	exit 1
+;;
+esac
+exit 0

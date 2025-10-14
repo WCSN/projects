@@ -1,0 +1,68 @@
+
+Good flow  header/flow  -  nfgood.bin ===============
+
+Netflow_ver       = 5         
+Flows_counts      = 1         
+SysUptime         = 272461237 
+Unix_secs         = 1157575428
+Unix_nsecs        = 4124421237
+Flow_sequence     = 3724564777
+Engine_tag        = 0         
+Engine_id         = 0         
+Sampling_interval = 65535     
+                
+srcaddr   = 10.255.2.184       
+dstaddr   = 10.255.2.154       
+nexthop   = 0.0.0.0            
+input     = 0                  
+output    = 0                  
+dPkts     = 0                  
+dOctets   = 1000               
+First     = 272401237          
+Last      = 272461237          
+srcport   = 137                
+dstport   = 138                
+pad1      = 128                
+tcp_flags = 15                 
+prot      = 17                 
+tos       = 253                
+src_as    = 65535              
+dst_as    = 65535              
+src_mask  = 0                  
+dst_mask  = 0                  
+pad2      = 0                  
+=====================================================
+
+Bad flow  header/flow - nfpoor.bin ===================
+
+Netflow_ver       = 5         
+Flows_counts      = 1         
+SysUptime         = 272286516 
+Unix_secs         = 1157567746
+Unix_nsecs        = 4124421237
+Flow_sequence     = 3724564777
+Engine_tag        = 0         
+Engine_id         = 0         
+Sampling_interval = 65535     
+                  
+srcaddr   = 10.0.0.1           
+dstaddr   = 10.0.0.2           
+nexthop   = 0.0.0.0            
+input     = 0                  
+output    = 0                  
+dPkts     = 0                  
+dOctets   = 1000               
+First     = 272226516          
+Last      = 272286516          
+srcport   = 1000               
+dstport   = 80                 
+pad1      = 128                
+tcp_flags = 15                 
+prot      = 6                  
+tos       = 253                
+src_as    = 65535              
+dst_as    = 65535              
+src_mask  = 0                  
+dst_mask  = 0                  
+pad2      = 0                  
+=====================================================

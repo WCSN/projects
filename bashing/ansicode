@@ -1,0 +1,114 @@
+#!/bin/bash
+ 
+clear
+
+echo "\033[0m\n"; # сброс
+
+
+# SGR (Select Graphic Rendition) параметры
+#
+# Код	Эффект	
+# Примечание
+
+FC=33
+BC=44
+
+echo -en "\033[0;$FC;$BC"; echo -en 'm'; echo -en "   Reset / Normal                                                            \n";
+#выключение всех атрибутов                                                                            
+                                                                                                      
+echo -en "\033[1;$FC;$BC"; echo -en 'm'; echo -en "   Жирный или увеличить яркость	                                          \n";
+echo -en "\033[2;$FC;$BC"; echo -en 'm'; echo -en "   Блёклый (уменьшить яркость)	                                              \n";
+#Не везде поддерживается                                                                              
+                                                                                                      
+echo -en "\033[3;$FC;$BC"; echo -en 'm'; echo -en "   Курсив: вкл.	                                                          \n";
+#Не везде поддерживается. Иногда обрабатывается как инверсия.                                         
+                                                                                                      
+echo -en "\033[4;$FC;$BC"; echo -en 'm'; echo -en "   Подчеркнутый: один раз	                                                  \n";
+echo -en "\033[5;$FC;$BC"; echo -en 'm'; echo -en "   Мигание: Медленно	менее 150 раз в минуту                                \n";
+                                                                                                      
+echo -en "\033[6;$FC;$BC"; echo -en 'm'; echo -en "   Мигание: Часто	MS-DOS ANSI.SYS; 150+ в минуту;                           \n";
+#не везде поддерживается                                                                              
+                                                                                                      
+echo -en "\033[7;$FC;$BC"; echo -en 'm'; echo -en "   Отображение: Негатив	инвертирует или обращает;                         \n";
+#меняет цвета фона и текста                                                                           
+                                                                                                      
+echo -en "\033[8;$FC;$BC"; echo -en 'm'; echo -en "   Скрытый	Не везде поддерживается.                                          \n";
+echo -en "\033[9;$FC;$BC"; echo -en 'm'; echo -en "   Зачеркнутый	                                                              \n";
+#Символы разборчивы, но помечены как удаленные. Не везде поддерживается.                              
+                                                                                                      
+echo -en "\033[10;$FC;$BC"; echo -en 'm'; echo -en "   Основной(по умолчанию) шрифт	                                          \n";
+echo -en "\033[11;$FC;$BC"; echo -en 'm'; echo -en "   1-й альтернативный шрифт                                                  \n";
+echo -en "\033[12;$FC;$BC"; echo -en 'm'; echo -en "   2-й альтернативный шрифт                                                  \n";
+echo -en "\033[13;$FC;$BC"; echo -en 'm'; echo -en "   3-й альтернативный шрифт                                                  \n";
+echo -en "\033[14;$FC;$BC"; echo -en 'm'; echo -en "   4-й альтернативный шрифт                                                  \n";
+echo -en "\033[15;$FC;$BC"; echo -en 'm'; echo -en "   5-й альтернативный шрифт                                                  \n";
+echo -en "\033[16;$FC;$BC"; echo -en 'm'; echo -en "   6-й альтернативный шрифт                                                  \n";
+echo -en "\033[17;$FC;$BC"; echo -en 'm'; echo -en "   7-й альтернативный шрифт                                                  \n";
+echo -en "\033[18;$FC;$BC"; echo -en 'm'; echo -en "   8-й альтернативный шрифт                                                  \n";
+echo -en "\033[19;$FC;$BC"; echo -en 'm'; echo -en "   9-й альтернативный шрифт                                                  \n";
+echo -en "\033[20;$FC;$BC"; echo -en 'm'; echo -en "   Фрактура	вряд ли поддерживается                                        \n";
+echo -en "\033[21;$FC;$BC"; echo -en 'm'; echo -en "   Жирный: выкл. или Подчеркивание: Двойное.                                 \n";
+echo -en "\033[22;$FC;$BC"; echo -en 'm'; echo -en "   Обычный цвет или яркость	Ни жирный ни блеклый                          \n";
+echo -en "\033[23;$FC;$BC"; echo -en 'm'; echo -en "   Не курсивный, не фрактура	                                              \n";
+echo -en "\033[24;$FC;$BC"; echo -en 'm'; echo -en "   Подчеркивание: Нет	Подчеркивание ни одиночное ни двойное                 \n";
+echo -en "\033[25;$FC;$BC"; echo -en 'm'; echo -en "   Мигание: выкл.	                                                          \n";
+echo -en "\033[26;$FC;$BC"; echo -en 'm'; echo -en "   Зарезервирован	                                                          \n";
+echo -en "\033[27;$FC;$BC"; echo -en 'm'; echo -en "   Отображение: обычное	не негатив                                        \n";
+echo -en "\033[28;$FC;$BC"; echo -en 'm'; echo -en "   Отображающийся	выключить скрытие                                         \n";
+echo -en "\033[29;$FC;$BC"; echo -en 'm'; echo -en "   Не зачеркнутый	                                                          \n";
+#echo -en "\033[30 -37	Установить цвет текста (на переднем плане)	                                  \n";
+#30 + {\displaystyle n} n, где {\displaystyle n} n из таблицы цветов ниже                             
+                                                                                                      
+echo -en "\033[38;$FC;$BC"; echo -en 'm'; echo -en "   Зарезервировано для дополнительных цветов	                              \n";
+#обычно поддерживаются следующие аргументы: 5;n где {\displaystyle n} n индекс цвета (0..255) или     
+#2;r;g;b где {\displaystyle r,g,b} {\displaystyle r,g,b} - красный, зеленый и синий каналы цвета      
+#(в пределах 255)                                                                                     
+                                                                                                      
+echo -en "\033[39;$FC;$BC"; echo -en 'm'; echo -en "   Цвет текста по умолчанию (на переднем плане)	                          \n";
+#зависит от реализации (в соответствии со стандартом)                                                 
+#echo -en "\033[40 -47	Установить цвет фона	                                                      
+#40 + {\displaystyle n} n, где {\displaystyle n} n из таблицы                                         
+#цветов                                                                                               
+                                                                                                      
+echo -en "\033[48;$FC;$BC"; echo -en 'm'; echo -en "   Зарезервировано для установки расширенного цвета фона                     \n";
+#обычно поддерживает следующие аргументы 5;n                                                          
+#где {\displaystyle n} n индекс цвета (0..255) или                                                    
+#2;r;g;b where {\displaystyle r,g,b} {\displaystyle r,g,b}                                            
+#- красный, зеленый и синий каналы цвета (в пределах 255)                                             
+                                                                                                      
+echo -en "\033[49;$FC;$BC"; echo -en 'm'; echo -en "   Цвет фона по умолчанию                                                    \n";
+#зависит от реализации (в соответствии со стандартом)                                                 
+                                                                                                      
+echo -en "\033[50;$FC;$BC"; echo -en 'm'; echo -en "   Зарезервировано	                                                          \n";
+echo -en "\033[51;$FC;$BC"; echo -en 'm'; echo -en "   Обрамленный	                                                              \n";
+echo -en "\033[52;$FC;$BC"; echo -en 'm'; echo -en "   Окруженный	                                                              \n";
+echo -en "\033[53;$FC;$BC"; echo -en 'm'; echo -en "   Надчеркнутый	                                                          \n";
+echo -en "\033[54;$FC;$BC"; echo -en 'm'; echo -en "   Не обрамленный и не окруженный	                                          \n";
+echo -en "\033[55;$FC;$BC"; echo -en 'm'; echo -en "   Не надчеркнутый	                                                          \n";
+#echo -en "\033[56–59	Зарезервировано	                                                              \n";
+echo -en "\033[60;$FC;$BC"; echo -en 'm'; echo -en "   ideogram underline or right side line	                                  \n";
+#вряд ли поддерживается                                                                              \n";
+                                                                                                     
+echo -en "\033[61;$FC;$BC"; echo -en 'm'; echo -en "   ideogram double underline or double line on the right side	              \n";
+#вряд ли поддерживается                                                                              \n";
+                                                                                                     
+echo -en "\033[62;$FC;$BC"; echo -en 'm'; echo -en "   ideogram overline or left side line	                                      \n";
+#вряд ли поддерживается                                                                              \n";
+                                                                                                     
+echo -en "\033[63;$FC;$BC"; echo -en 'm'; echo -en "   ideogram double overline or double line on the left side	              \n";
+#вряд ли поддерживается                                                                              \n";
+                                                                                                     
+echo -en "\033[64;$FC;$BC"; echo -en 'm'; echo -en "   ideogram stress marking	                                                  \n";
+#вряд ли поддерживается                                                                              \n";
+                                                                                                     
+echo -en "\033[65;$FC;$BC"; echo -en 'm'; echo -en "   ideogram attributes off	                                                  \n";
+#вряд ли поддерживается, отменяет эффекты кодов 60–64                                                 \n";
+                                                                                                      
+#echo -en "\033[90-97	Set foreground text color, high intensity	aixterm                           \n";
+#(не стандарт)                                                                                        
+                                                                                                      
+#echo -en "\033[100-107	Set background color, high intensity	                                  \n";
+#aixterm (не стандарт)                                                                                
+                                                                                                      
+read -n 1                                                                                             
+echo "\033[0m\n"; # сброс                                                                              

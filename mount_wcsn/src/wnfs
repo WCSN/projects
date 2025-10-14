@@ -1,0 +1,141 @@
+#!/bin/bash
+##############################################################################
+#
+# mount/umount local nfs
+#
+# wocson (c)
+#
+##############################################################################
+version="1.1.5"
+
+CONFPATH="$HOME/.config/wnfs/nfs"
+
+ERR=0
+ARGV[0]="$0"; let i=1; for arg in "$@"; do ARGV[$i]="$arg"; let i++; done
+
+ARGC=${#ARGV[@]}
+PRG=""
+OPT="tcp,bg,rw,noatime,soft,async"
+TM=""
+[[ $(uname) == "FreeBSD" ]] && TM=",timeout=5 "
+
+declare -a lmntpt
+declare -A rmpath
+declare -A NMPTSRV=$(ls $CONFPATH | rev | cut -f2- -d"." | rev)
+
+function usage()
+{
+    echo -e " wnfs mount/umount nfs\n ver. $version\n usage: wnfs [mount|umount|help] [nameserver|all]\n"
+}
+
+function view()
+{
+    printf "%-55s %-6s %-40s\n" "$1" "$2" "$3"
+}
+
+function mntnfs()
+{
+    local NAMESERVER="$1"
+    echo "Mount nfs from Server: $NAMESERVER"
+    
+    if [[ -f "$CONFPATH/${NAMESERVER}.conf" ]]; then
+        source "$CONFPATH/${NAMESERVER}.conf"
+    else
+        echo "Error: Server ${NAMESERVER} not have!"
+        usage
+        exit 0
+    fi
+
+    NSH=${#rmshare[@]}
+
+    case "${ARGV[1]}" in
+    mount)
+        PRG="mount"
+        echo "Mounting:"
+    ;;
+    umount)
+        PRG="umount"
+        echo "Umounting:"    
+    ;;    
+        help|--help|-h)
+        usage
+        exit 0
+    ;;    
+    *)
+        [[ -n "${ARGV[2]}" ]] && echo -e " Error: Unknowmn command: ${ARGV[2]}"
+        usage
+        exit -1
+    ;;
+    esac
+
+    for (( i=0; i<$NSH; i++ )); do
+        lmntpt[i]="$LMPATH"/$(echo "${rmshare[i]}" | rev | cut -f1 -d"/" | rev)
+        rmpath[${lmntpt[i]}]="$NAMESERVER:${rmshare[i]}"
+    done
+
+    LSMNT=$(df -T | grep "nfs" | tr -ds "\t" " " | cut -f7 -d' ')
+
+    for (( i=0; i<$NSH; i++ )); do 
+
+        [[ "$PRG" == "mount" ]] && MOUNT="YES" || MOUNT="NO"
+    
+        while read -r mp; do
+            if [[ "${lmntpt[$i]}" == "$mp" && "$PRG" == "mount" ]]; then
+                MOUNT="NOT"
+                break
+            elif [[ "${lmntpt[$i]}" == "$mp" && "$PRG" == "umount" ]]; then
+                MOUNT="YES"
+                break
+            fi    
+        done <<< ${LSMNT}
+
+        if [[ "$MOUNT" == "YES" ]]; then
+            if [[ "$PRG" == "mount" ]]; then
+                [[ -d "${lmntpt[$i]}" ]] || sudo mkdir -p "${lmntpt[$i]}"
+
+               $(sudo $PRG -t nfs -o $OPT$TM ${rmpath[${lmntpt[$i]}]} ${lmntpt[$i]} & )
+
+                if [ $? -eq 0 ]; then
+                    view "${rmpath[${lmntpt[$i]}]}" "->" "${lmntpt[$i]}"
+                else
+                    echo "Mount Error: ${rmpath[${lmntpt[$i]}]}"
+                    ERR=1                
+                fi
+            elif [[ "$PRG" == "umount" ]]; then
+                $( sudo $PRG -f "${lmntpt[$i]}" & )
+                if [ $? -eq 0 ]; then
+                    view "${lmntpt[$i]}" "" ""
+                else
+                    echo "Umount Error: ${lmntpt[$i]}"
+                    ERR=2
+                fi
+            fi
+        fi
+    done
+    echo ""
+}
+
+## for all
+
+if [[ -z "${ARGV[1]}" || -z "${ARGV[2]}" ]]; then
+    echo "Error: do not set arguments"
+    usage
+    exit -1
+fi
+
+if [[ "${ARGV[2]}" == "all" ]]; then
+    
+    let i=1; 
+    for srv in $NMPTSRV; do 
+
+        echo "$srv"    
+        #mntnfs "$srv"
+        
+        let i++; 
+    done
+else
+    mntnfs "${ARGV[2]}"
+fi
+
+echo ""
+exit "$ERR"

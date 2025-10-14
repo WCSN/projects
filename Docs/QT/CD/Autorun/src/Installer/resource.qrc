@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>resources/cover.png</file>
+    <file>resources/icon.png</file>
+    <file>resources/Installer_ru.qm</file>
+</qresource>
+</RCC>

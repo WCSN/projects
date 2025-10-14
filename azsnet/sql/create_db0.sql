@@ -1,0 +1,187 @@
+--
+-- See readme for more info
+-- Database : `AZSNET`
+-- 
+CREATE DATABASE IF NOT EXISTS `AZSNET` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+USE AZSNET;
+--
+-- RUSSIAN
+--
+CREATE TABLE IF NOT EXISTS `RUSSIAN` (`id` INT(11) NOT NULL AUTO_INCREMENT,
+ `NAME_FO` CHAR(128) NOT NULL, `NAME_DTFO` CHAR(16) NOT NULL,
+ `NUM_FO` INT(5) NOT NULL,`NAME_CAPT` CHAR(128) NOT NULL, 
+ PRIMARY KEY(`id`));
+
+INSERT INTO `RUSSIAN` SET `NAME_FO` = 'Центральный', `NAME_DTFO` = 'CTFO', `NUM_FO` = 1, `NAME_CAPT`='Москва';
+INSERT INTO `RUSSIAN` SET `NAME_FO` = 'Южный', `NAME_DTFO` = 'UGFO', `NUM_FO` = 2, `NAME_CAPT`='Ростов-на-Дону';
+INSERT INTO `RUSSIAN` SET `NAME_FO` = 'Северо-Западный', `NAME_DTFO` = 'SZFO', `NUM_FO` = 3, `NAME_CAPT`='Санкт-Петербург';
+INSERT INTO `RUSSIAN` SET `NAME_FO` = 'Дальневосточный', `NAME_DTFO` = 'DVFO', `NUM_FO` = 4, `NAME_CAPT`='Хабаровск';
+INSERT INTO `RUSSIAN` SET `NAME_FO` = 'Сибирский', `NAME_DTFO` = 'SBFO', `NUM_FO` = 5, `NAME_CAPT`='Новосибирск';
+INSERT INTO `RUSSIAN` SET `NAME_FO` = 'Уральский', `NAME_DTFO` = 'URFO', `NUM_FO` = 6, `NAME_CAPT`='Екатеринбург';
+INSERT INTO `RUSSIAN` SET `NAME_FO` = 'Приволжский', `NAME_DTFO` = 'PVFO', `NUM_FO` = 7, `NAME_CAPT`='Нижний Новгород';
+INSERT INTO `RUSSIAN` SET `NAME_FO` = 'Кавказский', `NAME_DTFO` = 'KZFO', `NUM_FO` = 8, `NAME_CAPT`='Пятигорск';
+
+SELECT * FROM `RUSSIAN` LIMIT 0 , 45;
+
+--
+-- CTFO
+--
+CREATE TABLE IF NOT EXISTS `CTFO` (`id` INT(11) NOT NULL AUTO_INCREMENT,
+ `NAME_ADMSUB` CHAR(128) NOT NULL, `NAME_DTAS` CHAR(16) NOT NULL, 
+ `NUM_RCSUB` CHAR(20) NOT NULL, PRIMARY KEY(`id`));
+
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Белгородская область', `NAME_DTAS` = 'OBEL', `NUM_RCSUB` = '31';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Брянская область', `NAME_DTAS` = 'OBRN', `NUM_RCSUB` = '32';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Владимирская область', `NAME_DTAS` = 'OVLD', `NUM_RCSUB` = '33';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Воронежская область', `NAME_DTAS` = 'OVRJ', `NUM_RCSUB` = '36,136';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Ивановская область', `NAME_DTAS` = 'OIVN', `NUM_RCSUB` = '37';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Калужская область', `NAME_DTAS` = 'OKLJ', `NUM_RCSUB` = '40';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Костромская область', `NAME_DTAS` = 'OKST', `NUM_RCSUB` = '44';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Курская область', `NAME_DTAS` = 'OKRS', `NUM_RCSUB` = '46';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Липецкая область', `NAME_DTAS` = 'OLPT', `NUM_RCSUB` = '48';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Московская область', `NAME_DTAS` = 'OMSK', `NUM_RCSUB` = '50,90,150,190';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Орловская область', `NAME_DTAS` = 'OORL', `NUM_RCSUB` = '57';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Рязанская область', `NAME_DTAS` = 'ORZN', `NUM_RCSUB` = '62';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Смоленская область', `NAME_DTAS` = 'OSML', `NUM_RCSUB` = '67';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Тамбовская область', `NAME_DTAS` = 'OTMB', `NUM_RCSUB` = '68';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Тверская область', `NAME_DTAS` = 'OTVR', `NUM_RCSUB` = '69';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Тульская область', `NAME_DTAS` = 'OTUL', `NUM_RCSUB` = '71';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Ярославская область', `NAME_DTAS` = 'OYAR', `NUM_RCSUB` = '76';
+INSERT INTO `CTFO` SET `NAME_ADMSUB` = 'Москва', `NAME_DTAS` = 'GMSK', `NUM_RCSUB` = '77,97,99,177,197,199';
+
+SELECT * FROM `CTFO` LIMIT 0 , 45;
+
+--
+-- UGFO
+--
+CREATE TABLE IF NOT EXISTS `UGFO` (`id` INT(11) NOT NULL AUTO_INCREMENT,
+ `NAME_ADMSUB` CHAR(128) NOT NULL, `NAME_DTAS` CHAR(16) NOT NULL,
+ `NUM_RCSUB` CHAR(20) NOT NULL, PRIMARY KEY(`id`));
+
+INSERT INTO `UGFO` SET `NAME_ADMSUB` = 'Республика Адыгея', `NAME_DTAS` = 'RADG', `NUM_RCSUB` = '01';
+INSERT INTO `UGFO` SET `NAME_ADMSUB` = 'Республика Калмыкия', `NAME_DTAS` = 'RKMK', `NUM_RCSUB` = '08';
+INSERT INTO `UGFO` SET `NAME_ADMSUB` = 'Краснодарский край', `NAME_DTAS` = 'KKRD', `NUM_RCSUB` = '23,93,123';
+INSERT INTO `UGFO` SET `NAME_ADMSUB` = 'Астраханская область', `NAME_DTAS` = 'OASH', `NUM_RCSUB` = '30';
+INSERT INTO `UGFO` SET `NAME_ADMSUB` = 'Волгоградская область', `NAME_DTAS` = 'OVLG', `NUM_RCSUB` = '34,134';
+INSERT INTO `UGFO` SET `NAME_ADMSUB` = 'Ростовская область', `NAME_DTAS` = 'ORST', `NUM_RCSUB` = '61,161';
+
+SELECT * FROM `UGFO` LIMIT 0 , 45;
+
+--
+-- SZFO
+--
+CREATE TABLE IF NOT EXISTS `SZFO` (`id` INT(11) NOT NULL AUTO_INCREMENT,
+ `NAME_ADMSUB` CHAR(128) NOT NULL, `NAME_DTAS` CHAR(16) NOT NULL,
+ `NUM_RCSUB` CHAR(20) NOT NULL, PRIMARY KEY(`id`));
+
+INSERT INTO `SZFO` SET `NAME_ADMSUB` = 'Республика Карелия', `NAME_DTAS` = 'RKAR', `NUM_RCSUB` = '10';
+INSERT INTO `SZFO` SET `NAME_ADMSUB` = 'Республика Коми', `NAME_DTAS` = 'RKOM', `NUM_RCSUB` = '11';
+INSERT INTO `SZFO` SET `NAME_ADMSUB` = 'Архангельская область', `NAME_DTAS` = 'OARH', `NUM_RCSUB` = '29';
+INSERT INTO `SZFO` SET `NAME_ADMSUB` = 'Вологодская область', `NAME_DTAS` = 'OBLG', `NUM_RCSUB` = '35';
+INSERT INTO `SZFO` SET `NAME_ADMSUB` = 'Калининградская область', `NAME_DTAS` = 'OKLG', `NUM_RCSUB` = '39, 91';
+INSERT INTO `SZFO` SET `NAME_ADMSUB` = 'Ленинградская область', `NAME_DTAS` = 'OLEN', `NUM_RCSUB` = '47';
+INSERT INTO `SZFO` SET `NAME_ADMSUB` = 'Мурманская область', `NAME_DTAS` = 'OMUR', `NUM_RCSUB` = '51';
+INSERT INTO `SZFO` SET `NAME_ADMSUB` = 'Новгородская область', `NAME_DTAS` = 'ONOV', `NUM_RCSUB` = '53';
+INSERT INTO `SZFO` SET `NAME_ADMSUB` = 'Псковская область', `NAME_DTAS` = 'OPSK', `NUM_RCSUB` = '60';
+INSERT INTO `SZFO` SET `NAME_ADMSUB` = 'Санкт-Петербург', `NAME_DTAS` = 'GSPB', `NUM_RCSUB` = '78, 98, 178, 198';
+INSERT INTO `SZFO` SET `NAME_ADMSUB` = 'Ненецкий автономный округ', `NAME_DTAS` = 'AONN', `NUM_RCSUB` = '83';
+
+SELECT * FROM `SZFO` LIMIT 0 , 45;
+
+--
+-- DVFO
+--
+CREATE TABLE IF NOT EXISTS `DVFO` (`id` INT(11) NOT NULL AUTO_INCREMENT,
+ `NAME_ADMSUB` CHAR(128) NOT NULL, `NAME_DTAS` CHAR(16) NOT NULL, 
+ `NUM_RCSUB` CHAR(20) NOT NULL, PRIMARY KEY(`id`));
+
+INSERT INTO `DVFO` SET `NAME_ADMSUB` = 'Республика Саха (Якутия)', `NAME_DTAS` = 'RYAK', `NUM_RCSUB` = '14';
+INSERT INTO `DVFO` SET `NAME_ADMSUB` = 'Камчатский край', `NAME_DTAS` = 'KKMC', `NUM_RCSUB` = '41,82';
+INSERT INTO `DVFO` SET `NAME_ADMSUB` = 'Приморский край', `NAME_DTAS` = 'KPRM', `NUM_RCSUB` = '25,125';
+INSERT INTO `DVFO` SET `NAME_ADMSUB` = 'Хабаровский край', `NAME_DTAS` = 'KHBR', `NUM_RCSUB` = '27';
+INSERT INTO `DVFO` SET `NAME_ADMSUB` = 'Амурская область', `NAME_DTAS` = 'OAMR', `NUM_RCSUB` = '28';
+INSERT INTO `DVFO` SET `NAME_ADMSUB` = 'Магаданская область', `NAME_DTAS` = 'OMGD', `NUM_RCSUB` = '49';
+INSERT INTO `DVFO` SET `NAME_ADMSUB` = 'Сахалинская область', `NAME_DTAS` = 'OSHL', `NUM_RCSUB` = '65';
+INSERT INTO `DVFO` SET `NAME_ADMSUB` = 'Еврейская автономная область', `NAME_DTAS` = 'OEVR', `NUM_RCSUB` = '79';
+INSERT INTO `DVFO` SET `NAME_ADMSUB` = 'Чукотский автономный округ', `NAME_DTAS` = 'OACH', `NUM_RCSUB` = '87';
+
+SELECT * FROM `DVFO` LIMIT 0 , 45;
+
+--
+-- SBFO
+--
+CREATE TABLE IF NOT EXISTS `SBFO` (`id` INT(11) NOT NULL AUTO_INCREMENT,
+ `NAME_ADMSUB` CHAR(128) NOT NULL, `NAME_DTAS` CHAR(16) NOT NULL,
+ `NUM_RCSUB` CHAR(20) NOT NULL, PRIMARY KEY(`id`));
+
+INSERT INTO `SBFO` SET `NAME_ADMSUB` = 'Республика Алтай', `NAME_DTAS` = 'RALT', `NUM_RCSUB` = '04';
+INSERT INTO `SBFO` SET `NAME_ADMSUB` = 'Республика Бурятия', `NAME_DTAS` = 'RBRT', `NUM_RCSUB` = '03';
+INSERT INTO `SBFO` SET `NAME_ADMSUB` = 'Республика Тыва', `NAME_DTAS` = 'RTVA', `NUM_RCSUB` = '17';
+INSERT INTO `SBFO` SET `NAME_ADMSUB` = 'Республика Хакасия', `NAME_DTAS` = 'RHKS', `NUM_RCSUB` = '19';
+INSERT INTO `SBFO` SET `NAME_ADMSUB` = 'Алтайский край', `NAME_DTAS` = 'KALT', `NUM_RCSUB` = '22';
+INSERT INTO `SBFO` SET `NAME_ADMSUB` = 'Забайкальский край', `NAME_DTAS` = 'KZBK', `NUM_RCSUB` = '75,80';
+INSERT INTO `SBFO` SET `NAME_ADMSUB` = 'Красноярский край', `NAME_DTAS` = 'KKRY', `NUM_RCSUB` = '24,84,,88,124';
+INSERT INTO `SBFO` SET `NAME_ADMSUB` = 'Иркутская область', `NAME_DTAS` = 'OYRK', `NUM_RCSUB` = '38,85';
+INSERT INTO `SBFO` SET `NAME_ADMSUB` = 'Кемеровская область', `NAME_DTAS` = 'OKMR', `NUM_RCSUB` = '42,142';
+INSERT INTO `SBFO` SET `NAME_ADMSUB` = 'Новосибирская область', `NAME_DTAS` = 'ONSB', `NUM_RCSUB` = '54,154';
+INSERT INTO `SBFO` SET `NAME_ADMSUB` = 'Омская область', `NAME_DTAS` = 'OOMS', `NUM_RCSUB` = '55';
+INSERT INTO `SBFO` SET `NAME_ADMSUB` = 'Томская область', `NAME_DTAS` = 'OTMK', `NUM_RCSUB` = '70';
+
+SELECT * FROM `SBFO` LIMIT 0 , 45;
+
+--
+-- URFO
+--
+CREATE TABLE IF NOT EXISTS `URFO` (`id` INT(11) NOT NULL AUTO_INCREMENT,
+ `NAME_ADMSUB` CHAR(128) NOT NULL, `NAME_DTAS` CHAR(16) NOT NULL,
+ `NUM_RCSUB` CHAR(20) NOT NULL, PRIMARY KEY(`id`));
+
+INSERT INTO `URFO` SET `NAME_ADMSUB` = 'Курганская область', `NAME_DTAS` = 'OKRG', `NUM_RCSUB` = '45';
+INSERT INTO `URFO` SET `NAME_ADMSUB` = 'Свердловская область', `NAME_DTAS` = 'OSVD', `NUM_RCSUB` = '66,96';
+INSERT INTO `URFO` SET `NAME_ADMSUB` = 'Тюменская область', `NAME_DTAS` = 'OTUM', `NUM_RCSUB` = '72';
+INSERT INTO `URFO` SET `NAME_ADMSUB` = 'Челябинская область', `NAME_DTAS` = 'OCHT', `NUM_RCSUB` = '74';
+INSERT INTO `URFO` SET `NAME_ADMSUB` = 'Ханты-Мансийский автономный округ — Югра', `NAME_DTAS` = 'OAHM', `NUM_RCSUB` = '86';
+INSERT INTO `URFO` SET `NAME_ADMSUB` = 'Ямало-Ненецкий автономный округ', `NAME_DTAS` = 'OAYN', `NUM_RCSUB` = '89';
+
+SELECT * FROM `URFO` LIMIT 0 , 45;
+
+--
+-- PVFO
+--
+CREATE TABLE IF NOT EXISTS `PVFO` (`id` INT(11) NOT NULL AUTO_INCREMENT,
+ `NAME_ADMSUB` CHAR(128) NOT NULL, `NAME_DTAS` CHAR(16) NOT NULL, 
+ `NUM_RCSUB` CHAR(20) NOT NULL, PRIMARY KEY(`id`));
+
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Республика Башкортостан', `NAME_DTAS` = 'RBSH', `NUM_RCSUB` = '02,102';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Республика Марий Эл', `NAME_DTAS` = 'RMEL', `NUM_RCSUB` = '12';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Республика Мордовия', `NAME_DTAS` = 'RMRD', `NUM_RCSUB` = '13,113';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Республика Татарстан', `NAME_DTAS` = 'RTAT', `NUM_RCSUB` = '16,116';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Удмуртская Республика', `NAME_DTAS` = 'RUDM', `NUM_RCSUB` = '18';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Чувашская Республика', `NAME_DTAS` = 'RCHU', `NUM_RCSUB` = '21,121';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Кировская область', `NAME_DTAS` = 'OKIR', `NUM_RCSUB` = '43';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Нижегородская область', `NAME_DTAS` = 'ONNG', `NUM_RCSUB` = '52,152';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Оренбургская область', `NAME_DTAS` = 'RORB', `NUM_RCSUB` = '56';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Пензенская область', `NAME_DTAS` = 'RPNZ', `NUM_RCSUB` = '58';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Пермский край', `NAME_DTAS` = 'RPRM', `NUM_RCSUB` = '59,81,159';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Самарская область', `NAME_DTAS` = 'RSMR', `NUM_RCSUB` = '63,163';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Саратовская область', `NAME_DTAS` = 'RSRT', `NUM_RCSUB` = '64,164';
+INSERT INTO `PVFO` SET `NAME_ADMSUB` = 'Ульяновская область', `NAME_DTAS` = 'RULK', `NUM_RCSUB` = '73,173';
+
+SELECT * FROM `PVFO` LIMIT 0 , 45;
+
+--
+-- KZFO
+--
+CREATE TABLE IF NOT EXISTS `KZFO` (`id` INT(11) NOT NULL AUTO_INCREMENT,
+ `NAME_ADMSUB` CHAR(128) NOT NULL, `NAME_DTAS` CHAR(16) NOT NULL, 
+ `NUM_RCSUB` CHAR(20) NOT NULL, PRIMARY KEY(`id`));
+
+INSERT INTO `KZFO` SET `NAME_ADMSUB` = 'Республика Дагестан', `NAME_DTAS` = 'RDAG', `NUM_RCSUB` = '05';
+INSERT INTO `KZFO` SET `NAME_ADMSUB` = 'Республика Ингушетия', `NAME_DTAS` = 'RING', `NUM_RCSUB` = '06';
+INSERT INTO `KZFO` SET `NAME_ADMSUB` = 'Кабардино-Балкарская Республика', `NAME_DTAS` = 'RKBR', `NUM_RCSUB` = '07';
+INSERT INTO `KZFO` SET `NAME_ADMSUB` = 'Карачаево-Черкесская Республика', `NAME_DTAS` = 'RKCH', `NUM_RCSUB` = '09';
+INSERT INTO `KZFO` SET `NAME_ADMSUB` = 'Республика Северная Осетия — Алания', `NAME_DTAS` = 'RSOA', `NUM_RCSUB` = '15';
+INSERT INTO `KZFO` SET `NAME_ADMSUB` = 'Чеченская Республика', `NAME_DTAS` = 'RCHN', `NUM_RCSUB` = '95';
+INSERT INTO `KZFO` SET `NAME_ADMSUB` = 'Ставропольский край', `NAME_DTAS` = 'KSVP', `NUM_RCSUB` = '26';
+
+SELECT * FROM `KZFO` LIMIT 0 , 45;

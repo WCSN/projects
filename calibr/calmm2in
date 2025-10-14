@@ -1,0 +1,27 @@
+#!/bin/bash
+##################################################################
+##
+## calmm2in - Convert Russian caliber to US
+##
+## wocson (c) 2012 BSD 
+##
+##################################################################
+
+source $HOME/.config/shells/share/services.sh
+
+INCH=25.4
+
+clear
+
+for (( sh=0 ; ; sh+=2 )); do
+
+    message 5 $(( $sh+2 )) ${LGREEN} '(0-exit) RU cal= '
+    read CAL
+
+    (( $CAL <= 0.0 )) && exit 0
+
+    message 5 $(( $sh+3 )) ${LRED} "US cal= $(echo "scale=3 ; $CAL/$INCH" | bc)" ; echo -n \"
+    setcolor ${LTCYAN}
+        
+done
+

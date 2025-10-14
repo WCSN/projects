@@ -1,0 +1,42 @@
+#!/bin/bash
+############################################################
+##
+## Rebuild all meteodata file from MAWS
+##
+## wocson (c)
+##
+
+source /usr/share/wlib/rebuild_inc.sh
+
+let TIMER00=`date +%s`
+
+SRC="/var/meteo/rebuild/src" 			#/mnt/Vostok/mawslogs/`date +%Y`/log`date +%m`"
+DST="/var/meteo/rebuild/dst"
+METEOFILESDIR="/var/meteo/rebuild/save"
+FNAME=""
+
+FLIST=($SRC/*.csv)
+count=${#FLIST[@]}
+
+if ! [ -z $DST ]; then rm $DST/*; fi
+
+echo count=$count
+
+for (( i=0; i<count; i++ )) ; do
+  rebuild ${FLIST[$i]} ON
+  mv -f $FNAME $METEOFILESDIR/
+	asdf=0
+done
+
+TIMER00=$((`date +%s`-TIMER00))
+if (( $TIMER00 >= 60 ));then 
+   TIMER00=$(( $TIMER00/60 )); tm="min";
+else
+	tm="s"
+fi
+echo "$TIMER00$tm"
+  
+
+
+
+

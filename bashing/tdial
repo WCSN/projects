@@ -1,0 +1,31 @@
+#!/bin/bash
+ 
+TMPFCMD="/tmp/cmd.tmp"
+
+dialog --title 'Execute command' --menu 'Choose command to execute' 50 40 40 l "ls -la" p pwd d date u "uname -a" w whoami 2> $TMPFCMD
+
+CMD2RUN=$(cat $TMPFCMD)
+
+if [ "$?" -eq "0" ]; then
+    case "$CMD2RUN" in
+	"l")
+	ls -la > /tmp/asdf
+	dialog --textbox  /tmp/asdf 25 70
+	rm /tmp/asdf
+	;;
+	"p")
+	pwd
+	;;
+	"d")
+	date
+	;;
+	"u")
+	uname -a
+	;;
+	"w")
+	whoami
+	;;
+    esac
+fi
+
+rm -f $TMPFCMD

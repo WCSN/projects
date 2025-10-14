@@ -1,0 +1,94 @@
+.TH "mt::Singleton" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::Singleton \- 
+.PP
+\fBSingleton\fP pattern.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Singleton.h>\fP
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static T * \fBinstance\fP ()"
+.br
+.RI "\fIGet instance. \fP"
+.ti -1c
+.RI "static void \fBrelease\fP ()"
+.br
+.RI "\fIRelease instance. \fP"
+.in -1c
+.SS "Static Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "static T * \fBm_instance\fP = NULL"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class T> class mt::Singleton< T >"
+\fBSingleton\fP pattern. 
+
+If you want to make sure that only the singleton instance of <T> is created, and that users cannot create their own instances of <T>, do the following to class <T>: 
+.br
+ 
+.PD 0
+
+.IP "\(bu" 2
+Make the constructor of <T> private (or protected)  
+.IP "\(bu" 2
+Make \fBSingleton\fP a friend of <T> 
+.PP
+Here is an example: 
+.PP
+.nf
+ class Foo {
+   friend class mt::Singleton<Foo>;
+ private:
+   foo () { cout << 'foo constructed' << endl; }
+   ~foo () { cout << 'foo destroyed' << endl; }
+ };
+ typedef mt::Singleton<Foo> FooSingleton;
+
+.fi
+.PP
+ 
+.PP
+Definition at line 32 of file Singleton.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class T > T * \fBmt::Singleton\fP< T >::instance ()\fC [static]\fP"
+.PP
+Get instance. The first call will create the object.
+.PP
+\fBReturns:\fP
+.RS 4
+Smart pointer to instance of the class. 
+.RE
+.PP
+
+.PP
+Definition at line 57 of file Singleton.h.
+.SS "template<class T > void \fBmt::Singleton\fP< T >::release ()\fC [static]\fP"
+.PP
+Release instance. After call the method the pointer will be deleted and set to NULL.
+.PP
+\fBNote\fP: if after \fBrelease()\fP call \fBinstance()\fP than second instance will be created. 
+.PP
+Definition at line 65 of file Singleton.h.
+.SH "Member Data Documentation"
+.PP 
+.SS "template<class T > T * \fBmt::Singleton\fP< T >::\fBm_instance\fP = NULL\fC [static, protected]\fP"
+.PP
+Definition at line 50 of file Singleton.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

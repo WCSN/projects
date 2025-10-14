@@ -1,0 +1,362 @@
+.TH "mt" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBsmpp\fP"
+.br
+.in -1c
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBDynamicBuffer\fP"
+.br
+.ti -1c
+.RI "class \fBException\fP"
+.br
+.RI "\fIBase class for all mtlib exceptions. \fP"
+.ti -1c
+.RI "class \fBMemoryBuffer\fP"
+.br
+.RI "\fIDynamic buffer. \fP"
+.ti -1c
+.RI "class \fBNonBlockingQueue\fP"
+.br
+.RI "\fI\fBThread\fP safe simple queue. \fP"
+.ti -1c
+.RI "class \fBOrderSafeProcessor\fP"
+.br
+.ti -1c
+.RI "class \fBOrderSafeProcessorHandler\fP"
+.br
+.ti -1c
+.RI "class \fBOrderSafeProcessorInterface\fP"
+.br
+.ti -1c
+.RI "class \fBDataForOrderSafeQueue\fP"
+.br
+.ti -1c
+.RI "class \fBOrderSafeQueue\fP"
+.br
+.ti -1c
+.RI "class \fBQueue\fP"
+.br
+.RI "\fI\fBThread\fP safe blocked queue. \fP"
+.ti -1c
+.RI "class \fBRefCounter\fP"
+.br
+.RI "\fIReferences Counter. \fP"
+.ti -1c
+.RI "class \fBRegex\fP"
+.br
+.RI "\fIShell class for regexp. \fP"
+.ti -1c
+.RI "class \fBSingleton\fP"
+.br
+.RI "\fI\fBSingleton\fP pattern. \fP"
+.ti -1c
+.RI "class \fBSmartPtr\fP"
+.br
+.RI "\fIPointer with references counting. \fP"
+.ti -1c
+.RI "class \fBPolymorphSmartPtr\fP"
+.br
+.RI "\fIPolymorphic pointer with references counting. \fP"
+.ti -1c
+.RI "class \fBString\fP"
+.br
+.RI "\fIstd::string wrapper. \fP"
+.ti -1c
+.RI "class \fBXmlConfig\fP"
+.br
+.RI "\fIXML files parser. \fP"
+.ti -1c
+.RI "class \fBDbColumn\fP"
+.br
+.RI "\fI\fBDbColumn\fP contain data from the DB data's column. \fP"
+.ti -1c
+.RI "class \fBDbData\fP"
+.br
+.RI "\fI\fBDbData\fP contain returned data from DB. \fP"
+.ti -1c
+.RI "class \fBMysqlConnector\fP"
+.br
+.RI "\fISimple Connector to MYSQL. \fP"
+.ti -1c
+.RI "class \fBDirectory\fP"
+.br
+.RI "\fIIncapsulate functions and properties related to UNIX directory. \fP"
+.ti -1c
+.RI "class \fBFileError\fP"
+.br
+.RI "\fIProcessing different file system errors. \fP"
+.ti -1c
+.RI "class \fBLogable\fP"
+.br
+.RI "\fIif you want enable \fP"
+.ti -1c
+.RI "class \fBLogCollector\fP"
+.br
+.ti -1c
+.RI "class \fBLogger\fP"
+.br
+.ti -1c
+.RI "class \fBLoggerFactoryInterface\fP"
+.br
+.ti -1c
+.RI "class \fBDataPacket\fP"
+.br
+.RI "\fIShell for data packets. \fP"
+.ti -1c
+.RI "class \fBTCPSocket\fP"
+.br
+.ti -1c
+.RI "class \fBUdpSocket\fP"
+.br
+.RI "\fIUDP socket implementation. \fP"
+.ti -1c
+.RI "class \fBSMPPClient\fP"
+.br
+.ti -1c
+.RI "class \fBSMPPServer\fP"
+.br
+.ti -1c
+.RI "class \fBAutoMutex\fP"
+.br
+.ti -1c
+.RI "class \fBInfiniteThread\fP"
+.br
+.RI "\fIThe class create thread and start code in infinite loop in this thread. \fP"
+.ti -1c
+.RI "class \fBMutex\fP"
+.br
+.ti -1c
+.RI "class \fBThread\fP"
+.br
+.RI "\fIThe class create thread and start code in this thread. \fP"
+.ti -1c
+.RI "class \fBApplication\fP"
+.br
+.RI "\fIAbstract base class for mt applications. \fP"
+.ti -1c
+.RI "class \fBConfigChecker\fP"
+.br
+.RI "\fIFile change time checker. \fP"
+.ti -1c
+.RI "class \fBReloadableConfig\fP"
+.br
+.RI "\fIRealize reloadable configuration. \fP"
+.ti -1c
+.RI "class \fBStrUtils\fP"
+.br
+.RI "\fIMiscellaneous functions for string processing. \fP"
+.ti -1c
+.RI "class \fBSystem\fP"
+.br
+.RI "\fI\fBSystem\fP utilities. \fP"
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBmt::DynamicBuffer\fP< uint8_t > \fBByteBuffer\fP"
+.br
+.ti -1c
+.RI "typedef \fBSmartPtr\fP< \fBRegex\fP > \fBRegexPtr\fP"
+.br
+.ti -1c
+.RI "typedef \fBmt::SmartPtr\fP< \fBXmlConfig\fP > \fBXmlConfigPtr\fP"
+.br
+.ti -1c
+.RI "typedef std::vector< \fBXmlConfigPtr\fP > \fBConfigList\fP"
+.br
+.ti -1c
+.RI "typedef std::vector< std::string > \fBDB_COLUMN\fP"
+.br
+.ti -1c
+.RI "typedef std::map< std::string, \fBDbColumn\fP > \fBDB_DATA\fP"
+.br
+.ti -1c
+.RI "typedef \fBmt::SmartPtr\fP< \fBDbData\fP > \fBDbDataPtr\fP"
+.br
+.ti -1c
+.RI "typedef \fBmt::SmartPtr\fP< \fBMysqlConnector\fP > \fBMysqlConnectorPtr\fP"
+.br
+.ti -1c
+.RI "typedef \fBSmartPtr\fP< \fBLogger\fP > \fBLoggerPtr\fP"
+.br
+.ti -1c
+.RI "typedef \fBSmartPtr\fP< \fBLogCollector\fP > \fBLogCollectorPtr\fP"
+.br
+.ti -1c
+.RI "typedef \fBmt::Singleton\fP< \fBLoggerFactoryInterface\fP > \fBLoggerFactory\fP"
+.br
+.ti -1c
+.RI "typedef \fBSmartPtr\fP< \fBDataPacket\fP > \fBDataPacketPtr\fP"
+.br
+.ti -1c
+.RI "typedef \fBmt::SmartPtr\fP< \fBConfigChecker\fP > \fBConfigCheckerPtr\fP"
+.br
+.ti -1c
+.RI "typedef std::multimap< std::string, \fBmt::XmlConfigPtr\fP > \fBConfigs\fP"
+.br
+.ti -1c
+.RI "typedef \fBmt::SmartPtr\fP< \fBReloadableConfig\fP > \fBReloadableConfigPtr\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBDbResult\fP { \fBDB_REJECT\fP = -2, \fBDB_ERROR\fP = -1, \fBDB_OK\fP = 0 }"
+.br
+.ti -1c
+.RI "enum \fBLogLevel\fP { \fBTRACE\fP =  0, \fBDEBUG\fP =  1, \fBINFO\fP =  2, \fBWARNING\fP =  3, \fBERROR\fP =  4, \fBCRITICAL\fP =  5, \fBREWRITE\fP =  6 }"
+.br
+.ti -1c
+.RI "enum \fBSockState\fP { \fBCLOSED\fP, \fBFIN_WAIT\fP, \fBACTIVE\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBoperator==\fP (const char *a, const \fBString\fP &b)"
+.br
+.ti -1c
+.RI "\fBString\fP \fBoperator+\fP (const \fBString\fP &a, const \fBString\fP &b)"
+.br
+.ti -1c
+.RI "\fBString\fP \fBoperator+\fP (const char *str, const \fBString\fP &mt_str)"
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (const char *a, const \fBString\fP &b)"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &stream, const \fBString\fP &str)"
+.br
+.ti -1c
+.RI "bool \fBoperator<\fP (const \fBString\fP &a, const \fBString\fP &b)"
+.br
+.ti -1c
+.RI "template<typename U > bool \fBoperator==\fP (const \fBDynamicBuffer\fP< U > &lhs, const \fBDynamicBuffer\fP< U > &rhs)"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBmt::DynamicBuffer\fP<uint8_t> \fBmt::ByteBuffer\fP"
+.PP
+Definition at line 173 of file DynamicBuffer.h.
+.SS "typedef \fBmt::SmartPtr\fP<\fBConfigChecker\fP> \fBmt::ConfigCheckerPtr\fP"
+.PP
+Definition at line 35 of file ConfigChecker.h.
+.SS "typedef std::vector<\fBXmlConfigPtr\fP> \fBmt::ConfigList\fP"
+.PP
+Definition at line 21 of file XmlConfig.h.
+.SS "typedef std::multimap<std::string, \fBmt::XmlConfigPtr\fP> \fBmt::Configs\fP"
+.PP
+Definition at line 10 of file ReloadableConfig.h.
+.SS "typedef \fBmt::SmartPtr\fP< \fBDataPacket\fP > \fBmt::DataPacketPtr\fP"
+.PP
+Definition at line 77 of file DataPacket.h.
+.SS "typedef std::vector<std::string> \fBmt::DB_COLUMN\fP"
+.PP
+Definition at line 11 of file DbColumn.h.
+.SS "typedef std::map<std::string, \fBDbColumn\fP> \fBmt::DB_DATA\fP"
+.PP
+Definition at line 15 of file DbData.h.
+.SS "typedef \fBmt::SmartPtr\fP<\fBDbData\fP> \fBmt::DbDataPtr\fP"
+.PP
+Definition at line 81 of file DbData.h.
+.SS "typedef \fBSmartPtr\fP<\fBLogCollector\fP> \fBmt::LogCollectorPtr\fP"
+.PP
+Definition at line 23 of file LoggerDataTypes.h.
+.SS "typedef \fBmt::Singleton\fP<\fBLoggerFactoryInterface\fP> \fBmt::LoggerFactory\fP"
+.PP
+Definition at line 106 of file LoggerFactory.h.
+.SS "typedef \fBSmartPtr\fP<\fBLogger\fP> \fBmt::LoggerPtr\fP"
+.PP
+Definition at line 19 of file LoggerDataTypes.h.
+.SS "typedef \fBmt::SmartPtr\fP<\fBMysqlConnector\fP> \fBmt::MysqlConnectorPtr\fP"
+.PP
+Definition at line 83 of file MysqlConnector.h.
+.SS "typedef \fBSmartPtr\fP<\fBRegex\fP> \fBmt::RegexPtr\fP"
+.PP
+Definition at line 38 of file Regex.h.
+.SS "typedef \fBmt::SmartPtr\fP<\fBReloadableConfig\fP> \fBmt::ReloadableConfigPtr\fP"
+.PP
+Definition at line 95 of file ReloadableConfig.h.
+.SS "typedef \fBmt::SmartPtr\fP<\fBXmlConfig\fP> \fBmt::XmlConfigPtr\fP"
+.PP
+Definition at line 19 of file XmlConfig.h.
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBmt::DbResult\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fIDB_REJECT \fP\fP
+.TP
+\fB\fIDB_ERROR \fP\fP
+.TP
+\fB\fIDB_OK \fP\fP
+
+.PP
+Definition at line 13 of file DbData.h.
+.SS "enum \fBmt::LogLevel\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fITRACE \fP\fP
+.TP
+\fB\fIDEBUG \fP\fP
+.TP
+\fB\fIINFO \fP\fP
+.TP
+\fB\fIWARNING \fP\fP
+.TP
+\fB\fIERROR \fP\fP
+.TP
+\fB\fICRITICAL \fP\fP
+.TP
+\fB\fIREWRITE \fP\fP
+
+.PP
+Definition at line 26 of file LoggerDataTypes.h.
+.SS "enum \fBmt::SockState\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fICLOSED \fP\fP
+.TP
+\fB\fIFIN_WAIT \fP\fP
+.TP
+\fB\fIACTIVE \fP\fP
+
+.PP
+Definition at line 23 of file TCPSocket.h.
+.SH "Function Documentation"
+.PP 
+.SS "bool mt::operator!= (const char * a, const String & b)"
+.SS "\fBString\fP mt::operator+ (const String & a, const String & b)"
+.SS "\fBString\fP mt::operator+ (const char * str, const String & mt_str)"
+.SS "bool mt::operator< (const String & a, const String & b)"
+.SS "std::ostream & mt::operator<< (std::ostream & stream, const String & str)"
+.SS "template<typename U > bool mt::operator== (const DynamicBuffer< U > & lhs, const DynamicBuffer< U > & rhs)"
+.PP
+Definition at line 165 of file DynamicBuffer.h.
+.SS "bool mt::operator== (const char * a, const String & b)"
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

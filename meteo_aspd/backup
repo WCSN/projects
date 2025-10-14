@@ -1,0 +1,85 @@
+#!/bin/zsh
+
+REMOTESYS_1="wocson@wocson.tk"
+PORT_1=22022
+
+REMOTESYS_2="wocson@172.31.83.14"
+PORT_2=22
+
+OLDDIR=`pwd`
+BATCH="$OLDDIR/tmp/batch"
+
+help()
+{
+  echo -e "\nHELP:\n"
+  echo -e " backup - copy all need files to work directories\n"
+  echo " ./backup [namefile [date]-meteo_aspd.tar.xz] - backup all this directory"
+  echo " ./backup - help"
+}
+
+packall()
+{
+
+  local NMARCH="$1"
+  cd ../
+  DIR=`basename $OLDDIR`
+  echo "==== $DIR ===="
+  NMARCH="$NMARCH-$DIR.tar.xz"    
+
+  tar cf - "$DIR" | xz -f > "$HOME/projects/archive_backups/$NMARCH"
+  cd "$OLDDIR"
+
+  echo HOME=$HOME
+
+  echo -e "put \"$HOME/projects/archive_backups/$NMARCH\" ./projects/archive_backups/ \nexit" > "$OLDDIR/tmp/batch"
+  echo "Send to remore archiver"
+
+  echo -e "\n$NMARCH created.\nPut $NMARCH to $REMOTESYS_1"
+  sftp -b "$BATCH" -P "$PORT_1" "$REMOTESYS_1" &>/dev/null &
+  sleep 1
+
+  echo -e "\n$NMARCH created.\nPut $NMARCH to $REMOTESYS_2"
+  sftp -b "$BATCH" -P "$PORT_2" "$REMOTESYS_2" #&>/dev/null &
+  sleep 1
+}
+
+
+replace()
+{
+   local lastbackup="$1"
+   mv "$OLDDIR"/$lastbackup $HOME/projects/archive_backups/
+   cd ..
+   rm -Rv "$OLDDIR"/aspd*
+   tar -xf $HOME/projects/archive_backups/$lastbackup
+   cd "$OLDDIR"
+}
+
+	while true; do
+	  read "?Do backup?(y/n/a/h)==> " ch
+	  case $ch in
+	  y|Y)
+        if [[ -n "$1" && -f "$1" ]]; then
+            replace "$1"        
+            NMARCH="`date +%Y%m%d-%H%M`-ALL"
+		    packall $NMARCH
+        elif [[ -z "$1" ]]; then
+            NMARCH="`date +%Y%m%d-%H%M`-ASPDP"
+	        packall $NMARCH
+        else
+            echo "File "$1" not find"
+        fi
+		break
+	  ;;
+	  n|N|a|A)
+		echo "Cancel..."
+		break
+	  ;;
+      h|H)
+	    help
+      ;;
+	  *) echo "Please do not press any key..."
+	  ;;	
+	  esac
+	done
+
+  echo "DONE"

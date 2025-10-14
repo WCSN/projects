@@ -1,0 +1,177 @@
+.TH "mt::LoggerFactoryInterface" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::LoggerFactoryInterface \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <LoggerFactory.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBLogCollectorPtr\fP \fBgetCollector\fP (const std::string &)"
+.br
+.ti -1c
+.RI "\fBSmartPtr\fP< \fBLogger\fP > \fBcreateLogger\fP (const std::string &className)"
+.br
+.ti -1c
+.RI "bool \fBwriteFileLine\fP ()"
+.br
+.ti -1c
+.RI "int \fBinit\fP (const std::string &addr, const unsigned short port, const std::string &level='DEBUG', bool b=false)"
+.br
+.ti -1c
+.RI "int \fBinit\fP (const \fBSmartPtr\fP< \fBXmlConfig\fP >)"
+.br
+.ti -1c
+.RI "template<class T > \fBSmartPtr\fP< \fBLogger\fP > \fBgetLogger\fP (const std::string &className)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBLoggerFactoryInterface\fP ()"
+.br
+.ti -1c
+.RI "std::map< std::string, \fBLogCollectorPtr\fP > * \fBcreateFactoryMap\fP (const std::vector< \fBLogCollectorPtr\fP > &)"
+.br
+.ti -1c
+.RI "void \fBsetFactoryMap\fP (std::map< std::string, \fBLogCollectorPtr\fP > *m)"
+.br
+.ti -1c
+.RI "bool \fBhasFactoryMap\fP ()"
+.br
+.ti -1c
+.RI "void \fBreinitLoggers\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBm_sockFd\fP"
+.br
+.ti -1c
+.RI "sockaddr_in \fBm_procAddr\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBLoggerPtr\fP > \fBm_allLoggers\fP"
+.br
+.ti -1c
+.RI "\fBMutex\fP \fBm_allLoggersMtx\fP"
+.br
+.ti -1c
+.RI "bool \fBm_stdout\fP"
+.br
+.ti -1c
+.RI "bool \fBm_connected\fP"
+.br
+.ti -1c
+.RI "bool \fBm_writeFileLine\fP"
+.br
+.ti -1c
+.RI "\fBLogCollectorPtr\fP \fBm_defaultCollector\fP"
+.br
+.ti -1c
+.RI "\fBLogLevel\fP \fBm_level\fP"
+.br
+.ti -1c
+.RI "std::map< std::string, \fBLogCollectorPtr\fP > * \fBm_factoryMap\fP"
+.br
+.ti -1c
+.RI "\fBMutex\fP \fBm_factoryMapMutex\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBmt::Singleton< LoggerFactoryInterface >\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 38 of file LoggerFactory.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "LoggerFactoryInterface::LoggerFactoryInterface ()\fC [protected]\fP"
+.PP
+Definition at line 55 of file LoggerFactory.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "std::map< std::string, \fBLogCollectorPtr\fP > * LoggerFactoryInterface::createFactoryMap (const std::vector< \fBLogCollectorPtr\fP > & v)\fC [protected]\fP"
+.PP
+Definition at line 142 of file LoggerFactory.cpp.
+.SS "\fBLoggerPtr\fP LoggerFactoryInterface::createLogger (const std::string & className)"
+.PP
+Definition at line 163 of file LoggerFactory.cpp.
+.SS "\fBLogCollectorPtr\fP LoggerFactoryInterface::getCollector (const std::string & className)"
+.PP
+Definition at line 94 of file LoggerFactory.cpp.
+.SS "template<class T > \fBSmartPtr\fP< \fBLogger\fP > mt::LoggerFactoryInterface::getLogger (const std::string & className)"
+.PP
+Definition at line 96 of file LoggerFactory.h.
+.SS "bool LoggerFactoryInterface::hasFactoryMap ()\fC [protected]\fP"
+.PP
+Definition at line 47 of file LoggerFactory.cpp.
+.SS "int LoggerFactoryInterface::init (const std::string & addr, const unsigned short port, const std::string & level = \fC'DEBUG'\fP, bool b = \fCfalse\fP)"
+.PP
+Definition at line 60 of file LoggerFactory.cpp.
+.SS "int mt::LoggerFactoryInterface::init (const \fBSmartPtr\fP< \fBXmlConfig\fP >)"
+.SS "void LoggerFactoryInterface::reinitLoggers ()\fC [protected]\fP"
+.PP
+Definition at line 17 of file LoggerFactory.cpp.
+.SS "void LoggerFactoryInterface::setFactoryMap (std::map< std::string, \fBLogCollectorPtr\fP > * m)\fC [protected]\fP"
+.PP
+Definition at line 39 of file LoggerFactory.cpp.
+.SS "bool mt::LoggerFactoryInterface::writeFileLine ()\fC [inline]\fP"
+.PP
+Definition at line 82 of file LoggerFactory.h.
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "friend class \fBmt::Singleton\fP< \fBLoggerFactoryInterface\fP >\fC [friend]\fP"
+.PP
+Definition at line 71 of file LoggerFactory.h.
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<\fBLoggerPtr\fP> \fBmt::LoggerFactoryInterface::m_allLoggers\fP\fC [protected]\fP"
+.PP
+Definition at line 45 of file LoggerFactory.h.
+.SS "\fBMutex\fP \fBmt::LoggerFactoryInterface::m_allLoggersMtx\fP\fC [protected]\fP"
+.PP
+Definition at line 46 of file LoggerFactory.h.
+.SS "bool \fBmt::LoggerFactoryInterface::m_connected\fP\fC [protected]\fP"
+.PP
+Definition at line 50 of file LoggerFactory.h.
+.SS "\fBLogCollectorPtr\fP \fBmt::LoggerFactoryInterface::m_defaultCollector\fP\fC [protected]\fP"
+.PP
+Definition at line 52 of file LoggerFactory.h.
+.SS "std::map<std::string, \fBLogCollectorPtr\fP>* \fBmt::LoggerFactoryInterface::m_factoryMap\fP\fC [protected]\fP"
+.PP
+Definition at line 55 of file LoggerFactory.h.
+.SS "\fBMutex\fP \fBmt::LoggerFactoryInterface::m_factoryMapMutex\fP\fC [protected]\fP"
+.PP
+Definition at line 56 of file LoggerFactory.h.
+.SS "\fBLogLevel\fP \fBmt::LoggerFactoryInterface::m_level\fP\fC [protected]\fP"
+.PP
+Definition at line 53 of file LoggerFactory.h.
+.SS "sockaddr_in \fBmt::LoggerFactoryInterface::m_procAddr\fP\fC [protected]\fP"
+.PP
+Definition at line 43 of file LoggerFactory.h.
+.SS "int \fBmt::LoggerFactoryInterface::m_sockFd\fP\fC [protected]\fP"
+.PP
+Definition at line 42 of file LoggerFactory.h.
+.SS "bool \fBmt::LoggerFactoryInterface::m_stdout\fP\fC [protected]\fP"
+.PP
+Definition at line 49 of file LoggerFactory.h.
+.SS "bool \fBmt::LoggerFactoryInterface::m_writeFileLine\fP\fC [protected]\fP"
+.PP
+Definition at line 51 of file LoggerFactory.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

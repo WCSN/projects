@@ -1,0 +1,67 @@
+.TH "mt::smpp::Reciver" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::Reciver \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Reciver.h>\fP
+.PP
+Inherits \fBmt::smpp::SmppNwIf\fP, and \fBmt::InfiniteThread\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBstop\fP ()"
+.br
+.RI "\fIStop thread. \fP"
+.ti -1c
+.RI "virtual \fB~Reciver\fP ()"
+.br
+.ti -1c
+.RI "\fBReciver\fP (\fBQueue\fP< \fBData\fP * > *, \fBInspector\fP *i)"
+.br
+.ti -1c
+.RI "void \fBSetSocket\fP (\fBTCPSocket\fP *s)"
+.br
+.ti -1c
+.RI "void \fBrunLoop\fP ()"
+.br
+.RI "\fIThe method will called in infinite loop created thread. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 26 of file Reciver.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::smpp::Reciver::~Reciver ()\fC [virtual]\fP"
+.PP
+Definition at line 17 of file Reciver.cpp.
+.SS "mt::smpp::Reciver::Reciver (\fBQueue\fP< \fBData\fP * > * q, \fBInspector\fP * i)"
+.PP
+Definition at line 23 of file Reciver.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "void mt::smpp::Reciver::runLoop ()\fC [virtual]\fP"
+.PP
+The method will called in infinite loop created thread. Client MUST define this method. 
+.PP
+Implements \fBmt::InfiniteThread\fP.
+.PP
+Definition at line 79 of file Reciver.cpp.
+.SS "void mt::smpp::Reciver::SetSocket (\fBTCPSocket\fP * s)"
+.PP
+Definition at line 41 of file Reciver.cpp.
+.SS "void mt::smpp::Reciver::stop ()\fC [virtual]\fP"
+.PP
+Stop thread. 
+.PP
+Reimplemented from \fBmt::InfiniteThread\fP.
+.PP
+Definition at line 32 of file Reciver.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

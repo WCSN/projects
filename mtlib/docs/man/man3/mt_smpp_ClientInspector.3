@@ -1,0 +1,52 @@
+.TH "mt::smpp::ClientInspector" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::ClientInspector \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ClientInspector.h>\fP
+.PP
+Inherits \fBmt::smpp::Inspector\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBNetworkError\fP (\fBSmppNwIf\fP *)"
+.br
+.ti -1c
+.RI "\fBClientInspector\fP (\fBXmlConfigPtr\fP cfg, \fBProcessor\fP *p)"
+.br
+.ti -1c
+.RI "void \fBrunLoop\fP ()"
+.br
+.RI "\fIThe method will called in infinite loop created thread. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 23 of file ClientInspector.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::smpp::ClientInspector::ClientInspector (\fBXmlConfigPtr\fP cfg, \fBProcessor\fP * p)"
+.PP
+Definition at line 24 of file ClientInspector.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "void mt::smpp::ClientInspector::NetworkError (\fBSmppNwIf\fP *)\fC [virtual]\fP"
+.PP
+Implements \fBmt::smpp::Inspector\fP.
+.PP
+Definition at line 7 of file ClientInspector.cpp.
+.SS "void mt::smpp::ClientInspector::runLoop ()\fC [virtual]\fP"
+.PP
+The method will called in infinite loop created thread. Client MUST define this method. 
+.PP
+Implements \fBmt::InfiniteThread\fP.
+.PP
+Definition at line 67 of file ClientInspector.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

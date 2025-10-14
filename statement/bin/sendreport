@@ -1,0 +1,33 @@
+#!/bin/bash
+#
+#
+# wocson (c) 2012
+# 20120404 20120404
+#
+
+SV_LC_ALL=$LC_ALL
+SV_LANG=$LANG
+
+export LC_ALL=ru_RU.UTF-8
+export LANG=ru_RU.UTF-8
+
+LOGF=/var/log/report/sendreport_`date '+%Y%m%d'`.log
+MSGFILE=/usr/home2/bis/quit41d/imp-exp/plastic/template/message.txt # contents must be BASE64 !!!
+MAILFROM=/usr/home2/bis/quit41d/imp-exp/plastic/template/mailfromfull.txt # contents must be BASE64 !!!
+MAILTO=$2
+SUBJECT=/usr/home2/bis/quit41d/imp-exp/plastic/template/subject.txt # contents must be BASE64 !!!
+
+
+echo "`date '+%Y%m%d%H%M%S'` $USERNAME $LOGNAME $1 $2" >> $LOGF
+
+filename=/tmp/`date '+%m%d%H%M%S%N'`.html
+
+cp -f "$1" $filename
+chmod 666 $filename
+
+cat $MSGFILE | mailx -r "`cat $MAILFROM`" -a $filename -s "`cat $SUBJECT`" "$MAILTO"
+
+rm -f $filename
+
+export LC_ALL=$SV_LC_ALL
+export LANG=$SV_LANG

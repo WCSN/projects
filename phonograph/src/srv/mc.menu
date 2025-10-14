@@ -1,0 +1,17 @@
+1   Install
+        make install
+   
+2   ReInstall
+        make reinstall
+  
+3   Deinstall
+        make deinstall
+ 
+4   Clean
+        make clean
+
+5   Commit
+        make commit
+   
+6   Update
+        make update

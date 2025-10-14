@@ -1,0 +1,109 @@
+.TH "mt::LogCollector" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::LogCollector \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <LogCollector.h>\fP
+.PP
+Inherits \fBmt::InfiniteThread\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBstop\fP ()"
+.br
+.RI "\fIStop thread. \fP"
+.ti -1c
+.RI "virtual \fB~LogCollector\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetStdOut\fP ()"
+.br
+.ti -1c
+.RI "int32_t \fBinit\fP (\fBXmlConfigPtr\fP)"
+.br
+.ti -1c
+.RI "\fBLogLevel\fP \fBgetLogLevel\fP ()"
+.br
+.ti -1c
+.RI "std::vector< std::string > & \fBgetClassNames\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisDefault\fP ()"
+.br
+.ti -1c
+.RI "void \fBpush\fP (const std::string &str)"
+.br
+.ti -1c
+.RI "\fBLogCollector\fP ()"
+.br
+.ti -1c
+.RI "int32_t \fBinitLocal\fP (const std::string &)"
+.br
+.ti -1c
+.RI "int32_t \fBinitNetwork\fP ()"
+.br
+.ti -1c
+.RI "void \fBrunLoop\fP ()"
+.br
+.RI "\fIThe method will called in infinite loop created thread. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 21 of file LogCollector.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::LogCollector::~LogCollector ()\fC [virtual]\fP"
+.PP
+Definition at line 23 of file LogCollector.cpp.
+.SS "mt::LogCollector::LogCollector ()"
+.PP
+Definition at line 16 of file LogCollector.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "std::vector<std::string>& mt::LogCollector::getClassNames ()\fC [inline]\fP"
+.PP
+Definition at line 53 of file LogCollector.h.
+.SS "\fBLogLevel\fP mt::LogCollector::getLogLevel ()\fC [inline]\fP"
+.PP
+Definition at line 49 of file LogCollector.h.
+.SS "int32_t mt::LogCollector::init (\fBXmlConfigPtr\fP cfg)"
+.PP
+Definition at line 67 of file LogCollector.cpp.
+.SS "int32_t mt::LogCollector::initLocal (const std::string & path)"
+.PP
+Definition at line 36 of file LogCollector.cpp.
+.SS "int32_t mt::LogCollector::initNetwork ()"
+.PP
+Definition at line 41 of file LogCollector.cpp.
+.SS "bool mt::LogCollector::isDefault ()\fC [inline]\fP"
+.PP
+Definition at line 57 of file LogCollector.h.
+.SS "void mt::LogCollector::push (const std::string & str)\fC [inline]\fP"
+.PP
+Definition at line 61 of file LogCollector.h.
+.SS "void mt::LogCollector::runLoop ()\fC [virtual]\fP"
+.PP
+The method will called in infinite loop created thread. Client MUST define this method. 
+.PP
+Implements \fBmt::InfiniteThread\fP.
+.PP
+Definition at line 46 of file LogCollector.cpp.
+.SS "void mt::LogCollector::setStdOut ()\fC [inline]\fP"
+.PP
+Definition at line 43 of file LogCollector.h.
+.SS "void mt::LogCollector::stop ()\fC [virtual]\fP"
+.PP
+Stop thread. 
+.PP
+Reimplemented from \fBmt::InfiniteThread\fP.
+.PP
+Definition at line 29 of file LogCollector.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

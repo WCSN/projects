@@ -1,0 +1,11 @@
+┌──────┬──────────┬───────────┐
+│ Type │ STANDARD │   LONG    │   DAT: 16/48000 CD: 16/44100 LONG: 12/32000
+│      │ h min│min│  h min│min│
+├──────┼──────┼───┼───────┼───┤  flac: compression, lossless, 16-48/32000-192000
+│DAT125│2h 05m│125│ 4h 10m│250│   ape: compression, lossless, 16/44100
+│DDS1  │2h 15m│135│ 4h 30m│270│   mp3: compression, lossy, 320k
+│DDS2  │4h 15m│245│ 8h 30m│510│  opus: compression, lossy, 320k+/16/48000
+│DDS3  │4h 15m│245│ 8h 30m│510│ wavex: uncompress., lossless, 16-48/8000-192000+
+│DDS4  │5h 15m│315│10h 30m│630│ __________________________________________________
+│DAT72 │5h 45m│345│11h 30m│690│  * DAT125, DAT45, DAT60 & etc.
+└──────┴──────┴───┴───────┴───┘

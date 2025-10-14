@@ -1,0 +1,86 @@
+################################################################
+# BRGA
+# Copyright (C) 2019   Vladimir Noskov
+# Using QWT
+# Copyright (C) 2019   Josef Wilgen
+# Copyright (C) 2002   Uwe Rathmann
+################################################################
+
+TEMPLATE = app
+TARGET = brga
+DEPENDPATH += . src
+INCLUDEPATH += . src
+#OBJECTS_DIR = obj
+#DESTDIR  = ../bin
+COMMONSRC = ../common
+
+QMAKE_CXXFLAGS   *= -std=c++17
+#QMAKE_CXXFLAGS	 *= -O3
+
+QT += widgets printsupport serialport network
+
+#QMAKE_LFLAGS += -static -static-libgcc
+
+INCLUDEPATH += \
+        $${COMMONSRC}
+
+# Source
+HEADERS += \
+        src/plotterbox.h \
+        src/axistag.h \
+        src/mainwindow.h \
+        src/vplot.h \
+        src/options.h \
+        $${COMMONSRC}/qcustomplot.h \
+		$${COMMONSRC}/settings.h \
+        $${COMMONSRC}/wlib.h
+
+SOURCES += \
+        src/plotterbox.cpp \
+        src/axistag.cpp \
+        src/main.cpp \
+        src/mainwindow.cpp \
+        src/vplot.cpp \
+        src/options.cpp \
+        $${COMMONSRC}/qcustomplot.cpp \
+		$${COMMONSRC}/settings.cpp \
+        $${COMMONSRC}/wlib.cpp 
+
+FORMS += \
+        resources/plotterbox.ui \
+    	resources/options.ui \
+	    resources/mainwindow.ui
+
+RESOURCES += \
+    	resources/icons.qrc \
+    	resources/btns.qrc 
+
+TRANSLATIONS += \
+    	src/english.ts \
+    	src/russian.ts
+
+######################################################################
+# qmake internal options
+######################################################################
+
+CONFIG           += qt
+CONFIG           += warn_on
+#CONFIG           += no_keywords
+CONFIG           += silent
+
+QWT_VER_MAJ      = 6
+QWT_VER_MIN      = 2
+QWT_VER_PAT      = 0
+QWT_VERSION      = $${QWT_VER_MAJ}.$${QWT_VER_MIN}.$${QWT_VER_PAT}
+
+win32 {
+#    QWT_PREFIX    = C:/Qt/qwt-$${QWT_VERSION}
+    QWT_PREFIX    = C:/Qt/qwt
+    QWT_DOCS      = $${QWT_PREFIX}/doc
+    QWT_HEADERS   = $${QWT_PREFIX}/include
+    QWT_LIBS      = $${QWT_PREFIX}/lib
+    LIBS += -lqwt -L$${QWT_LIBS}
+    INCLUDEPATH += $${QWT_PREFIX}/include
+}
+
+unix {

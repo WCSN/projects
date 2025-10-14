@@ -1,0 +1,82 @@
+.TH "mt::Regex" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::Regex \- 
+.PP
+Shell class for regexp.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Regex.h>\fP
+.SS "Public Member Functions"
+
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBRegex\fP (const std::string &regex_mask)"
+.br
+.ti -1c
+.RI "virtual \fB~Regex\fP ()"
+.br
+.in -1c
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "bool \fBmatch\fP (const std::string &value)"
+.br
+.RI "\fIMatch value. \fP"
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+Shell class for regexp. 
+.PP
+Definition at line 13 of file Regex.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::Regex::Regex (const std::string & regex_mask)"\fBParameters:\fP
+.RS 4
+\fIregex_mask\fP Regexp mask. 
+.RE
+.PP
+
+.PP
+Definition at line 6 of file Regex.cpp.
+.SS "mt::Regex::~Regex ()\fC [virtual]\fP"
+.PP
+Definition at line 11 of file Regex.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "bool mt::Regex::match (const std::string & value)"
+.PP
+Match value. \fBParameters:\fP
+.RS 4
+\fIvalue\fP The value for match.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Return TRUE if value matched. Otherwise, will return FALSE. 
+.RE
+.PP
+
+.PP
+Definition at line 15 of file Regex.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

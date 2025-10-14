@@ -1,0 +1,23 @@
+#!/bin/bash
+################################################################
+##
+## ASPD changer
+##
+## wocson (c)
+##
+## Requare: zsh, lftp, mc
+##
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+
+FSIZE=$1; aLSZ=$2;
+
+echo "FSIZE=$1 aLSZ=$2"
+
+if [[ $FSIZE == $aLSZ && $FSIZE > 0 && $aLSZ > 0 ]]; then
+  echo OK
+else
+  echo BAD
+fi
+
+

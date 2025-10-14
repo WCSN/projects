@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo df -Th  /mnt/HDD/bkdisk  /mnt/HDD/cbkdisk /usr/store /mnt/NAS/bqstore

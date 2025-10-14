@@ -1,0 +1,13 @@
+
+#======= WCSN add ===================================
+
+BINDIR="./bin"
+
+commit:
+	@${BINDIR}/setup commit
+cleanall:
+	@${BINDIR}/setup cleanall
+svnupdate:
+	@${BINDIR}/setup svnupdate
+gitupdate:
+	@${BINDIR}/setup gitupdate

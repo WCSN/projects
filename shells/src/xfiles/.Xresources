@@ -1,0 +1,80 @@
+!#include "/usr/local/share/X11/app-defaults/XTerm-color"
+
+!<--------.Xresources starts here-------->
+Xft.dpi: 96
+Xft.lcdfilter: 	lcddefault
+Xft.antialias: 	true
+Xft.autohint: 	true
+Xft.hinting: 	true
+Xft.hintstyle: 	hintsmedium
+Xft.rgba: 	none
+
+!*color0: 	#000000
+!*color1: 	#cc0000
+!*color2: 	#00cc00
+!*color3: 	#bd5e01
+!*color4: 	#0000cc
+!*color5: 	#cc00cc
+!*color6: 	#00cccc
+!*color7: 	#aaaaaa
+!*color8: 	#333333
+!*color9:	#ff0000
+!*color10:	#00ff00
+!*color11: 	#ffff00
+!*color12: 	#0000ff
+!*color13: 	#ff00ff
+!*color14: 	#00ffff
+!*color15: 	#ffffff
+
+*color0: 	#000000
+*color1: 	#B21818
+*color2: 	#18B218
+*color3: 	#B26818
+*color4: 	#1818B2
+*color5: 	#B218B2
+*color6: 	#18B2B2
+*color7: 	#B2B2B2
+*color8: 	#333333
+*color9:	#ff5454
+*color10:	#54ff54
+*color11: 	#ffff54
+*color12: 	#5454ff
+*color13: 	#ff54ff
+*color14: 	#54ffff
+*color15: 	#ffffff
+
+#define BG_BASE #000000
+#define FG_BASE #FFFFFF
+
+*background:  BG_BASE
+*foreground:  FG_BASE
+
+!
+!	xterm
+!
+
+!xterm*background:       
+!xterm*foreground:       
+!xterm*cursorColor:     		#AAAAFF
+!xterm*cursorBlink:     		true
+
+!xterm*fontMenu*background: 	darkblue
+
+xterm*geometry:     		132x55
+xterm*faceName:           	"Liberation Mono":style=Regular:size=8
+!xterm*dynamicColors:      	false
+xterm*saveLines:          	8196
+!xterm*scrollKey:          	true
+!xterm*scrollTtyOutput:    	true
+!xterm*scrollBar:          	true
+!xterm*scrollbar*thickness: 	10
+!xterm*rightScrollBar:     	true
+!xterm*jumpScroll:         	true
+!xterm*multiScroll:        	true
+!xterm*toolBar:            	false
+!xterm*inheritPixmap: 		true
+
+
+scilab*faceName:           	"Liberation Sans":style=Regular:size=8
+
+!<--------.Xresources ends here-------->

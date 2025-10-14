@@ -1,0 +1,161 @@
+#!/bin/bash
+################################################################
+##
+## ASPD changer
+##
+## wocson (c)
+##
+##
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+
+WORKTYPE="work"
+
+if [ $WORKTYPE == debug ]; then CONFIG="./conf/aspd_debug.conf"
+else 
+  if [ -f /usr/local/etc/aspd/aspd.conf ]; then 
+	CONFIG="/usr/local/etc/aspd/aspd.conf"
+  elif [ -f /etc/aspd/aspd.conf ]; then 
+	CONFIG="/etc/aspd/aspd.conf"
+  else  
+	echo "Файл настроек: aspd.conf в /usr/local/etc/aspd/ или /etc/aspd/ не найден";  
+	exit 1
+  fi
+fi
+
+source "$CONFIG"
+source "$LIB/aspd_inc.sh"
+
+  if [ -z "$1" ]; then usage; exit 0; fi
+
+  case "$1" in
+  stat|st|u)	status;
+  ;;
+  setperm|sp|p) setallperm $2;
+  ;;
+  getcfg|gf|g)	tmcheckavos "avos" "SILENT"
+				eval SENDVAL=\$"$2"
+				echo -en "$SENDVAL"
+  ;;
+  llist|ll|l)	msgll "$2";
+  ;;
+  help|h) if ! [ -z "$2" ]; then help "$2"
+		  else usage;	fi  
+  ;;
+  rmdl) infoline "Удаление отложенного СИН"; txt="";
+		if [ -f "$INFODIR/delay" ]; then rm -v "$INFODIR/delay" &> /dev/null
+		  txt+="Отложенный СИН отменён. "
+		else txt+="Нет отложенной отправки и "; fi
+
+		if [ -f "$LDIRDELAY/avos.txt" ]; then rm -v "$LDIRDELAY/avos.txt"  &> /dev/null
+		  txt+="Файл СИН удалён."
+		else txt+="файлов."; fi
+		outt "$txt"; status;
+  ;;
+  rita|rt|t)	rita "$2" "$3"
+  ;;
+  ver|v)		version
+  ;;
+  send|sn|s)
+			if ! locked $LOCKED_SEND ; then
+			  if [ -f "$SIGN_SEND" ] && [ -z "$2" ]; then
+			    sudo rm $SIGN_SEND 2>&1 > /dev/null
+			    msgsend
+			  elif [ -f $SIGN_DELAY ] && [ -z "$2" ]; then
+				if tmcheckavos "avos" "SILENT"; then
+			  	  sudo rm $SIGN_DELAY 2>&1 > /dev/null
+				  if [ -f "$LDIRDELAY/avos.txt" ]; then
+					sudo mv "$LDIRDELAY/avos.txt" "$LDIRFORSEND"
+			  		msgsend
+					sudo killall aspdtail # fork tail
+				  fi
+				fi
+			  elif ! [ -z "$2" ]; then
+			    msgsend "$2" "$3"
+			  else
+			    if [ $WORKTYPE == debug ]; then outt "Нет сигнала на отправку в $INFODIR"; fi
+			  fi
+			fi
+  ;;
+  recv|rc|r)  if ! locked $LOCKED_RECV; then
+			  msgrecv "$2" "$3"
+			fi
+  ;;
+  email|em|m) if ! locked $LOCKED_MAIL; then
+				ADRS="";
+				if echo "$2" | grep "@" > /dev/null; then
+		    	  ADRS="$2"
+				else
+				  psecho "E-mail: "; read ADRS;
+				  if echo "$ADRS" | egrep -v "@" > /dev/null; then
+				  outt "Адрес задан неверно. Отмена"; CLOSE;
+				  help email
+				  exit 1
+				fi
+			  fi
+
+			  shift 2
+			  SUBJ=""; TXTM=""; ATCH="";
+			  while getopts "s:t:a:f:" Options; do
+				case $Options in
+				  s) SUBJ="$OPTARG";;
+				  t) TXTM+="\n\n$OPTARG";;
+				  a) ATCH="$OPTARG";;
+				  f) FLET="$OPTARG"
+					 if ! [ -f "$FLET" ]; then echo "Файл $FLET не найден"; exit $E_OPTERROR;
+					 else TXTM+="\n`cat \"$FLET\"`"
+					 fi
+					 ;;
+				  *) echo "Задан недопустимый ключ."
+					 exit
+				  ;;
+				esac
+			  done
+#			  echo -e "A: $ADRS\nS: $SUBJ\nT:\n=====\n$TXTM\n=====\nA:$ATCH";
+			  msgmail "$ADRS" "$SUBJ" "$TXTM" "$ATCH";
+			fi
+  ;;
+  rlist|rl|i)	msgrl "$2"
+  ;;
+  del|dl|d)		msgdel "$2"
+  ;;
+  abook|ab|a)	abook "$2"
+  ;;
+  letter|lt|e)	
+				case $2 in
+                avos) 
+					if ! tmcheckavos "avos"; then
+					  choiceOQ "Создать СИН?" # ret 0 - Yes or 1 -No
+					  case $RETCHS in
+					  0) msglt "avos"
+					  ;;
+					  1) outt -s "Отмена"
+					  ;;
+					  esac
+					else
+					  msglt "avos"
+					fi  
+				;;
+				climat)
+					if ! tmcheckavos "climat" "SILENT"; then
+					  choiceOQ "Cоздать сообщение типа CLIMAT?" # ret 0 - Yes or 1 -No
+					  case $RETCHS in
+					  0) msglt "climat"
+					  ;;
+					  1) outt -s "Отмена"
+					  ;;
+					  esac
+					else
+					  msglt "climat"
+					fi  
+				;;
+				*) INIT; msglt "$2" "$3" "$4"
+				;;
+				esac
+  ;;
+  *)			unknown "$1";
+  ;;
+  esac
+
+CLOSE
+exit 0

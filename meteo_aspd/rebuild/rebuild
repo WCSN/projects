@@ -1,0 +1,23 @@
+#!/bin/bash
+####################################################################
+##
+## Rebuild meteodata file.
+## Execute this whith set source file:
+##
+## Ex:	> rebuild /mnt/Vostok/mawslogs/[YEAR]/log[MONTH]/namefile.csv
+##
+## wocson (c)
+##
+
+source /usr/share/wlib/rebuild_inc.sh
+DST="/var/meteo/rebuild/dst"
+
+WORKTYPE=debug
+
+if [ -f "$1" ]; then
+  rebuild $1 ON $2
+else
+  logg "File $1 not find!!!"
+fi
+
+

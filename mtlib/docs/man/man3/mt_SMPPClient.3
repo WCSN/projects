@@ -1,0 +1,87 @@
+.TH "mt::SMPPClient" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::SMPPClient \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <SMPPClient.h>\fP
+.PP
+Inherits \fBmt::Logable\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBgetSystemId\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetStartReqId\fP (unsigned int s)"
+.br
+.ti -1c
+.RI "void \fBsetStepReqId\fP (unsigned int s)"
+.br
+.ti -1c
+.RI "bool \fBisActive\fP ()"
+.br
+.ti -1c
+.RI "\fB~SMPPClient\fP ()"
+.br
+.ti -1c
+.RI "void \fBclose\fP ()"
+.br
+.ti -1c
+.RI "\fBSMPPClient\fP ()"
+.br
+.ti -1c
+.RI "int \fBinit\fP (\fBXmlConfigPtr\fP cfg)"
+.br
+.ti -1c
+.RI "\fBMessage\fP * \fBrecv\fP ()"
+.br
+.ti -1c
+.RI "int \fBsend\fP (\fBMessage\fP *)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 31 of file SMPPClient.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::SMPPClient::~SMPPClient ()"
+.PP
+Definition at line 52 of file SMPPClient.cpp.
+.SS "mt::SMPPClient::SMPPClient ()"
+.PP
+Definition at line 8 of file SMPPClient.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "void mt::SMPPClient::close (void)"
+.PP
+Definition at line 37 of file SMPPClient.cpp.
+.SS "std::string mt::SMPPClient::getSystemId ()\fC [inline]\fP"
+.PP
+Definition at line 52 of file SMPPClient.h.
+.SS "int mt::SMPPClient::init (\fBXmlConfigPtr\fP cfg)"
+.PP
+Definition at line 117 of file SMPPClient.cpp.
+.SS "bool mt::SMPPClient::isActive ()"
+.PP
+Definition at line 27 of file SMPPClient.cpp.
+.SS "\fBMessage\fP * mt::SMPPClient::recv ()"
+.PP
+Definition at line 255 of file SMPPClient.cpp.
+.SS "int mt::SMPPClient::send (\fBMessage\fP * msg)"
+.PP
+Definition at line 308 of file SMPPClient.cpp.
+.SS "void mt::SMPPClient::setStartReqId (unsigned int s)\fC [inline]\fP"
+.PP
+Definition at line 56 of file SMPPClient.h.
+.SS "void mt::SMPPClient::setStepReqId (unsigned int s)\fC [inline]\fP"
+.PP
+Definition at line 60 of file SMPPClient.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

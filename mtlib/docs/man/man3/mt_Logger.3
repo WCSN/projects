@@ -1,0 +1,124 @@
+.TH "mt::Logger" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::Logger \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Logger.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBsetCollector\fP (\fBLogCollectorPtr\fP)"
+.br
+.ti -1c
+.RI "void \fBsetLogLevel\fP (\fBLogLevel\fP l)"
+.br
+.ti -1c
+.RI "\fBLogLevel\fP \fBgetLogLevel\fP ()"
+.br
+.ti -1c
+.RI "\fBLogger\fP (const std::string &str, \fBLogLevel\fP l=DEBUG)"
+.br
+.ti -1c
+.RI "const std::string & \fBgetClassName\fP () const "
+.br
+.ti -1c
+.RI "void \fBConnected\fP (bool b)"
+.br
+.ti -1c
+.RI "virtual \fB~Logger\fP ()"
+.br
+.ti -1c
+.RI "void \fBinfo\fP (char *format,...)"
+.br
+.ti -1c
+.RI "void \fBwarn\fP (char *format,...)"
+.br
+.ti -1c
+.RI "void \fBdebug\fP (char *format,...)"
+.br
+.ti -1c
+.RI "void \fBtrace\fP (char *format,...)"
+.br
+.ti -1c
+.RI "void \fBerror\fP (char *format,...)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBcommon\fP (\fBLogLevel\fP l, char *format, va_list args)"
+.br
+.in -1c
+.SS "Static Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "static char \fBlevelVals\fP [][10]"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 28 of file Logger.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::Logger::Logger (const std::string & str, \fBLogLevel\fP l = \fCDEBUG\fP)"
+.PP
+Definition at line 29 of file Logger.cpp.
+.SS "mt::Logger::~Logger ()\fC [virtual]\fP"
+.PP
+Definition at line 41 of file Logger.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "void mt::Logger::common (\fBLogLevel\fP l, char * format, va_list args)\fC [protected, virtual]\fP"
+.PP
+Definition at line 44 of file Logger.cpp.
+.SS "void mt::Logger::Connected (bool b)"
+.PP
+Definition at line 37 of file Logger.cpp.
+.SS "void mt::Logger::debug (char * format,  ...)\fC [inline]\fP"
+.PP
+Definition at line 106 of file Logger.h.
+.SS "void mt::Logger::error (char * format,  ...)\fC [inline]\fP"
+.PP
+Definition at line 129 of file Logger.h.
+.SS "const std::string& mt::Logger::getClassName () const\fC [inline]\fP"
+.PP
+Definition at line 74 of file Logger.h.
+.SS "\fBLogLevel\fP mt::Logger::getLogLevel ()\fC [inline]\fP"
+.PP
+Definition at line 67 of file Logger.h.
+.SS "void mt::Logger::info (char * format,  ...)\fC [inline]\fP"
+.PP
+Definition at line 82 of file Logger.h.
+.SS "void mt::Logger::setCollector (\fBLogCollectorPtr\fP p)"
+.PP
+Definition at line 23 of file Logger.cpp.
+.SS "void mt::Logger::setLogLevel (\fBLogLevel\fP l)\fC [inline]\fP"
+.PP
+Definition at line 62 of file Logger.h.
+.SS "void mt::Logger::trace (char * format,  ...)\fC [inline]\fP"
+.PP
+Definition at line 118 of file Logger.h.
+.SS "void mt::Logger::warn (char * format,  ...)\fC [inline]\fP"
+.PP
+Definition at line 94 of file Logger.h.
+.SH "Member Data Documentation"
+.PP 
+.SS "char \fBmt::Logger::levelVals\fP\fC [static, protected]\fP"\fBInitial value:\fP
+.PP
+.nf
+ { 'TRACE  ', 'DEBUG  ', 'INFO   ', 'WARNING',
+                'ERROR  ', 'REWRITE' }
+.fi
+.PP
+Definition at line 54 of file Logger.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

@@ -1,0 +1,143 @@
+#!/bin/bash
+#
+# Backup copy to USB and NAS drive
+#
+# (c) Wocson 2015
+#
+# Create: 20121108
+#  20150909	Passed to work with bz2
+#  20160322	added check c.summ
+# 		Modify dest
+#
+## Note:
+##
+##	Temporaty off coping to control disk
+##
+
+# Dir for csore
+DIRCP=`date "+%Y%m%d"`
+
+#Current name backup file
+BKNAME_BQCUR="bq41d-$DIRCP-`date "+%H%M"`.bk.bz2"
+
+#default mail subject
+SUBJECT="BACKUP to FAILED !!!"
+
+if [ "$1" == "TEST" ]; then
+	echo "=================== $1 ==================="
+	exit
+    else
+	PREFDIR=/usr/local
+	source $PREFDIR/etc/backdb.conf
+	source $PREFDIR/share/backdb/backdb.inc
+fi
+
+clean_b $REPFILE
+
+# Namefile for current operations
+BKOPNAME_BQCUR=$BKDIR_LS/$DIRCP/$BKNAME_BQCUR	# BIS
+BKOPNAME_BCCUR=$BKDIR_LS/$DIRCP/$BKNAME_BC	# BSS
+
+if [ -f "$SRCDIR_BQ/$SIGNF" ] ; then
+
+    #copy log from BQ to local report file
+    cat $SRCDIR_BQ/$SIGNF >> $REPFILE
+    
+    message "====" "========= ========= ========= ========= "
+
+    if [ -f "$SRCDIR_BQ/$BKNAME_BQ" ] ; then
+
+	# create Backups db to local copy
+	message "INFO" "Starting backups..."
+
+	message "INFO" "Save to LOCAL-store:"
+	back_cp $SRCDIR_BQ/$BKNAME_BQ $BKDIR_LS/$DIRCP $BKNAME_BQCUR
+	back_cp $SRCDIR_BC/$BKNAME_BC $BKDIR_LS/$DIRCP $BKNAME_BC
+	
+	# Encrypting db
+	encode $BKOPNAME_BQCUR # BIS DB
+	encode $BKOPNAME_BCCUR # BSS DB
+
+	# create Backups to NAS copy
+	# !!! Copy only BSS db - BIS db copying from BIS0X !!!
+	message "INFO" "Save to NAS-store:"
+	back_cp $BKOPNAME_BCCUR.enc $BKDIR_NS/$DBBC/$DIRCP $BKNAME_BC.enc
+	back_cp $BKOPNAME_BCCUR.sha256 $BKDIR_NS/$DBBC/$DIRCP $BKNAME_BC.sha256
+
+	# Copy Bakups to USB-drive
+	message "INFO" "Save to USB-drive:"
+	umount $MNTPNT_ED
+	fsck $DEVMNT
+	wait
+	sleep 5
+	mount $DEVMNT $MNTPNT_ED
+	
+	if [ -f "$MNTPNT_ED/.BACKUP" ] ; then
+		let DISKNUM=`cat $MNTPNT_ED/.BACKUP`
+		message "INFO" "OUTSTORE DISK #0$DISKNUM"
+		# Copy to External drive
+		back_cp $BKOPNAME_BQCUR.enc $BKDIR_ED/$DIRCP $BKNAME_BQCUR.enc
+		back_cp $BKOPNAME_BQCUR.sha256 $BKDIR_ED/$DIRCP $BKNAME_BQCUR.sha256		
+
+		back_cp $BKOPNAME_BCCUR.enc $BKDIR_ED/$DIRCP $BKNAME_BC.enc
+		back_cp $BKOPNAME_BCCUR.sha256 $BKDIR_ED/$DIRCP $BKNAME_BC.sha256
+
+		let DISKNEXT=$DISKNUM+1
+		if(($DISKNEXT==4)); then DISKNEXT=1; fi
+		message "INFO" "Please, disconnect #0$DISKNUM drive and connect #0$DISKNEXT drive."
+
+	else
+		message "ERROR" "Drive $DEVMNT not mount..."
+		message "ERROR" "==============================================================="
+		message "ERROR" "Please mount drive $DEVMNT and copy manualing to USB-drive:"
+		message "ERROR" "1. > sudo mount $DEVMNT $MNTPNT_ED"
+		message "ERROR" "2. > sudo mkdir $MNTPNT_ED/$DIRCP"
+		message "ERROR" "See what mount:"
+		message "ERROR" "3. > sudo df -h $MNTPNT_ED"
+		message "ERROR" "4. > sudo cp -fv $BKOPNAME_BQCUR.enc $MNTPNT_ED/$DIRCP/"
+		message "ERROR" "   > sudo cp -fv $BKOPNAME_BCCUR.enc $MNTPNT_ED/$DIRCP/"
+		message "ERROR" "See what file copyng:"
+		message "ERROR" "5. > sudo ls -l $MNTPNT_ED/$DIRCP/"
+		message "ERROR" "You weel be see: $BKNAME_BQCUR and $BKNAME_BC :"
+		message "ERROR" "6. > sudo umount $MNTPNT_ED"
+		message "ERROR" "==============================================================="
+	fi
+
+	# Copy Bakups to FORUS
+	message "INFO" "Save to FORUS:"
+	rm -rf $BKDIR_FORUSD/20*
+	back_cp $BKOPNAME_BQCUR.enc $BKDIR_FORUSD/$DIRCP $BKNAME_BQCUR.enc
+	back_cp $BKOPNAME_BQCUR.sha256 $BKDIR_FORUSD/$DIRCP $BKNAME_BQCUR.sha256
+	message "INFO" "Save to FORUS complit."	
+#	message "INFO" "Copyng to Forus disabled."
+	
+	# delete encrypted files
+	rm -f $BKOPNAME_BQCUR
+	rm -f $BKOPNAME_BCCUR
+
+	# Default subject change to "good" subject...
+	TEND=`date "+%Y%m%d.%H%M"`
+	SUBJECT="BACKUPs READY $TEND"
+	cp -fv $REPFILE $SRCDIR_BQ/$SIGNF-get-$TEND
+	rm -f $SRCDIR_BQ/$SIGNF
+
+	# Disk space report
+	message "INFO" "Disk space:"
+	df -h $MNTPNT_ED $MNTPNT_LS $MNTPNT_NS $MNTPNT_FORUS 
+	df -h $MNTPNT_ED $MNTPNT_LS $MNTPNT_NS $MNTPNT_FORUS >> $REPFILE
+
+	# Umount USB-drive	
+	sudo umount -f $MNTPNT_ED
+
+	message "INFO" "BackUPs db ready."
+	message "INFO" "Finish $TEND."
+    else
+	message "ERROR" "Backups db data file not find in $SRCDIR_BQ" "Do not made copy backup to USB drive."
+    fi
+else
+    message "ERROR" "Backup copy to USB drive failed." "Not find sign files and do not made copy backup to USB drive."
+fi
+
+mail -s "$SUBJECT" $MAILLST < $REPFILE
+
+exit 0

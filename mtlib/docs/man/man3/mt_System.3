@@ -1,0 +1,69 @@
+.TH "mt::System" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::System \- 
+.PP
+\fBSystem\fP utilities.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <System.h>\fP
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBsleep\fP (uint32_t ms)"
+.br
+.RI "\fISleep. \fP"
+.ti -1c
+.RI "static time_t \fBcurrentTime\fP ()"
+.br
+.RI "\fIReturns the time since the Epoch (00:00:00 UTC, January 1, 1970), measured in seconds. \fP"
+.ti -1c
+.RI "static int32_t \fBgetTid\fP ()"
+.br
+.RI "\fIReturn current thread's id. \fP"
+.ti -1c
+.RI "static int32_t \fBgetPid\fP ()"
+.br
+.RI "\fIReturn current process's id. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBSystem\fP utilities. 
+.PP
+Definition at line 13 of file System.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "time_t mt::System::currentTime ()\fC [static]\fP"
+.PP
+Returns the time since the Epoch (00:00:00 UTC, January 1, 1970), measured in seconds. 
+.PP
+Definition at line 19 of file System.cpp.
+.SS "int32_t mt::System::getPid ()\fC [static]\fP"
+.PP
+Return current process's id. 
+.PP
+Definition at line 28 of file System.cpp.
+.SS "int32_t mt::System::getTid ()\fC [static]\fP"
+.PP
+Return current thread's id. 
+.PP
+Definition at line 23 of file System.cpp.
+.SS "void mt::System::sleep (uint32_t ms)\fC [static]\fP"
+.PP
+Sleep. \fBParameters:\fP
+.RS 4
+\fIms\fP Timeout in milliseconds. 
+.RE
+.PP
+
+.PP
+Definition at line 11 of file System.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

@@ -1,0 +1,74 @@
+.TH "mt::smpp::ClientProcessor" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::ClientProcessor \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ClientProcessor.h>\fP
+.PP
+Inherits \fBmt::smpp::Processor\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBrunLoop\fP ()"
+.br
+.RI "\fIThe method will called in infinite loop created thread. \fP"
+.ti -1c
+.RI "int \fBGetDeliverMessage\fP (\fBData\fP *data)"
+.br
+.ti -1c
+.RI "void \fBinsertMsgId\fP (unsigned int reqId, Smpp::Header *sm)"
+.br
+.ti -1c
+.RI "virtual \fB~ClientProcessor\fP ()"
+.br
+.ti -1c
+.RI "int \fBInitDb\fP (std::string h, std::string u, std::string p, std::string db)"
+.br
+.ti -1c
+.RI "unsigned int \fBProcessDeliverSm\fP (\fBData\fP *data)"
+.br
+.ti -1c
+.RI "\fBClientProcessor\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 8 of file ClientProcessor.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "virtual mt::smpp::ClientProcessor::~ClientProcessor ()\fC [inline, virtual]\fP"
+.PP
+Definition at line 20 of file ClientProcessor.h.
+.SS "mt::smpp::ClientProcessor::ClientProcessor ()"
+.PP
+Definition at line 6 of file ClientProcessor.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "int mt::smpp::ClientProcessor::GetDeliverMessage (\fBData\fP * data)"
+.PP
+Definition at line 25 of file ClientProcessor.cpp.
+.SS "int mt::smpp::ClientProcessor::InitDb (std::string h, std::string u, std::string p, std::string db)"
+.PP
+Definition at line 12 of file ClientProcessor.cpp.
+.SS "void mt::smpp::ClientProcessor::insertMsgId (unsigned int reqId, Smpp::Header * sm)"
+.PP
+Definition at line 132 of file ClientProcessor.cpp.
+.SS "unsigned int mt::smpp::ClientProcessor::ProcessDeliverSm (\fBData\fP * data)"
+.PP
+Definition at line 158 of file ClientProcessor.cpp.
+.SS "void mt::smpp::ClientProcessor::runLoop ()\fC [virtual]\fP"
+.PP
+The method will called in infinite loop created thread. Client MUST define this method. 
+.PP
+Implements \fBmt::InfiniteThread\fP.
+.PP
+Definition at line 43 of file ClientProcessor.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<Options>
+		<dumpfile path="/home/wocson/data/nfparser.dat" />
+		<statfile path="/home/wocson/data/nfparser.sta" />
+		<logfile path="/home/wocson/data/nfparser.log" />
+		<statistic timeout="10" /> <!-- in seconds -->
+	</Options>
+	<Connections>
+		<VRadius lhost="0.0.0.0" dhost="127.0.0.1" dport="3813"
+			username="nfparser" sharedSecret="secret" />
+		<TemplateProcessor lhost="0.0.0.0" lport="0" dhost="127.0.0.1"
+			dport="7777" id="NFPARSER1" searchbase="wap,mms;wap" />
+		<NflowSource host="0.0.0.0" port="9993" />
+	</Connections>
+	<Filters>
+		<Filter id="1FBddi">
+			<dstNet network="10.255.3.0/24" operation="include" />
+		</Filter>
+	</Filters>
+</config>

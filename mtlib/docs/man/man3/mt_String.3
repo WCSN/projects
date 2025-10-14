@@ -1,0 +1,446 @@
+.TH "mt::String" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::String \- 
+.PP
+std::string wrapper.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <String.h>\fP
+.SS "Public Member Functions"
+
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBString\fP ()"
+.br
+.ti -1c
+.RI "\fBString\fP (const char *str)"
+.br
+.RI "\fIContent is initialized to a copy of the string formed by the null-terminated character sequence (C string) pointed by s. \fP"
+.ti -1c
+.RI "\fBString\fP (const char *str, size_t n)"
+.br
+.RI "\fIContent is initialized to a copy of the string formed by the first n characters in the array of characters pointed by s. \fP"
+.ti -1c
+.RI "\fBString\fP (size_t n, char ch)"
+.br
+.RI "\fIContent is initialized as a string formed by a repetition of character c, n times. \fP"
+.ti -1c
+.RI "\fBString\fP (const \fBString\fP &str, size_t pos, size_t n=\fBString::npos\fP)"
+.br
+.RI "\fIContent is initialized to a copy of a substring of str. The substring is the portion of str that begins at the character position pos and takes up to n characters (it takes less than n if the end of str is reached before). \fP"
+.in -1c
+.in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static const size_t \fBnpos\fP = std::string::npos"
+.br
+.in -1c 
+.in +1c
+.ti -1c
+.RI "const char * \fBc_str\fP () const "
+.br
+.RI "\fIGenerates a null-terminated sequence of characters (c-string) with the same content as the string object and returns it as a pointer to an array of characters. \fP"
+.ti -1c
+.RI "const char * \fBdata\fP () const "
+.br
+.RI "\fIReturns a pointer to an array of characters with the same content as the string. \fP"
+.ti -1c
+.RI "size_t \fBlength\fP () const "
+.br
+.RI "\fIReturns a count of the number of characters in the string. \fP"
+.ti -1c
+.RI "size_t \fBsize\fP () const "
+.br
+.RI "\fIReturns a count of the number of characters in the string. \fP"
+.ti -1c
+.RI "bool \fBempty\fP () const "
+.br
+.RI "\fIReturns true if the string size is 0, false otherwise. \fP"
+.ti -1c
+.RI "bool \fBoperator==\fP (const char *str) const "
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBString\fP &str) const "
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (const \fBString\fP &str) const "
+.br
+.ti -1c
+.RI "\fBString\fP & \fBoperator+=\fP (char ch)"
+.br
+.RI "\fIAppends a copy of the argument to the string. \fP"
+.ti -1c
+.RI "\fBString\fP & \fBoperator+=\fP (const char *str)"
+.br
+.RI "\fIAppends a copy of the argument to the string. \fP"
+.ti -1c
+.RI "\fBString\fP & \fBoperator+=\fP (const \fBString\fP &str)"
+.br
+.RI "\fIAppends a copy of the argument to the string. \fP"
+.ti -1c
+.RI "size_t \fBfind\fP (const char *find_str, size_t pos=0) const "
+.br
+.RI "\fISearches the string for the content specified in find_str and returns the position of the first occurrence in the string. \fP"
+.ti -1c
+.RI "size_t \fBfind\fP (char ch, size_t pos=0) const "
+.br
+.RI "\fISearches the string for the content specified in ch and returns the position of the first occurrence in the string. \fP"
+.ti -1c
+.RI "size_t \fBfind\fP (const \fBString\fP &str, size_t pos=0) const "
+.br
+.RI "\fISearches the string for the content specified in str and returns the position of the first occurrence in the string. \fP"
+.ti -1c
+.RI "\fBString\fP \fBsubstr\fP (size_t pos=0, size_t n=\fBString::npos\fP) const "
+.br
+.RI "\fIReturns a string object with its contents initialized to a substring of the current object. \fP"
+.ti -1c
+.RI "\fBString\fP & \fBreplace\fP (size_t pos, size_t n, const char *str)"
+.br
+.RI "\fIReplaces a section of the current string by some other content determined by the arguments passed. \fP"
+.ti -1c
+.RI "\fBString\fP & \fBreplace\fP (size_t pos, size_t n, const \fBString\fP &str)"
+.br
+.RI "\fIReplaces a section of the current string by some other content determined by the arguments passed. \fP"
+.ti -1c
+.RI "\fBString\fP & \fBerase\fP (size_t pos, size_t n)"
+.br
+.RI "\fIErases a sequence of n characters starting at position pos. \fP"
+.ti -1c
+.RI "\fBString\fP & \fBerase\fP (size_t pos)"
+.br
+.RI "\fIThe function deletes everything from position pos forwards. \fP"
+.ti -1c
+.RI "\fBString\fP & \fBerase\fP ()"
+.br
+.RI "\fIThe function deletes the entire string, like member clear. \fP"
+.ti -1c
+.RI "\fBString\fP & \fBinsert\fP (size_t pos, const \fBString\fP &str)"
+.br
+.RI "\fIInserts a copy of the entire string object str at character position pos1. \fP"
+.ti -1c
+.RI "\fBString\fP & \fBinsert\fP (size_t pos, size_t n, char ch)"
+.br
+.RI "\fIInserts a string formed by a repetition of character ch, n times, at the character position pos. \fP"
+.ti -1c
+.RI "\fBString\fP & \fBassign\fP (const char *str, size_t n)"
+.br
+.RI "\fISets as the new content a copy of the string formed by the first n characters of the array pointed by str. \fP"
+.ti -1c
+.RI "\fBString\fP & \fBappend\fP (const \fBString\fP &str)"
+.br
+.RI "\fIAppends a copy of str. \fP"
+.ti -1c
+.RI "\fBString\fP & \fBappend\fP (const \fBString\fP &str, size_t pos, size_t n)"
+.br
+.RI "\fIAppends a copy of a substring of str. \fP"
+.ti -1c
+.RI "int32_t \fBcompare\fP (const \fBString\fP &str) const "
+.br
+.RI "\fICompares the content of this object to the content of a comparing string str. \fP"
+.ti -1c
+.RI "const char & \fBoperator[]\fP (size_t pos) const "
+.br
+.RI "\fIReturns a reference the character at position pos in the string. \fP"
+.ti -1c
+.RI "char & \fBoperator[]\fP (size_t pos)"
+.br
+.RI "\fIReturns a reference the character at position pos in the string. \fP"
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.RI "\fIThe string content is set to an empty string, erasing any previous content and thus leaving its size at 0 characters. \fP"
+.ti -1c
+.RI "size_t \fBtoUpper\fP ()"
+.br
+.RI "\fIChange content of the string to upper register. \fP"
+.ti -1c
+.RI "\fBString\fP \fBoperator+\fP (const \fBString\fP &a, const \fBString\fP &b)"
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (const char *a, const \fBString\fP &b)"
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (const char *a, const \fBString\fP &b)"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &stream, const \fBString\fP &str)"
+.br
+.ti -1c
+.RI "bool \fBoperator<\fP (const \fBString\fP &a, const \fBString\fP &b)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+std::string wrapper. 
+
+Use this string if you have problem with operating memory fragmentation. This string allocate memory by 32 bytes blocks. 
+.PP
+Definition at line 13 of file String.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::String::String ()\fC [inline]\fP"
+.PP
+Definition at line 189 of file String.h.
+.SS "mt::String::String (const char * str)\fC [inline]\fP"
+.PP
+Content is initialized to a copy of the string formed by the null-terminated character sequence (C string) pointed by s. The length of the caracter sequence is determined by the first occurrence of a null character (as determined by traits.length(s)). 
+.PP
+Definition at line 193 of file String.h.
+.SS "mt::String::String (const char * str, size_t n)\fC [inline]\fP"
+.PP
+Content is initialized to a copy of the string formed by the first n characters in the array of characters pointed by s. 
+.PP
+Definition at line 206 of file String.h.
+.SS "mt::String::String (size_t n, char ch)\fC [inline]\fP"
+.PP
+Content is initialized as a string formed by a repetition of character c, n times. 
+.PP
+Definition at line 211 of file String.h.
+.SS "mt::String::String (const \fBString\fP & str, size_t pos, size_t n = \fC\fBString::npos\fP\fP)\fC [inline]\fP"
+.PP
+Content is initialized to a copy of a substring of str. The substring is the portion of str that begins at the character position pos and takes up to n characters (it takes less than n if the end of str is reached before). 
+.PP
+Definition at line 216 of file String.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBString\fP & mt::String::append (const \fBString\fP & str)\fC [inline]\fP"
+.PP
+Appends a copy of str. 
+.PP
+Definition at line 328 of file String.h.
+.SS "\fBString\fP & mt::String::append (const \fBString\fP & str, size_t pos, size_t n)\fC [inline]\fP"
+.PP
+Appends a copy of a substring of str. The substring is the portion of str that begins at the character position pos and takes up to n characters (it takes less than n if the end of string is reached before). If the position passed is past the end of str, an std::out_of_range exception is thrown. 
+.PP
+Definition at line 334 of file String.h.
+.SS "\fBString\fP & mt::String::assign (const char * str, size_t n)\fC [inline]\fP"
+.PP
+Sets as the new content a copy of the string formed by the first n characters of the array pointed by str. 
+.PP
+Definition at line 320 of file String.h.
+.SS "const char* mt::String::c_str () const\fC [inline]\fP"
+.PP
+Generates a null-terminated sequence of characters (c-string) with the same content as the string object and returns it as a pointer to an array of characters. 
+.PP
+Definition at line 34 of file String.h.
+.SS "void mt::String::clear ()\fC [inline]\fP"
+.PP
+The string content is set to an empty string, erasing any previous content and thus leaving its size at 0 characters. 
+.PP
+Definition at line 352 of file String.h.
+.SS "int32_t mt::String::compare (const \fBString\fP & str) const\fC [inline]\fP"
+.PP
+Compares the content of this object to the content of a comparing string str. \fBReturns:\fP
+.RS 4
+0 if the compared characters sequences are equal, otherwise a number different from 0 is returned, with its sign indicating whether the object is considered greater than the comparing string passed as parameter (positive sign), or smaller (negative sign). 
+.RE
+.PP
+
+.PP
+Definition at line 340 of file String.h.
+.SS "const char* mt::String::data () const\fC [inline]\fP"
+.PP
+Returns a pointer to an array of characters with the same content as the string. 
+.PP
+Definition at line 39 of file String.h.
+.SS "bool mt::String::empty () const\fC [inline]\fP"
+.PP
+Returns true if the string size is 0, false otherwise. 
+.PP
+Definition at line 50 of file String.h.
+.SS "\fBString\fP & mt::String::erase (size_t pos, size_t n)\fC [inline]\fP"
+.PP
+Erases a sequence of n characters starting at position pos. 
+.PP
+Definition at line 293 of file String.h.
+.SS "\fBString\fP & mt::String::erase (size_t pos)\fC [inline]\fP"
+.PP
+The function deletes everything from position pos forwards. 
+.PP
+Definition at line 298 of file String.h.
+.SS "\fBString\fP & mt::String::erase ()\fC [inline]\fP"
+.PP
+The function deletes the entire string, like member clear. 
+.PP
+Definition at line 303 of file String.h.
+.SS "size_t mt::String::find (const char * find_str, size_t pos = \fC0\fP) const\fC [inline]\fP"
+.PP
+Searches the string for the content specified in find_str and returns the position of the first occurrence in the string. \fBParameters:\fP
+.RS 4
+\fIpos\fP Position of the first character in the string to be taken into consideration for possible matches. A value of 0 means that the entire string is considered. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The position of the first occurrence in the string of the searched content. If the content is not found, the member value npos is returned. 
+.RE
+.PP
+
+.PP
+Definition at line 257 of file String.h.
+.SS "size_t mt::String::find (char ch, size_t pos = \fC0\fP) const\fC [inline]\fP"
+.PP
+Searches the string for the content specified in ch and returns the position of the first occurrence in the string. \fBParameters:\fP
+.RS 4
+\fIpos\fP Position of the first character in the string to be taken into consideration for possible matches. A value of 0 means that the entire string is considered. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The position of the first occurrence in the string of the searched content. If the content is not found, the member value npos is returned. 
+.RE
+.PP
+
+.PP
+Definition at line 261 of file String.h.
+.SS "size_t mt::String::find (const \fBString\fP & str, size_t pos = \fC0\fP) const\fC [inline]\fP"
+.PP
+Searches the string for the content specified in str and returns the position of the first occurrence in the string. \fBParameters:\fP
+.RS 4
+\fIpos\fP Position of the first character in the string to be taken into consideration for possible matches. A value of 0 means that the entire string is considered. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+The position of the first occurrence in the string of the searched content. If the content is not found, the member value npos is returned. 
+.RE
+.PP
+
+.PP
+Definition at line 265 of file String.h.
+.SS "\fBString\fP & mt::String::insert (size_t pos, const \fBString\fP & str)\fC [inline]\fP"
+.PP
+Inserts a copy of the entire string object str at character position pos1. 
+.PP
+Definition at line 308 of file String.h.
+.SS "\fBString\fP & mt::String::insert (size_t pos, size_t n, char ch)\fC [inline]\fP"
+.PP
+Inserts a string formed by a repetition of character ch, n times, at the character position pos. 
+.PP
+Definition at line 314 of file String.h.
+.SS "size_t mt::String::length () const\fC [inline]\fP"
+.PP
+Returns a count of the number of characters in the string. 
+.PP
+Definition at line 44 of file String.h.
+.SS "bool mt::String::operator!= (const \fBString\fP & str) const\fC [inline]\fP"
+.PP
+Definition at line 229 of file String.h.
+.SS "\fBString\fP & mt::String::operator+= (char ch)\fC [inline]\fP"
+.PP
+Appends a copy of the argument to the string. 
+.PP
+Definition at line 233 of file String.h.
+.SS "\fBString\fP & mt::String::operator+= (const \fBString\fP & str)\fC [inline]\fP"
+.PP
+Appends a copy of the argument to the string. 
+.PP
+Definition at line 251 of file String.h.
+.SS "\fBString\fP & mt::String::operator+= (const char * str)\fC [inline]\fP"
+.PP
+Appends a copy of the argument to the string. 
+.PP
+Definition at line 245 of file String.h.
+.SS "bool mt::String::operator== (const char * str) const\fC [inline]\fP"
+.PP
+Definition at line 221 of file String.h.
+.SS "bool mt::String::operator== (const \fBString\fP & str) const\fC [inline]\fP"
+.PP
+Definition at line 225 of file String.h.
+.SS "char & mt::String::operator[] (size_t pos)\fC [inline]\fP"
+.PP
+Returns a reference the character at position pos in the string. 
+.PP
+Definition at line 348 of file String.h.
+.SS "const char & mt::String::operator[] (size_t pos) const\fC [inline]\fP"
+.PP
+Returns a reference the character at position pos in the string. 
+.PP
+Definition at line 344 of file String.h.
+.SS "\fBString\fP & mt::String::replace (size_t pos, size_t n, const char * str)\fC [inline]\fP"
+.PP
+Replaces a section of the current string by some other content determined by the arguments passed. \fBParameters:\fP
+.RS 4
+\fIpos\fP Position within the string of the first character of the section to be replaced. Notice that the first position has a value of 0, not 1. If the position passed is past the end of the string, an out_of_range exception is thrown. 
+.br
+\fIn\fP Length of the section to be replaced within the string. If this is longer than the actual length of the string, the function replaces the entire section between pos and the end of the string. 
+.br
+\fIstr\fP Array with a sequence of characters.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.PP
+Definition at line 276 of file String.h.
+.SS "\fBString\fP & mt::String::replace (size_t pos, size_t n, const \fBString\fP & str)\fC [inline]\fP"
+.PP
+Replaces a section of the current string by some other content determined by the arguments passed. \fBParameters:\fP
+.RS 4
+\fIpos\fP Position within the string of the first character of the section to be replaced. Notice that the first position has a value of 0, not 1. If the position passed is past the end of the string, an out_of_range exception is thrown. 
+.br
+\fIn\fP Length of the section to be replaced within the string. If this is longer than the actual length of the string, the function replaces the entire section between pos and the end of the string. 
+.br
+\fIstr\fP Another object of class \fBmt::String\fP whose content is entirely or partially used as the replacement.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.PP
+Definition at line 285 of file String.h.
+.SS "size_t mt::String::size () const\fC [inline]\fP"
+.PP
+Returns a count of the number of characters in the string. 
+.PP
+Definition at line 47 of file String.h.
+.SS "\fBString\fP mt::String::substr (size_t pos = \fC0\fP, size_t n = \fC\fBString::npos\fP\fP) const\fC [inline]\fP"
+.PP
+Returns a string object with its contents initialized to a substring of the current object. This substring is the character sequence that starts at character position pos and has a length of n characters. 
+.PP
+Definition at line 269 of file String.h.
+.SS "size_t mt::String::toUpper ()\fC [inline]\fP"
+.PP
+Change content of the string to upper register. \fBReturns:\fP
+.RS 4
+Count of changed characters. 
+.RE
+.PP
+
+.PP
+Definition at line 356 of file String.h.
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "bool operator!= (const char * a, const \fBString\fP & b)\fC [friend]\fP"
+.SS "\fBString\fP operator+ (const \fBString\fP & a, const \fBString\fP & b)\fC [friend]\fP"
+.SS "bool operator< (const \fBString\fP & a, const \fBString\fP & b)\fC [friend]\fP"
+.SS "std::ostream& operator<< (std::ostream & stream, const \fBString\fP & str)\fC [friend]\fP"
+.SS "bool operator== (const char * a, const \fBString\fP & b)\fC [friend]\fP"
+.SH "Member Data Documentation"
+.PP 
+.SS "const size_t \fBmt::String::npos\fP = std::string::npos\fC [static]\fP"
+.PP
+Definition at line 168 of file String.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

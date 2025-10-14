@@ -1,0 +1,34 @@
+#!VOS RADIO !
+#===================================================================================
+# Letter TAGs:
+#   Letter tag:
+#       only for e-mail adress:
+#          E-MAIL: tag for string email tags
+#          TMAIL: text for e-mail place to letter
+#
+#   SUBJ:   for email SUBJ E-MAIL. TLG @adress place after adress
+#   ATTACH: attaches send for all adress and ASPD and e-mail
+#           if tag plase e-mail string attachs will be sen only for this e-mail (now blocked)
+#           if tag place in body letter send for all place before tag @adress
+#
+#   CHEEF:  add cheef sign
+#   GRECV: or GCONF:
+#           add string confirmed of recv
+#   SHRM:   add ship radio master sign
+#   [DATE] [WEEK] [YEAR] [MONTH] [MONTH-1] - add it for value
+#================== Letter =========================================================
+# have path
+ATTACH:./src/examples/vos_fatt01.bz2 
+ATTACH:./src/examples/vos file attach 01.bz2 
+# w/o path file need place only to LDIRFOFSEND !!!
+ATTACH:vos_fatt02.bz2 
+# file not have!
+ATTACH:NOT_HAVE_FILE.bz2 
+
+@ВОСТОК
+@ПРОГРЕСС
+
+!СООБЩЕНИЕ ТОЛЬКО ДЛЯ ВОСТОК на фтп + аттачи и строка как есть.
+ТЕСТОВОЕ СООБЩЕНИЕ УДАЛИТЬ
+
+CHEEF:

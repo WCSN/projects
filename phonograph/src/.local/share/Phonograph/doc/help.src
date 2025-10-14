@@ -1,0 +1,143 @@
+################################################################
+##
+## Help for phonograph
+##
+################################################################
+ver="1.7.07" 
+# split NN
+################################################################
+function Version()
+{
+  echo "$ver"
+}
+
+declare -A upmtxt
+declare -A hlptxt
+declare -A btmtxt
+declare -a cmd
+declare -a cms
+declare -a btm
+
+upm=( title notes )
+#     0     1    2      3    4        5    6     7    8     9    10      11     12      13    14    15      16   17      18
+cmd=( clean conf create data getaudio info label list merge play project recode require sound split tagedit time version help )
+cms=( cl    cn   cr     dt   ga       in   lb    ls   mr    pl   pr      rc     rq      sn    sp    tg      tm   -v      -h )
+btm=( shreq owner )
+
+SP=" "; ST="    "; SM="\n${ST}"
+CCLR="${BRED}"     # color cmd
+KCLR="${WHITE}"    # color options
+NTLR="${LGREEN}"   # color notes
+
+## upper info
+upmtxt=(
+[${upm[0]}]="${SP}${NTLR}phonograph ver. $(Version)${STDCL}\n\
+${SP}usage: phonograph command [key|args[args]]\n\n"
+
+[${upm[1]}]="${SP}Generate phonogram for DAT-recorder.\n\
+${SP}Place files into directory ./Source or set 'path'.\n\
+${SP}The phonograms will be placed in dir: \$HOME/Documents/Phonograph/Z_Store/Ph{DATE}{TIME}-{NAME}.\n\
+${SP}${NTLR}Note: [type] is ${KCLR}AUTO${NTLR} get set(s) from track, ${KCLR}DAT${NTLR} 16/48000, ${KCLR}CD${NTLR} 16/44100, ${KCLR}LONG${NTLR} 12/32000${NTLR}\n\
+${SP}${NTLR}      'AUTO' in 'merge' get settings from first track.${STDCL}\n\n"
+)
+
+## help
+hlptxt=(
+[${cmd[0]}]="${SP}${CCLR}${cmd[0]}|${cms[0]} ${KCLR}-[a|r]${STDCL} - Clean up working folders and close the open project\n\
+${ST}${KCLR}-a${STDCL} - cleaning save current set's\n\
+${ST}${KCLR}-r${STDCL} - cleaning restore defaults sets\n"
+
+[${cmd[1]}]="${SP}${CCLR}${cmd[1]}|${cms[1]} ${KCLR}-[v]${STDCL} - Edit phonograph.conf file\n\
+${ST}${KCLR}-v${STDCL} - viewing only\n"
+
+[${cmd[2]}]="${SP}${CCLR}${cmd[2]}|${cms[2]} ${KCLR}[-[a|r]|path]] [path]${STDCL} - Create a phonogram, tracks\n\
+${ST}${KCLR}-a${STDCL} - Recode (def. opus), create a merged file. Other settings set phonograph.conf.\n\
+${ST}${KCLR}-r${STDCL} - Path recursion (depth=1).\n"
+
+[${cmd[3]}]="${SP}${CCLR}${cmd[3]}|${cms[3]} ${KCLR}[file|path]${STDCL} - Show data about track(s)
+${ST}${KCLR}-f${STDCL} show full have info\n"
+
+[${cmd[4]}]="${SP}${CCLR}${cmd[4]}|${cms[4]} ${KCLR}path${STDCL} - Get only audio stream from contaner. Save in flac
+${ST}${KCLR}'path'${STDCL} - path to file\n"
+
+[${cmd[5]}]="${SP}${CCLR}${cmd[5]}|${cms[5]} ${STDCL}- Show cassett info\n"
+
+[${cmd[6]}]="${SP}${CCLR}${cmd[6]}|${cms[6]} ${STDCL}- (GUI) open doc for create label on casset\n"
+
+[${cmd[7]}]="${SP}${CCLR}${cmd[7]}|${cms[7]} ${KCLR}[txt|csv|id] path${STDCL} - Show/Store info from m3u to txt like list\n\
+${ST}${KCLR}'txt'${STDCL} or ${KCLR}'csv'${STDCL} format, ${KCLR}'id'${STDCL}-show id-list, ${KCLR}'path'${STDCL} path to m3u-file\n"
+
+[${cmd[8]}]="${SP}${CCLR}${cmd[8]}|${cms[8]} ${KCLR}[AUTO|DAT|CD|LONG] [path]${STDCL} - Merge one audio file.\n\
+${ST}${NTLR}Note: if type set 'CD' - merged-file + .cue file. (16 / 44100)\n"
+
+[${cmd[9]}]="${SP}${CCLR}${cmd[9]}|${cms[9]} ${KCLR}[-d ndev] [-v volume] [-f freq/type]${STDCL} - Play phonogram for DAT-recorder\n\
+${ST}${KCLR}-d ${CCLR}ndev${STDCL} - sound dev play (/dev/dsp[ndev]).\n\
+${ST}${KCLR}-v ${CCLR}volume${STDCL} - set volume level\n\
+${ST}${KCLR}-f [freq|type]${STDCL} - set parameters for sound dev. Afrer play restore before set\n"
+
+[${cmd[10]}]="${SP}${CCLR}${cmd[10]}|${cms[10]} ${KCLR}-[e|s|n|l]${STDCL} - project sets\n\
+${ST}${KCLR}-e${STDCL} - edit project name    ${ST}${KCLR}-n${STDCL} - open new project\n\
+${ST}${KCLR}-s${STDCL} - set current project  ${ST}${KCLR}-l${STDCL} - list projects\n"
+
+[${cmd[11]}]="${SP}${CCLR}${cmd[11]}|${cms[11]} -[r] ${KCLR}[typecode|AUTO|DAT|CD|LONG] [path]${STDCL} - Recode to other format only.\n\
+${ST}${KCLR}-r${STDCL} - Recurce on path (depth=1).\n\
+${ST}${KCLR}'typecode'${STDCL}: $typecode or set in .conf file\n\
+${ST}${NTLR}Note: List all type codes: 'ffmpeg -codecs', 'ffmpeg -formats'${STDCL}\n"
+
+[${cmd[12]}]="${SP}${CCLR}${cmd[12]}|${cms[12]} ${STDCL}- Show requires for depends\n"
+
+[${cmd[13]}]="${SP}${CCLR}${cmd[13]}|${cms[13]} ${KCLR}[get|set] [ndev|all] [freq|type] <def|auto>${STDCL} - get/set sound dev/Fq\n\
+${ST}${NTLR}Note: Now this cmd work only FreeBSD and use external audio mode from videocard${STDCL}\n\
+${ST}${CCLR}get ${KCLR}[ndev|all|sys]${STDCL} - get list all sound dev\n\
+${ST}${ST}${KCLR}sys${STDCL} - get system sound dev's\n\
+${ST}${ST}${KCLR}all${STDCL} - get info about all sound dev's\n\
+${ST}${CCLR}set ${KCLR}[ndev] [freq|type] <def|auto>${STDCL} - set parameters for sound dev\n\
+${ST}${ST}${KCLR}ndev${STDCL} - number of sound device\n\
+${ST}${ST}${KCLR}freq|type${STDCL} - Frequence or type discretisation\n\
+${ST}${ST}${KCLR}def${STDCL}  - set default channel\n\
+${ST}${ST}${KCLR}auto${STDCL} - set default channel and set auto choice for sound out\n\
+${ST}${NTLR}Ex.: Set for /dev/dsp3 Frq. 44100 on /dev/dsp3${STDCL} - ${KCLR}# sound set 3 44100 def${STDCL}\n"
+
+[${cmd[14]}]="${SP}${CCLR}${cmd[14]}|${cms[14]} ${KCLR}[-a|path] path${STDCL} - Split solid-flac to part-tracks\n\
+${ST}${KCLR}-a${STDCL} - Split solid-flac to part-track and coding to DAT/CD. Part-tracks files move to Backup.\n\
+${ST}${NTLR}Note: Path must have only one solid-flac and one cue-file! Result place Source directory.${STDCL}\n"
+
+[${cmd[15]}]="${SP}${CCLR}${cmd[15]}|${cms[15]} ${KCLR}pathfile${STDCL} - Edit tags.\n"
+
+[${cmd[16]}]="${SP}${CCLR}${cmd[16]}|${cms[16]} -[a|s|r] ${KCLR}[-z|path|namefile]${STDCL} - Out track time\n\
+${ST}${KCLR}-a${STDCL} - show rate ASIS. 'fltp' not 's16'${ST}${KCLR}-r${STDCL} - recurce on path (depth=1).\n\
+${ST}${KCLR}-s${STDCL} - show col whith second.msec      ${ST}${KCLR}-z${STDCL} - show ID for parts or album on phonogram\n"
+
+[${cmd[17]}]="${SP}${CCLR}${cmd[17]}|${cms[17]}${STDCL} - Get version\n"
+
+[${cmd[18]}]="${SP}${CCLR}${cmd[18]}|${cms[18]}|--help${STDCL} - This help\n"
+)
+
+## bottom info
+btmtxt=(
+[${btm[0]}]="${SP}Require: ${NTLR}${REQMOD[@]}${STDCL}\n"
+
+[${btm[1]}]="${SP}${KCLR}"${WHITE}"wocson (c) $(date +%Y)${STDCL}\n\n"
+)
+
+#all
+function usage()
+{
+    clear
+    for (( i=0; i < ${#upm[@]}; i++ )); do printf "${upmtxt[${upm[$i]}]}"; done    
+    for (( i=0; i < ${#cmd[@]}; i++ )); do printf "${hlptxt[${cmd[$i]}]}"; done
+    for (( i=0; i < ${#btm[@]}; i++ )); do printf "${btmtxt[${btm[$i]}]}"; done    
+}
+
+function help()
+{
+    local hcmd="$1"
+    
+    for (( i=0; i < ${#cmd[@]}; i++ )); do 
+        if [[ "${cmd[$i]}" == "$hcmd" || "${cms[$i]}" == "$hcmd" ]]; then
+            echo -e "\n${hlptxt[${cmd[$i]}]}" 
+            return
+        fi
+    done
+    Info "'$hcmd' unknown command"       
+}

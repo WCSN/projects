@@ -1,0 +1,65 @@
+.TH "mt::Queue" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::Queue \- 
+.PP
+\fBThread\fP safe blocked queue.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Queue.h>\fP
+.PP
+Inherits \fBmt::NonBlockingQueue< T >\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBpush\fP (T)"
+.br
+.ti -1c
+.RI "T \fBpop\fP ()"
+.br
+.RI "\fIPop front element from the queue. \fP"
+.ti -1c
+.RI "\fBQueue\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~Queue\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename T> class mt::Queue< T >"
+\fBThread\fP safe blocked queue. 
+.PP
+Definition at line 15 of file Queue.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename T > \fBmt::Queue\fP< T >::\fBQueue\fP ()"
+.PP
+Definition at line 32 of file Queue.h.
+.SS "template<typename T > \fBmt::Queue\fP< T >::~\fBQueue\fP ()\fC [virtual]\fP"
+.PP
+Definition at line 29 of file Queue.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename T > T \fBmt::Queue\fP< T >::pop ()"
+.PP
+Pop front element from the queue. If the queue is empty, current thread will be blocked. 
+.PP
+Reimplemented from \fBmt::NonBlockingQueue< T >\fP.
+.PP
+Definition at line 43 of file Queue.h.
+.SS "template<typename T> void \fBmt::Queue\fP< T >::push (T t)"
+.PP
+Reimplemented from \fBmt::NonBlockingQueue< T >\fP.
+.PP
+Definition at line 37 of file Queue.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

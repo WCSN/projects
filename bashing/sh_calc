@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo "ax^2 + bx + c = 0"
+
+echo -n "Ведите a = " ; read A
+echo -n "Ведите b = " ; read B
+echo -n "Ведите c = " ; read C
+
+echo "Решаем: $A x^2 + $B x + $C = 0"
+
+D=$(echo "scale=2; $B*$B-4*$A*$C" | bc)
+printf "D=%d\n" $D
+
+if (( $D >= 0 )); then
+    echo -n "x1="; echo "scale=2; ((-1)*$B-sqrt($D))/(2*$A)" | bc
+    echo -n "x2="; echo "scale=2; ((-1)*$B+sqrt($D))/(2*$A)" | bc
+else
+    echo "Уравнение не имеет действительных корней"
+
+fi
+

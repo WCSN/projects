@@ -1,0 +1,158 @@
+.TH "mt::DbData" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::DbData \- 
+.PP
+\fBDbData\fP contain returned data from DB.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <DbData.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBDbData\fP ()"
+.br
+.ti -1c
+.RI "\fBDbData\fP (const \fBDB_DATA\fP &draw)"
+.br
+.ti -1c
+.RI "virtual \fB~DbData\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisEmpty\fP () const "
+.br
+.RI "\fICheck data. \fP"
+.ti -1c
+.RI "size_t \fBrowCount\fP () const "
+.br
+.RI "\fIGet row count of the data. \fP"
+.ti -1c
+.RI "size_t \fBcolumnCount\fP () const "
+.br
+.RI "\fIGet column count of the data. \fP"
+.ti -1c
+.RI "\fBDbColumn\fP & \fBgetColumn\fP (const std::string &name)"
+.br
+.RI "\fIGet column by name from data. \fP"
+.ti -1c
+.RI "\fBDbColumn\fP & \fBoperator[]\fP (const std::string &name)"
+.br
+.RI "\fIGet column by name from data. \fP"
+.ti -1c
+.RI "std::string \fBgetColumnName\fP (uint32_t columnNo)"
+.br
+.RI "\fIGet column's name by it's number. \fP"
+.ti -1c
+.RI "const \fBDbColumn\fP & \fBgetColumn\fP (uint32_t columnNo)"
+.br
+.RI "\fIGet column by number from data. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBDbData\fP contain returned data from DB. 
+.PP
+Definition at line 22 of file DbData.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::DbData::DbData ()"
+.PP
+Definition at line 5 of file DbData.cpp.
+.SS "mt::DbData::DbData (const \fBDB_DATA\fP & draw)"
+.PP
+Definition at line 8 of file DbData.cpp.
+.SS "mt::DbData::~DbData ()\fC [virtual]\fP"
+.PP
+Definition at line 11 of file DbData.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "size_t mt::DbData::columnCount () const\fC [inline]\fP"
+.PP
+Get column count of the data. 
+.PP
+Definition at line 91 of file DbData.h.
+.SS "\fBDbColumn\fP & mt::DbData::getColumn (const std::string & name)"
+.PP
+Get column by name from data. \fBParameters:\fP
+.RS 4
+\fIname\fP Column's name.  \fBmt::Exception\fP if no column with such name.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Reference to column. 
+.RE
+.PP
+
+.PP
+Definition at line 14 of file DbData.cpp.
+.SS "const \fBDbColumn\fP & mt::DbData::getColumn (uint32_t columnNo)"
+.PP
+Get column by number from data. \fBParameters:\fP
+.RS 4
+\fIcolumnNo\fP Number of the column.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+constant reference to column. 
+.RE
+.PP
+
+.PP
+Definition at line 42 of file DbData.cpp.
+.SS "std::string mt::DbData::getColumnName (uint32_t columnNo)"
+.PP
+Get column's name by it's number. \fBParameters:\fP
+.RS 4
+\fIcolumnNo\fP Number of the column.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Column's name. 
+.RE
+.PP
+
+.PP
+Definition at line 31 of file DbData.cpp.
+.SS "bool mt::DbData::isEmpty () const\fC [inline]\fP"
+.PP
+Check data. \fBReturns:\fP
+.RS 4
+TRUE if no data. 
+.RE
+.PP
+
+.PP
+Definition at line 83 of file DbData.h.
+.SS "\fBDbColumn\fP & mt::DbData::operator[] (const std::string & name)"
+.PP
+Get column by name from data. If no such column it will be inserted to date.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIname\fP Column's name.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Reference to column. 
+.RE
+.PP
+
+.PP
+Definition at line 27 of file DbData.cpp.
+.SS "size_t mt::DbData::rowCount () const\fC [inline]\fP"
+.PP
+Get row count of the data. 
+.PP
+Definition at line 87 of file DbData.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

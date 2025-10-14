@@ -1,0 +1,181 @@
+#!/bin/bash
+################################################################
+##
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+
+source /root/projects/wlib/tcolor_inc.sh
+
+declare -a WMEMAILAD
+declare -a WMSUBJECT
+declare -a WMTXTMAIL
+declare -a WMATTACHM
+
+# Main constants colors
+MBGRCOLOR=$BGBLUE	# Main background color
+MFGRCOLOR=$GRAY		# Main foreground (text)color
+MFLBCOLOR=$GRAY		# Main files bb color
+MPTHCOLOR=$LCYAN	# Main paths color
+MSZVCOLOR=$RED		# Main Size Files Billborard
+MDTFCOLOR=$GRAY		# Main Date Color Billborard
+MTBFCOLOR=$BLACK	# Main Title BillBoard text
+MTBBCOLOR=$BGGRAY	# Main Title BillBoard backgr
+MTBNCOLOR=$LYELLOW	# Main Title Column BillBoardList Name
+
+MBGSCOLOR=$BGBLUE	# Background color Select
+MFLSCOLOR=$BGREEN	# Foreground color Select
+MSZSCOLOR=$BRED		# Size color Select
+
+# Work common colors for screen outs
+BBCOLOR=$MBGRCOLOR	# BackGround Billborard
+TBCOLOR=$MFGRCOLOR	# Text/Line  Billborard
+FBCOLOR=$MFLBCOLOR	# Files Billborard
+PBCOLOR=$MPTHCOLOR	# Path Billborard
+SZCOLOR=$MSZVCOLOR	# Size Files Billborard
+DTCOLOR=$MDTFCOLOR 	# Date Color Billborard
+TBFCOLOR=$MTBFCOLOR	# Title BillBoard text
+TBBCOLOR=$MTBBCOLOR	# Title BillBoard backgr
+BNCOLOR=$MTBNCOLOR	# Title BillBoardList Name
+
+BGSCOLOR=$MBGSCOLOR	# BackGround Select
+FLSCOLOR=$MFLSCOLOR	# File BB Select
+SZSCOLOR=$MSZSCOLOR	# Size BB Select
+
+WSLZ=100
+
+#==========================================================================
+
+WMEMAILAD[0]="wocson@yandex.ru"
+WMEMAILAD[1]="vostok.station@yandex.ru"
+
+WMSUBJECT[0]="Wocson TEST"
+WMSUBJECT[1]="Vostok Station TEST"
+
+WMATTACHM[0]="\
+ /usr/local/rr/vos010101.txt /usr/local/rr/vos010102.txt /usr/local/rr/vos010103.txt /usr/local/rr/vos010104.txt\
+ /usr/local/rr/vos010105.txt /usr/local/rr/vos010106.txt /usr/local/rr/vos010107.txt /usr/local/rr/vos010108.txt\
+ /usr/local/rr/vos010109.txt /usr/local/rr/vos010110.txt /usr/local/rr/vos010111.txt /usr/local/rr/vos010112.txt\
+ /usr/local/rr/vos010113.txt /usr/local/rr/vos010114.txt /usr/local/rr/vos01015_END.txt"
+WMATTACHM[1]="\
+ /usr/local/rr/svc010101.txt /usr/local/rr/svc010102.txt /usr/local/rr/svc010103.txt /usr/local/rr/svc010104_END.txt"
+
+function logg()
+{
+  local TXTLOG="" format;
+  for arg in "$@"; do if ! [ "$arg" == "std" ]; then TXTLOG+="$arg"; fi; done
+  format="$TBCOLOR$BBCOLOR%-${WSLZ}s$NORMAL$BGDEF\n"
+  TXTLOG=`echo -en "printf \"$format\" \"$TXTLOG\"" | zsh`
+  echo -en "$TXTLOG\n"
+}
+
+function infoline()
+{
+  local lz DT MSG="$1" format;
+  lz=$(($WSLZ-20))
+  DT=`date "+%d.%m.%Y %H:%M:%S"`
+
+  format="$TBFCOLOR$TBBCOLOR%-${lz}s %18s$STDCL$BGDEF"
+  TXTMSG=`echo -en "printf \"$format\" \"$MSG\" \"$DT\"" | zsh`
+  echo -en "$TXTMSG\n"
+}
+
+#==========================================================
+
+function EmailSend()
+{
+  local i im=${#WMEMAILAD[@]};
+  if (( $im==0 )); then return 0; fi
+  local lz lnadr lntabbg lntabend lnatch lnatend ATTACH;
+
+  infoline "Отправка e-mail"
+  lz=$(($WSLZ-2))
+  fmtadrs="│$FLSCOLOR$BBCOLOR%-${lz}s$TBCOLOR$BBCOLOR│"
+  fmtatch="│$FBCOLOR$BBCOLOR%-${lz}s$TBCOLOR$BBCOLOR│"
+
+  lntabbg="┌"; lntabbg+=`printf "─%.s" $(seq $lz)`;lntabbg+="┐"; logg "$lntabbg";
+  lnintol="├"; lnintol+=`printf "─%.s" $(seq $lz)`;lnintol+="┤"
+
+  for (( i=0; i<$im; i++ )); do
+	# Вывод адреса и субжа
+	lnadr=`echo -en "printf \"$fmtadrs\" \"${WMEMAILAD[$i]} - ${WMSUBJECT[$i]}\"" | zsh`; logg "$lnadr";
+	
+	# Вывод аттачей
+	if (( ${#WMATTACHM[@]} > 0 )); then
+	  declare -a ATTCHS
+
+	  ATTACH=""
+	  OLDIFS="$IFS"; IFS=' '
+	  for NM in ${WMATTACHM[$i]}; do
+		 ATTACH+=`echo "$NM" | rev | cut -d"/" -f1 | rev`
+		 ATTACH+=" "
+	  done
+	  IFS="$OLDIFS"
+
+	  k=0;
+	  lnfull=${#ATTACH}
+	  LNS=$((lz-20))
+	  str="  "
+
+	  for (( j=0,k=0; j<$lnfull; j++,k++ )); do
+		SYM=${ATTACH:$j:1}
+		if (( $k>=$LNS )); then 
+		  if [[ "$SYM" == " " ]]; then 
+			atch=`echo -en "printf \"$fmtatch\" \"$str\"" | zsh`; 
+			logg "$atch"
+			str=""; k=-1; let j--;
+		  fi
+		fi  
+		str+=$SYM
+	  done
+	  if [ -n "$str" ]; then 
+		atch=`echo -en "printf \"$fmtatch\" \"$str\"" | zsh`; 
+		logg "$atch"; 
+	  fi
+	fi
+  if (( $i < $((im-1)) )); then logg "$lnintol"; fi
+  done
+  lntabend="└"; lntabend+=`printf "─%.s" $(seq $lz)`;lntabend+="┘"; logg "$lntabend";
+}
+
+  infoline 
+  EmailSend
+
+exit
+
+echo "========================================================================"
+
+  ASDF="123456789012345678901234567"
+  count=${#ASDF}
+  echo "Origin: $count $ASDF"
+
+  for (( i=0; i<$count; i++ )); do
+	
+	echo "$i ${ASDF:$i:1}"
+
+  done
+  
+
+  for (( i=0,j=0; i<${#ASDF}; i++,j++ )); do
+
+	if (( $j >= 10 )); then 
+	  echo "j=$j $str"
+	  str=""; j=-1; let i--
+	else
+	  str+=${ASDF:$i:1}
+	fi
+
+  done
+  if [ -n $str ]; then logg "$str"; fi
+  
+echo "========================================================================"
+
+
+
+
+
+
+
+
+
+
+

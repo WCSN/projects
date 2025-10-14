@@ -1,0 +1,30 @@
+#!/usr/bin/env bash 
+####################################################################
+##
+## Rebuild meteodate one day ago from current day.
+## Execute this 01:00 UTC ! (Vostok +7h eq. 08:00)
+##
+## set in /etc/crontab:
+## 00 08   *   *   *   root    /root/bin/rebuild/rebuild_day  
+##
+## wocson (c)
+##
+
+source /usr/share/wlib/rebuild_inc.sh
+
+SRC="/mnt/Vostok/mawslogs/`date +%Y`/log`date -v-1d +%m`" # Ex/: /mnt/Vostok/mawslogs/2019/log06
+DST="/var/meteo/rebuild/dst"
+
+METEOFILESDIR=/mnt/Vostok/meteo
+
+FILE="$SRC/l0`date -v-1d +%y%m%d`.csv"
+
+if [ -f $FILE ]; then
+  rebuild $FILE OFF
+  cp -f $FNAME $METEOFILESDIR/
+  logg "Done"
+else
+  logg "File $FILE not find!!!"
+fi
+
+

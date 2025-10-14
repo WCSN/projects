@@ -1,0 +1,212 @@
+#!/bin/bash
+
+ADRBOOK=./abook/abook.d
+source ./wlib/tcolor_inc.sh
+
+# Main constants colors
+MBGRCOLOR=$BGBLUE	# Main background color
+MFGRCOLOR=$GRAY		# Main foreground (text)color
+MFLBCOLOR=$GRAY		# Main files bb color
+MPTHCOLOR=$LCYAN	# Main paths color
+MSZVCOLOR=$RED		# Main Size Files Billborard
+MDTFCOLOR=$WHITE	# Main Date Color Billborard
+MTBTCOLOR=$BLACK	# Main Title BillBoard Text
+MTBBCOLOR=$BGGRAY	# Main Title BillBoard Background
+MTBNCOLOR=$LYELLOW	# Main Title Column BillBoardList Name
+MTBDCOLOR=$WHITE	# Main BillBoardList DIR
+MTETCOLOR=$LRED		# Error Text
+MTEBCOLOR=$BGBLUE	# Error Background
+
+MBGSCOLOR=$BGBLUE	# Background color Select
+MFLSCOLOR=$BIGREEN	# Foreground color Select
+MSZSCOLOR=$BRED		# Size color Select
+
+# Work common colors for screen outs
+TBCOLOR=$MFGRCOLOR	# Text/Line  Billborard
+BBCOLOR=$MBGRCOLOR	# BackGround Billborard
+
+FBCOLOR=$MFLBCOLOR	# Files Billborard
+PBCOLOR=$MPTHCOLOR	# Path Billborard
+SZCOLOR=$MSZVCOLOR	# Size Files Billborard
+DTCOLOR=$MDTFCOLOR 	# Date Color Billborard
+
+TBTCOLOR=$MTBTCOLOR	# Title BillBoard Text
+TBBCOLOR=$MTBBCOLOR	# Title BillBoard Backgr
+
+BNCOLOR=$MTBNCOLOR	# Title BillBoardList Name
+BDCOLOR=$MTBDCOLOR	# BillBoardList DIR
+ETCOLOR=$MTETCOLOR	# Error Text
+EBCOLOR=$MTEBCOLOR	# Error Background
+
+BGSCOLOR=$MBGSCOLOR	# BG BB Select
+FLSCOLOR=$MFLSCOLOR	# File BB Select
+SZSCOLOR=$MSZSCOLOR	# Size BB Select
+
+
+declare -A WABLNS		# lines from abook
+declare -A WADRGROUP	# groups adresses
+declare -a WNMGROUP		# names group
+
+declare -a WADRESS		# adresses
+declare -a WFTPPTH		# ftp paths
+declare -a WCOMNTS		# comments
+
+STATION="ВОСТОК"
+
+nGRP=0
+WSLZ=100
+
+XLENA=0; XPATH=0; XCMNT=0; XGRP=0;
+
+function outt()
+{
+  local TXTOUT="" format type;
+
+#  if ! [ -d "$ASPDLOGDIR" ]; then crdsetpm "${LOGD%/*}"; fi
+#  if ! [ -f "$LOG" ]; then crfsetpm "$LOG" "$permAllrwX"; fi
+
+  case "$1" in
+  -l) shift 1; type="log"; ;;
+  -s) shift 1; type="scr"; ;;
+  *)  type="all"; ;;
+  esac
+
+  for arg in "$@"; do TXTOUT+="$arg "; done
+  TXTOUT="${TXTOUT%' '}"
+
+  format="$TBCOLOR$BBCOLOR%-${WSLZ}s$NORMAL$BGDEF\n"
+  TXTOUT=`echo -en "printf \"$format\" \"$TXTOUT\"" | zsh`
+
+#  if [[ "$type" == "all" || "$type" == "log" ]]; then echo -en "$TXTOUT\n" >> "$LOG"; fi
+  if [[ "$type" == "all" || "$type" == "scr" ]]; then echo -en "$TXTOUT\n"; fi
+}
+
+
+function getadrbook()
+{
+  local n=0 i=0 adrline="" tmp lnz
+  while read -r -u5 adrline ; do
+
+	if ! [ -z "${adrline##$'#'*}" ]; then
+	  if  [ -z "${adrline##*$'['*}" ]; then
+		let nGRP++
+		WNMGROUP[$nGRP]=`echo -en "$adrline"|cut -c2-|rev|cut -c2-|rev`	# All name group
+		lnz=$((${#WNMGROUP[$nGRP]}+1));	if (( $lnz > $XGRP )); then XGRP=$lnz; fi
+		WADRGROUP[${WNMGROUP[$nGRP]}]=
+		WABLNS[$i]="@${WNMGROUP[$nGRP]}"
+	  else
+		WADRESS[$n]="${adrline%%';'*}"
+		lnz=$((${#WADRESS[$n]}+1)); if (( $lnz > $XLENA )); then XLENA=$lnz; fi
+
+		WADRGROUP[${WNMGROUP[$nGRP]}]+="${WADRESS[$n]};" 	# All adress in group
+
+		tmp="${adrline:$lnz}"; 
+		WFTPPTH[$n]="${tmp%%';'*}"
+		lnz=$((${#WFTPPTH[$n]}+1)); if (( $lnz > $XPATH )); then XPATH=$lnz; fi
+
+		tmp="${tmp:$lnz}"; tmp="${tmp//'  '/''}"; tmp="${tmp#' '}"
+
+		if ! [ -z "${tmp##*$'#'*}" ]; then WCOMNTS[$n]="${tmp%%';'*}"
+		else WCOMNTS[$n]=""; fi
+
+		lnz=$((${#WFTPPTH[$n]}+1)); if (( $lnz > $XCMNT )); then XCMNT=$lnz; fi
+
+		WABLNS[$i]="$adrline"
+		let n++
+	  fi
+	  let i++
+	fi
+  done 5< "$ADRBOOK"
+
+  COUNTADRESS=$n
+  COUNTGRADR=$i
+}
+
+
+status()
+{
+  echo "Finish"
+}
+
+function abook()
+{
+  getadrbook
+  local i n=0 lz formatA fG0 fG1 FG2 lnz lnif ppz=3 adz=$(($XLENA-1)) ptz=$(($XPATH-1)) ngz=$XGRP topl;
+  outt -s "Адресная книга"
+  lz=$(($WSLZ-(ppz+adz+ptz+5)))
+
+  topl="┌";  topl+=`printf "─%.s" $(seq $ppz)`; topl+="┬"; topl+=`printf "─%.s" $(seq $adz)`; 
+  topl+="┬"; topl+=`printf "─%.s" $(seq $ptz)`; topl+="┬"; topl+=`printf "─%.s" $(seq $lz)`; topl+="┐"; 
+  outt -s "$topl";
+
+  ADRCL="$LYELLOW$BBCOLOR"; PTCL="$LYELLOW$BBCOLOR"; CMTCL="$LYELLOW$BBCOLOR";
+  formatA="│$BYELLOW$BBCOLOR%${ppz}s$GRAY$BBCOLOR│$ADRCL%-${adz}s$GRAY$BBCOLOR│$PTCL%-${ptz}s$GRAY$BBCOLOR│$CMTCL%-${lz}s$GRAY$BBCOLOR│"
+
+  lnif=`echo -en "printf \"$formatA\" \"# \" \" АДРЕСCАТ\" \" КАТАЛОГ FTP АСПД\" \" Примечание\"" | zsh`
+  outt -s "$lnif"
+
+  ADRCL="$WHITE$BBCOLOR"; PTCL="$CYAN$BBCOLOR"; CMTCL="$GRAY$BBCOLOR";  GRPCL="$BICYAN$BBCOLOR"; 
+  formatA="│$BYELLOW$BBCOLOR%${ppz}s$GRAY$BBCOLOR│$ADRCL%-${adz}s$GRAY$BBCOLOR│$PTCL%-${ptz}s$GRAY$BBCOLOR│$CMTCL%-${lz}s$GRAY$BBCOLOR│"
+  
+  fG0="├`printf "─%.s" $(seq $ppz)`"
+  fG2+="┼$GRAY$BBCOLOR%-${ptz}s$GRAY$BBCOLOR┼$GRAY$BBCOLOR%-${lz}s$GRAY$BBCOLOR┤"
+  lnif=`printf "─%.s" $(seq $lz)`;
+
+  for (( i=0; i<$COUNTGRADR; i++ )); do
+	# group
+	if [ -z "${WABLNS[$i]##$'@'*}" ]; then
+	  # 1. ${str:1} - delete first symbol 2. ${str#"@"} - delete all @
+	  lnz=$((adz-ngz))
+	  fG1="┤$GRPCL%-${ngz}s$GRAY$BBCOLOR%${lnz}s"; LNaG=`printf \"─%.s\" $(seq $lnz)`; LNfP=`printf \"─%.s\" $(seq $ptz)`; 
+	  fmtG="$fG0$fG1$fG2"
+	  TEXTFMT=`echo -en "printf \"$fmtG\" \"${WABLNS[$i]:1}\" \"$LNaG\" \"$LNfP\" \"$lnif\"" | zsh`
+	# adress
+	else
+	  comment="${WCOMNTS[$n]}"; comment="${comment:0:$lz}"
+	  TEXTFMT=`echo -en "printf \"$formatA\" \"$(($n+1))\" \"${WADRESS[$n]}\" \"${WFTPPTH[$n]}\" \"$comment\"" | zsh`
+	  let n++
+	fi
+	outt -s "$TEXTFMT"
+  done
+
+  lnif="$topl"
+  lnif=${lnif//'┌'/'└'}; lnif=${lnif//'┬'/'┴'}; lnif=${lnif//'┐'/'┘'}; 
+  outt -s "$lnif";
+  status -s
+}
+
+
+  abook
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

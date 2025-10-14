@@ -1,0 +1,7 @@
+1	svn commit
+        svn commit -m "correct"
+
+2	svn update
+        svn update
+
+

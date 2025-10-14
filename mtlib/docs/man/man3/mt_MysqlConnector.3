@@ -1,0 +1,137 @@
+.TH "mt::MysqlConnector" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::MysqlConnector \- 
+.PP
+Simple Connector to MYSQL.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <MysqlConnector.h>\fP
+.PP
+Inherits \fBmt::Logable\fP.
+.SS "Public Member Functions"
+
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBMysqlConnector\fP (const std::string &dbHost, const std::string &login, const std::string &password, const std::string &dbName)"
+.br
+.ti -1c
+.RI "\fBMysqlConnector\fP (const \fBXmlConfigPtr\fP &cfg)"
+.br
+.ti -1c
+.RI "virtual \fB~MysqlConnector\fP ()"
+.br
+.in -1c
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "void \fBsetDbName\fP (std::string &dbName)"
+.br
+.ti -1c
+.RI "void \fBsetLogger\fP (const \fBLoggerPtr\fP &logger)"
+.br
+.ti -1c
+.RI "int32_t \fBexecCmd\fP (const std::string &query)"
+.br
+.RI "\fIExecute SQL query and return command-execute status. \fP"
+.ti -1c
+.RI "virtual \fBDbDataPtr\fP \fBexec\fP (const std::string &query)"
+.br
+.RI "\fIExecute SQL query and return result. \fP"
+.ti -1c
+.RI "int32_t \fBinit\fP (bool useDatabase=true)"
+.br
+.RI "\fIInitialize database connection. \fP"
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+Simple Connector to MYSQL. 
+.PP
+Definition at line 26 of file MysqlConnector.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::MysqlConnector::MysqlConnector (const std::string & dbHost, const std::string & login, const std::string & password, const std::string & dbName)"
+.PP
+Definition at line 19 of file MysqlConnector.cpp.
+.SS "mt::MysqlConnector::MysqlConnector (const \fBXmlConfigPtr\fP & cfg)"
+.PP
+Definition at line 27 of file MysqlConnector.cpp.
+.SS "mt::MysqlConnector::~MysqlConnector ()\fC [virtual]\fP"
+.PP
+Definition at line 12 of file MysqlConnector.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBDbDataPtr\fP mt::MysqlConnector::exec (const std::string & query)\fC [virtual]\fP"
+.PP
+Execute SQL query and return result. \fBParameters:\fP
+.RS 4
+\fIquery\fP sql query. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+TODO return SmartPointer to data struct. 
+.RE
+.PP
+
+.PP
+Definition at line 94 of file MysqlConnector.cpp.
+.SS "int32_t mt::MysqlConnector::execCmd (const std::string & query)"
+.PP
+Execute SQL query and return command-execute status. (Used for queries, which doesn't return data, e.g. INSERT, DROP, UPDATE etc.)
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquery\fP sql query. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+count of affected rows. 
+.RE
+.PP
+
+.PP
+Definition at line 60 of file MysqlConnector.cpp.
+.SS "int32_t mt::MysqlConnector::init (bool useDatabase = \fCtrue\fP)"
+.PP
+Initialize database connection. \fBParameters:\fP
+.RS 4
+\fIif\fP useDatabase = true - \fBMysqlConnector\fP will use <DbName> database as default. if useDatabase = false, no default database will be setted. You should exec 'Use database <dbname>' query at first. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+0 if success and -1 if error occured. 
+.RE
+.PP
+
+.PP
+Definition at line 36 of file MysqlConnector.cpp.
+.SS "void mt::MysqlConnector::setDbName (std::string & dbName)\fC [inline]\fP"
+.PP
+Definition at line 43 of file MysqlConnector.h.
+.SS "void mt::MysqlConnector::setLogger (const \fBLoggerPtr\fP & logger)\fC [inline]\fP"
+.PP
+Definition at line 47 of file MysqlConnector.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

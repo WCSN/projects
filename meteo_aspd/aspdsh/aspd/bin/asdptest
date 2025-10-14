@@ -1,0 +1,51 @@
+#!/bin/bash
+################################################################
+##
+## ASPD changer
+##
+## wocson (c)
+##
+## Requaired: mc mcedit mcview rar 7z ncat awk(gawk) sed zsh lftp enca mutt
+##
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+
+WORKTYPE=debug
+
+if [ $WORKTYPE == debug ]; then CONF="aspd_debug.conf"
+else CONF="aspd.conf"
+fi
+
+if [ -f /usr/local/etc/aspd/$CONF ] ; then source /usr/local/etc/aspd/$CONF
+elif [ -f /etc/aspd/$CONF ] ; then source /etc/aspd/$CONF
+else  echo "Файл настроек: $CONF в /usr/local/etc/aspd/ или /etc/aspd/ не найден";  exit 1
+fi
+
+source $LIB/aspd_inc.sh
+
+SIN0="00:00-00:20 UTC / 07:00-07:20"		# СИН1
+SIN1="06:00-06:20 UTC / 13:00-13:20"		# СИН2
+SIN2="12:00-12:20 UTC / 19:00-19:20"		# СИН3
+SIN3="18:00-18:20 UTC / 01:00-01:20"		# СИН4
+
+# 00:20             			06:00
+INT0020=$SINTMAX;				INT0600=$((6*60));
+# 06:20             			12:00
+INT0620=$(( 6*60+$SINTMAX));	INT1200=$((12*60));
+# 12:20             			18:00
+INT1220=$((12*60+$SINTMAX));	INT1800=$((18*60));
+# 18:20             			00:00
+INT1820=$((18*60+$SINTMAX));	INT2400=$((24*60));
+
+  TMHM=$(($1*60+$2));
+  echo "TMHM=$TMHM"
+
+    if (( (( $TMHM>$INT0020 )) && (( $TMHM<$INT0600 )) )); then txt="$SIN1 $STATION"
+  elif (( (( $TMHM>$INT0620 )) && (( $TMHM<$INT1200 )) )); then txt="$SIN2 $STATION"
+  elif (( (( $TMHM>$INT1220 )) && (( $TMHM<$INT1800 )) )); then txt="$SIN3 $STATION"
+  elif (( (( $TMHM>$INT1820 )) && (( $TMHM<$INT2400 )) )); then txt="$SIN0 $STATION"; fi
+
+  outt ""
+  outt " СИН-срок отправки данных: $txt"
+  outt ""
+

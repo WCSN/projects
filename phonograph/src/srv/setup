@@ -1,0 +1,225 @@
+#!/bin/bash
+#################################################################
+##
+## Sound Box tools
+##
+## Create and prepare sound phonogramm for DAT recording 
+##
+## setup
+##
+## wocson (c)
+##
+#################################################################
+PHCONFDIR=".config/Phonograph"
+PHLOCALDIR=".local/share/Phonograph"
+CMD="$1"
+
+## INSTALL
+INSTPHDIR="$HOME/"
+INSTPHCONFDIR="$HOME/$PHCONFDIR"
+INSTPHLOCALDIR="$HOME/$PHLOCALDIR"
+PHONOGRAPHDIR="$INSTPHDIR/Documents/Phonograph"
+
+## SRC
+SRCPHDIR="$PWD/src"
+if [[ ! -d "$SRCPHDIR" ]]; then echo -e "\n Note: 'src' dir not find !\n"; exit; fi
+
+SRCPHCONFDIR="$SRCPHDIR/$PHCONFDIR"
+SRCPHLOCALDIR="$SRCPHDIR/$PHLOCALDIR"
+
+source "$SRCPHLOCALDIR/lib/required.lib"
+reqcheck
+genconfdef
+
+QUIT="NO"
+
+function BuildPrj()
+{
+    source "$SRCPHLOCALDIR/lib/phonograph.dir"
+
+    [[ ! -h "phonograph"     ]] && ln -sf "$SRCPHLOCALDIR/bin/phonograph" "$PWD/phonograph"
+    [[ ! -h "phonograph.lib" ]] && ln -sf "$SRCPHLOCALDIR/lib/phonograph.lib" "$PWD/phonograph.lib"            
+    [[ ! -h "bin"            ]] && ln -sf "$SRCPHLOCALDIR/bin" "$PWD/bin"            
+    [[ ! -h "lib"            ]] && ln -sf "$SRCPHLOCALDIR/lib" "$PWD/lib"        
+    [[ ! -h "doc"            ]] && ln -sf "$SRCPHLOCALDIR/doc" "$PWD/doc"
+    [[ ! -h "ttest"          ]] && ln -sf "$SRCPHDIR/srv/ttest" "ttest"        
+    [[ ! -f ".mc.menu"       ]] && cp -f "$SRCPHDIR/srv/.mc.menu" "$PWD/.mc.menu"    
+    [[ ! -f "configure"      ]] && cp -f "$SRCPHDIR/srv/configure" "$PWD/configure"    
+    [[ ! -d "Backup"         ]] && mkdir "Backup"
+    [[ ! -h "Music"          ]] && ln -fs "$HOME/Music" "./Music"    
+    [[ ! -d "Recode"         ]] && mkdir "Recode"
+    [[ ! -d "Source"         ]] && mkdir "Source"
+    [[ ! -d "Z_Stores"       ]] && mkdir "Z_Stores"
+}
+
+function CleanPrj()
+{
+    [[ -h "phonograph"     ]] && rm "phonograph"
+    [[ -h "phonograph.lib" ]] && rm "phonograph.lib"    
+    [[ -h "bin"            ]] && rm "bin"    
+    [[ -h "lib"            ]] && rm "lib"        
+    [[ -h "doc"            ]] && rm "doc"
+    [[ -h "ttest"          ]] && rm "ttest"    
+    [[ -d "Backup"         ]] && rm -R "Backup"
+    [[ -h "Music"          ]] && rm "Music"
+    [[ -d "Recode"         ]] && rm -R "Recode"
+    [[ -d "Source"         ]] && rm -R "Source"
+    [[ -d "Z_Stores"       ]] && rm -R "Z_Stores"
+
+    [[ -f "$SRCPHCONFDIR/phonograph.conf" ]] && rm -Rf "$SRCPHCONFDIR/phonograph.conf"
+    [[ -d "$SRCPHLOCALDIR/db"  ]] && rm -Rf "$SRCPHLOCALDIR/db"
+    [[ -d "$SRCPHLOCALDIR/log" ]] && rm -Rf "$SRCPHLOCALDIR/log"
+    [[ -d "$SRCPHLOCALDIR/tmp" ]] && rm -Rf "$SRCPHLOCALDIR/tmp"
+} 
+
+function Commit()
+{
+    defmsg="correct"
+    read -p "Message for commit ($defmsg): " msg; msg=${msg:-$defmsg};
+    echo "== SVN ====================="
+    svn commit --force-log -m "$msg"
+
+    if [[ -n $(whereis git | grep -i "bin" | cut -f2 -d':') ]]; then
+        echo -e "\n== GIT ====================="        
+        if [[ -d "./.git" ]]; then
+            git commit -a -m "$msg"
+            git push -v -u origin main
+        else
+            echo "GIT not prepare..."
+        fi
+    fi
+}
+
+function Deinstall()
+{
+    if [[ -d "$PHONOGRAPHDIR" ]]; then
+
+        chmod -Rf a+w "$INSTPHCONFDIR"
+        chmod -R  a+w "$INSTPHCONFDIR"
+        chmod -Rf a+w "$INSTPHLOCALDIR"
+
+        while [ 1 ]; do
+        
+            read -e -p " Delete previous settings?(y/n/q): " ans
+
+            case $ans in
+            [yY])
+                rm -Rf "$INSTPHCONFDIR"
+                echo -e "\n Phonograph deinstalled (full)."                            
+                rm -Rf "$PHONOGRAPHDIR"
+                rm -Rf "$INSTPHLOCALDIR"
+                rm -f  "$HOME/bin/phonograph"   
+                break
+            ;;
+            [nN])
+                echo -e " Config need delete manual.\n"                
+                echo -e " Phonograph deinstalled."                            
+                break
+            ;;    
+            [qQ])
+                QUIT="YES"
+                echo -e "\n Phonograph not installed now."
+                break
+            ;;
+            *)
+                echo " Unknown answear..."
+            ;;
+            esac
+        done
+    else
+        echo -e "\n Phonograph not installed now."
+    fi
+}
+
+function Install()
+{
+    if [[ -f "$INSTPHCONFDIR/phonograph.conf" ]]; then
+    
+        while [ 1 ]; do
+        
+            echo -en "\n The previous install was found.\n"
+            read -e -p  " Continue the installation? (y/n): " ans
+
+            case $ans in
+            [nN])
+                echo " Install canceled"
+                exit 0
+            ;;
+            [yY])
+                break
+            ;;    
+            *)
+                echo " Unknown answear..."
+            ;;
+            esac
+        done
+    fi
+
+    echo -e "\n Install Phonograph to $HOME ..."
+    [[ -d "$HOME/bin"  ]] || mkdir -p "$HOME/bin"
+    [[ -d "$INSTPHCONFDIR"  ]] || mkdir -p "$INSTPHCONFDIR"
+    [[ -d "$INSTPHLOCALDIR" ]] || mkdir -p "$INSTPHLOCALDIR"
+    [[ -d "$INSTPHLOCALDIR/db"   ]] || mkdir -p "$INSTPHLOCALDIR/db"            
+    [[ -d "$INSTPHLOCALDIR/log"   ]] || mkdir -p "$INSTPHLOCALDIR/log"
+    [[ -d "$INSTPHLOCALDIR/tmp"   ]] || mkdir -p "$INSTPHLOCALDIR/tmp"        
+
+    cp -Rf "$SRCPHLOCALDIR/bin" "$INSTPHLOCALDIR/"
+    cp -Rf "$SRCPHLOCALDIR/doc" "$INSTPHLOCALDIR/"    
+    cp -Rf "$SRCPHLOCALDIR/lib" "$INSTPHLOCALDIR/"
+    
+    if [[ -f "$INSTPHCONFDIR/phonograph.conf" ]]; then
+        cat "$SRCPHLOCALDIR/lib/phonograph.cnf0" > "$INSTPHCONFDIR/phonograph.conf.sample"
+    else
+        cat "$SRCPHLOCALDIR/lib/phonograph.cnf0" > "$INSTPHCONFDIR/phonograph.conf"
+    fi    
+
+    [[ -d "$PHONOGRAPHDIR" ]] || mkdir -p "$PHONOGRAPHDIR"
+    [[ -d "$PHONOGRAPHDIR/Backup"   ]] || mkdir -p "$PHONOGRAPHDIR/Backup"
+    [[ -d "$PHONOGRAPHDIR/Recode"   ]] || mkdir -p "$PHONOGRAPHDIR/Recode"
+    [[ -d "$PHONOGRAPHDIR/Source"   ]] || mkdir -p "$PHONOGRAPHDIR/Source"
+    [[ -d "$PHONOGRAPHDIR/Z_Stores" ]] || mkdir -p "$PHONOGRAPHDIR/Z_Stores"
+
+    ln -fs "$HOME/Music" "$PHONOGRAPHDIR/Music"    
+    ln -fs "$INSTPHLOCALDIR/bin/phonograph" "$HOME/bin/phonograph"       
+    ln -fs "$INSTPHLOCALDIR/bin/snddev" "$HOME/bin/snddev"       
+
+    chmod a-w-x "$INSTPHLOCALDIR"/doc/*
+    chmod a-w+x "$INSTPHLOCALDIR"/bin/*
+    chmod a-w-x "$INSTPHLOCALDIR"/lib/*
+    echo " OK."
+}
+
+#=================================================================
+
+QUIT="NO"
+
+case "$CMD" in
+commit)
+    Commit
+;;
+build)
+    BuildPrj
+;;
+install)
+    Install
+;;
+reinstall)
+    Deinstall
+    [[ "$QUIT" == "NO" ]] && Install
+;;
+deinstall)
+    Deinstall
+;;
+
+clean)
+    CleanPrj
+;;
+update)
+    svn update
+;;
+*)
+    echo -en "\n usage: setup [ build | commit | install | reinstall | deinstall | clean | update ]\n\n"
+;;
+esac
+
+exit 0

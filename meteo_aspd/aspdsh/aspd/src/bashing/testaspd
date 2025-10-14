@@ -1,0 +1,143 @@
+#!/bin/bash
+
+  TYPETEST="$1"
+  if [ -z $TYPETEST ]; then TYPETEST="HLP"; fi
+
+help()
+{
+  echo "=== help ================================="
+  echo -ne " all avos climat\n svc svc_all\n vos vos_att vos_email vos_att_email vos_all\n vrs vrs_big vrs_email\n letter\n"
+  echo -en "\ncleandir\n"
+  echo "=== help ================================="
+}
+
+clean_dir()
+{
+  echo "== Run $2 test. =="
+  help
+  echo "$1 $2 Clean Send and Outbox directory:"
+  sudo rm -R ./store02/aspd_debug/*_Archive
+  sudo rm -R ./store02/aspd_debug/outbox/*
+  sudo rm -R ./store02/aspd_debug/Send/*
+  echo "$1 $2 Copy test files:"
+}
+
+views()
+{
+  echo "==== MSG ==========================================="
+  cat "$1"
+  echo "==== MSG ==========================================="
+}
+
+genbfz()
+{
+  echo "Generate bfz"
+  dd if=/dev/random of=./tmp/file_512K.dat bs=512 count=1024
+  for (( i=0; i<4; i++ )); do
+	cat ./tmp/file_512K.dat >> ./src/examples/file_2M.bfz
+  done
+}
+
+case "$TYPETEST" in
+letter)
+  views ./src/examples/letter.txt
+  aspd m admin_vostok@aari.ru -s "Test e-mail" -f ./src/examples/letter.txt -a ./testaspd -t "1. Добавиться текст из файла: ./src/examples/letter.txt\n 2. добавится аттач: ./testaspd\3. Добавится текст из -t\n"
+  exit 0
+;;
+all) clean_dir $0 "$TYPETEST"
+  mkdir -p ./store02/aspd_debug/outbox/TESTDIR01
+  mkdir -p ./store02/aspd_debug/outbox/TESTDIR02
+  genbfz
+  cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/TESTDIR01/
+  cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/TESTDIR02/
+  cp ./src/examples/avos*.txt ./store02/aspd_debug/outbox/
+  cp ./src/examples/svc*.txt ./store02/aspd_debug/outbox/
+  cp ./src/examples/vos*.txt ./store02/aspd_debug/outbox/
+  cp ./src/examples/vrs*.txt ./store02/aspd_debug/outbox/
+  cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/
+  cp ./src/examples/file_2M.bfz ./store02/aspd_debug/outbox/
+;;
+avos) clean_dir $0 "$TYPETEST"
+  cp ./src/examples/avos.txt ./store02/aspd_debug/outbox/
+  views ./src/examples/avos.txt
+;;
+climat) clean_dir $0 "$TYPETEST"
+  cp ./src/examples/avosclimat.txt ./store02/aspd_debug/outbox/
+  views ./src/examples/avosclimat.txt
+;;
+svc) clean_dir $0 "$TYPETEST"
+  cp ./src/examples/svc.txt ./store02/aspd_debug/outbox/
+  views ./src/examples/svc.txt
+;;
+svc_all) clean_dir $0 "$TYPETEST"
+  cp ./src/examples/svc*.txt ./store02/aspd_debug/outbox/
+  views ./src/examples/svc*.txt
+;;
+vos) clean_dir $0 "$TYPETEST"
+  cp ./src/examples/vos.txt ./store02/aspd_debug/outbox/
+  views ./src/examples/vos.txt
+;;
+vos_att) clean_dir $0 "$TYPETEST"
+  cp ./src/examples/vos_att.txt ./store02/aspd_debug/outbox/
+  views ./src/examples/vos_att.txt
+;;
+vos_email) clean_dir $0 "$TYPETEST"
+  cp ./src/examples/vos_email.txt ./store02/aspd_debug/outbox/
+  views ./src/examples/vos_email.txt
+;;
+vos_att_email) clean_dir $0 "$TYPETEST"
+  cp ./src/examples/vos_att_email.txt ./store02/aspd_debug/outbox/
+  views ./src/examples/vos_att_email.txt
+;;
+vos_all) clean_dir $0 "$TYPETEST"
+  cp ./src/examples/vos*.txt ./store02/aspd_debug/outbox/
+;;
+vrs) clean_dir $0 "$TYPETEST"
+  mkdir -p ./store02/aspd_debug/outbox/TESTDIR01
+  mkdir -p ./store02/aspd_debug/outbox/TESTDIR02
+  cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/TESTDIR01/
+  cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/TESTDIR02/
+  cp ./src/examples/vrs.txt ./store02/aspd_debug/outbox/
+  cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/
+  ls -1 ./store02/aspd_debug/outbox/
+  views ./src/examples/vrs.txt
+;;
+vrs_big) clean_dir $0 "$TYPETEST"
+  mkdir -p ./store02/aspd_debug/outbox/TESTDIR01
+  mkdir -p ./store02/aspd_debug/outbox/TESTDIR02
+  cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/TESTDIR01/
+  cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/TESTDIR02/
+  cp ./src/examples/vrs.txt ./store02/aspd_debug/outbox/
+  cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/
+  genbfz
+  cp ./src/examples/file_2M.bfz ./store02/aspd_debug/outbox/
+  ls -1 ./store02/aspd_debug/outbox/
+  views ./src/examples/vrs.txt
+;;
+vrs_email) clean_dir $0 "$TYPETEST"
+  cp ./src/examples/vrs_email.txt ./store02/aspd_debug/outbox/vrs.txt
+  cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/
+  ls -1 ./store02/aspd_debug/outbox/
+  views ./src/examples/vrs_email.txt
+;;
+help) help;
+  exit 0
+;;
+cleandir) clean_dir $0 "CLEAN"
+  exit 0
+;;
+*) echo "Test \"$TYPETEST\" unknown type!"; help;
+  exit 0
+;;
+esac
+
+rm ./tmp/file_512K.dat
+rm ./src/examples/file_2M.bfz
+
+echo "$0 $1 Set Send signal:"
+touch ./store02/aspd_debug/infobox/send
+echo "$0 $1 Aspd Debug Send:"
+echo "======================================================================"
+./bin/aspd_debug send
+echo "======================================================================"
+help

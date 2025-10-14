@@ -1,0 +1,122 @@
+#!/bin/bash
+##==========================================================================
+##
+## help_set
+##
+## wocson (c) 2025 BSD
+##
+##==========================================================================
+. "$HOME"/.config/shells/share/include/services.sh
+. "$HOME"/.config/pdmn/ra.conf
+##==========================================================================
+
+NAMEPRG="nameprg"
+VERPRG="0.0.XX"
+HelpAnnotation "short description" 
+
+HelpVarCmd "first  variant cmd"
+HelpVarCmd "second variant cmd"
+
+HelpSubCmd "Acmd2XX"   "A description"
+HelpSubCmd "Dcmd2XX"   "D description"
+HelpSubCmd "Zcmd11"   "Z description"
+HelpSubCmd "Xmd0"   "X description"
+HelpSubCmd "YmdNXXXX"   "Y description"
+HelpSubCmd "Qcmd2XX"   "Q description"
+
+echo "===> All =================================="
+Help
+
+echo "===> CMD: Xmd0 ============================"
+Help Xmd0
+
+echo "===> CMD: Unknowncmd ======================"
+Help Unknowncmd
+
+  szN=50  
+  format="${BGRAY}${BGBLUE}│%-${szN}s${BGRAY}${BGBLUE}│${BYELLOW}${BGBLUE}%-11s${BGRAY}${BGBLUE}│${BYELLOW}${BGBLUE}%-15s${BGRAY}${BGBLUE}│"
+  wprint "$format" " Имя" " Размер" " Дата"
+
+exit
+
+## Declare a key-value array for menu options
+declare -A menu_options
+menu_options["1"]="Display system information"
+menu_options["2"]="Check disk usage"
+menu_options["3"]="List running processes"
+menu_options["4"]="View network connections"
+menu_options["q"]="Quit"
+
+## Declare a key-value array for commands to execute
+declare -A menu_commands
+menu_commands["1"]="display_system_info"
+menu_commands["2"]="check_disk_usage"
+menu_commands["3"]="list_processes"
+menu_commands["4"]="view_network"
+
+## Function to display system information
+display_system_info() {
+  echo -e "\n--- System Information ---"
+  echo "Hostname: $(hostname)"
+  echo "Kernel version: $(uname -r)"
+  echo "System uptime: $(uptime -p)"
+  echo "CPU information: $(grep 'model name' /proc/cpuinfo | head -1 | cut -d ':' -f 2 | xargs)"
+  echo "Total memory: $(free -h | grep Mem | awk '{print $2}')"
+}
+
+## Function to check disk usage
+check_disk_usage() {
+  echo -e "\n--- Disk Usage ---"
+  df -h | grep -v tmp
+}
+
+## Function to list running processes
+list_processes() {
+  echo -e "\n--- Top 10 Processes by Memory Usage ---"
+  ps aux --sort=-%mem | head -11
+}
+
+## Function to view network connections
+view_network() {
+  echo -e "\n--- Active Network Connections ---"
+  netstat -tuln | grep LISTEN
+}
+
+## Function to display the menu
+display_menu() {
+  echo -e "\n=== System Utility Menu ==="
+  for key in 1 2 3 4 q; do
+    echo "$key. ${menu_options[$key]}"
+  done
+  echo -e "\nPlease enter your choice:"
+}
+
+## Main loop
+while true; do
+  ## Display the menu
+  display_menu
+
+  ## Read user choice
+  read -r choice
+
+  ## Check if choice is valid
+  if [[ -v menu_options["$choice"] ]]; then
+    ## Exit if user chose quit
+    if [[ "$choice" == "q" ]]; then
+      echo "Exiting. Goodbye!"
+      exit 0
+    fi
+
+    ## Execute the corresponding command
+    if [[ -v menu_commands["$choice"] ]]; then
+      ## Call the function associated with the choice
+      ${menu_commands["$choice"]}
+    fi
+  else
+    echo "Invalid option. Please try again."
+  fi
+
+  ## Pause for user to read output
+  echo -e "\nPress Enter to continue..."
+  read -r
+done

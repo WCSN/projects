@@ -1,0 +1,114 @@
+#!/bin/bash
+####################################################
+##
+## Prepare Phonogram for record to DAT
+##
+## Clean
+##
+## wocson (c)
+##
+####################################################
+[[ -f "./Makefile" ]] && DEBUG="YES" || DEBUG="NO"; [[ "${DEBUG^^}" == "YES" ]] && PRFXDIR="$PWD/src" || PRFXDIR="$HOME" # $PRFXDIR
+
+ARGV="$1"
+
+source "$PRFXDIR/.config/Phonograph/phonograph.conf"
+source "$PRFXDIR/.local/share/Phonograph/lib/phonograph.dir"
+source "$PRFXDIR/.local/share/Phonograph/lib/tcolor_inc.lib"
+
+function getdirname()
+{
+    echo "$(echo $1 | rev | cut -f1 -d'/' | rev)"
+}
+
+function cleandir()
+{
+    local PHDIRNAME="$1"
+
+    if [[ -d "$PHDIRNAME"  ]]; then
+        echo -en " $(getdirname "$PHDIRNAME")"
+        rm -Rf "$PHDIRNAME"/*;
+    else
+        mkdir -p "$PHDIRNAME";
+    fi
+}
+
+function movedir()
+{
+    local PHDIRNAME="$1"
+
+    if [[ -d "$PHDIRNAME" ]]; then
+        if ! [[ -z "`ls $PHDIRNAME`" ]]; then
+            echo -en " $(getdirname "$PHDIRNAME")"
+            MoveDirName="${PHDIRNAME}-$(date +%Y%m%d.%H%M%S)"
+            echo -en "->[$(getdirname "$MoveDirName")]"
+            mv "$PHDIRNAME" "$MoveDirName";
+            mkdir -p "$PHDIRNAME"
+        fi
+    else
+        mkdir -p "$RECODEDIR"
+    fi
+}
+
+function help()
+{
+    echo -e " clean -[y|a|r] / -y no question"
+    echo -e "                / -a too and clean Z_Stores and log"
+    echo -e "                / -r restore default all sets"    
+    echo -e " Note: y-Yes / n-No (and exit) / a-all clean / r-restore all on defaults\n"
+}
+
+SAVE=""
+
+while [ 1 ]; do
+    case "$ARGV" in
+    -[y])
+        ans="y"
+    ;;
+    -[a])
+        ans="a"
+    ;;
+    -[r])
+        ans="r"    
+    ;;
+    -[h])
+        help
+        exit 0;
+    ;;
+    *)
+        echo -e " Note: y-Yes / n-No (and exit) / a-all clean / r-restore all on defaults\n"
+        read -e -p " Clean? (y/n/a/r): " ans
+    ;;
+    esac
+
+    [[ "$ans" == "y" || "$ans" == "Y" ]] || echo -en "${INFO} Clean:"
+
+    case "$ans" in
+    r|R)
+        cleandir "$RECODEDIR"
+        cleandir "$STORESDIR"
+        cleandir "$LOGDIR"
+        cleandir "$SAVESETDIR"        
+        cleandir "$BACKUPDIR"
+    ;&
+    a|A)
+        cleandir "$TMPDIR"    
+        cleandir "$SOURCEDIR"
+        movedir  "$RECODEDIR"                
+        break
+    ;;
+    y|Y)
+        rm -f "$CURPHONOPRJ"
+        break
+    ;;
+    n|N)
+        echo "No"
+        break
+    ;;
+    *)
+        echo -e " Unknown answear...\n"
+        help
+    ;;
+    esac
+done
+echo -e " ${STDCL}"

@@ -1,0 +1,17 @@
+#!/bin/zsh
+
+GETVAL="$1"
+
+PARAM01="Значение параметра 1"
+PARAM02="Значение параметра 2"
+
+#echo ${!GETVAL}     
+
+my_param="123"
+param="my_param"
+
+
+eval SENDVAL=\$"$1"
+echo -en "$SENDVAL" "\n\n"
+
+

@@ -1,0 +1,798 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="LibreOffice 4.0.3.3 (FreeBSD)">
+	<META NAME="CREATED" CONTENT="20130618;23203400">
+	<META NAME="CHANGEDBY" CONTENT="Владимир Носков">
+	<META NAME="CHANGED" CONTENT="20130619;16195400">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { margin-left: 2cm; margin-right: 2cm; margin-top: 1.3cm; margin-bottom: 1.16cm }
+		P { margin-bottom: 0.21cm }
+		H2 { margin-bottom: 0.21cm }
+		H2.cjk { font-family: "Microsoft YaHei" }
+		H2.ctl { font-family: "Lohit Hindi" }
+		TD P { margin-bottom: 0cm }
+		A:link { so-language: zxx }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="ru-RU" DIR="LTR">
+<H2 CLASS="western" STYLE="font-variant: normal; font-style: normal"><FONT COLOR="#333333"><FONT FACE="Tahoma, Calibri, Verdana, Geneva, sans-serif"><FONT SIZE=5 STYLE="font-size: 20pt"><B>Вероятности
+в 1000.</B></FONT></FONT></FONT></H2>
+<P ALIGN=RIGHT STYLE="font-variant: normal"><BR><BR>
+</P>
+<P ALIGN=RIGHT STYLE="font-variant: normal"><FONT COLOR="#333333"><A HREF="http://city.is74.ru/forum/showthread.php?t=216465"><FONT FACE="Tahoma, Calibri, Verdana, Geneva, sans-serif"><FONT SIZE=2 STYLE="font-size: 10pt"><SPAN STYLE="font-style: normal"><B>http://city.is74.ru/forum/showthread.php?t=216465</B></SPAN></FONT></FONT></A></FONT></P>
+<P STYLE="font-variant: normal; font-style: normal"><BR><BR>
+</P>
+<DIV ID="post_message_6525043" DIR="LTR">
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	В тысячу играют колодой из 24 карт, всего
+	по 6 карт каждой масти (Т 10 К Д В 9). Играют
+	втроем или вчетвером (в этом случае
+	один из игроков сидит на прикупе). Троим
+	игрокам сдается по 7 карт, оставшиеся
+	3 карты ложатся в прикуп. Партия (кон)
+	играется или в темную (двойной счет, но
+	при этом заказывающий игрок не видит
+	своих карт до момента взятия прикупа),
+	или в светлую (игрок смотрит свои 7 карт
+	и решает, торговаться за прикуп или
+	нет).<BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<B>Число сочетаний.</B></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<UL>
+		<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm; border: none; padding: 0cm">
+		Сколькими способами можно выбрать 1
+		карту из 4? <BR>– четырьмя различными
+		способами.</BLOCKQUOTE>
+		<LI><BLOCKQUOTE STYLE="margin-bottom: 0cm; border: none; padding: 0cm">
+		Сколькими способами можно выбрать 2
+		карты из 4? <BR>Пронумеруем карты от 1 до
+		4. Возможные сочетания карт: 1 2, 1 3, 1 4, 2
+		3, 2 4, 3 4. <BR>– шестью различными способами.</BLOCKQUOTE>
+		<BLOCKQUOTE STYLE="margin-bottom: 0cm; border: none; padding: 0cm"></BLOCKQUOTE>
+		<BLOCKQUOTE>Число сочетаний из n по k (<IMG SRC="theory_html_dd6c678.gif" NAME="Объект102" HSPACE=8 WIDTH=39 HEIGHT=18>)
+		равно количеству способов, которыми
+		можно выбрать k элементов из n элементов
+		без повторений, обозначается 
+		<IMG SRC="theory_html_m5d835293.gif" NAME="Объект17" HSPACE=8 WIDTH=25 HEIGHT=22>.</BLOCKQUOTE>
+	</UL>
+	<TABLE WIDTH=665 CELLPADDING=4 CELLSPACING=0>
+		<COL WIDTH=563>
+		<COL WIDTH=86>
+		<TR>
+			<TD WIDTH=563 VALIGN=TOP STYLE="border: none; padding: 0cm">
+				<P ALIGN=CENTER STYLE="text-indent: 0.87cm"><IMG SRC="theory_html_m6c6ceee3.gif" NAME="Объект2" HSPACE=8 WIDTH=110 HEIGHT=39></P>
+			</TD>
+			<TD WIDTH=86 STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; border: none; padding: 0cm; text-align: right">
+				 <FONT SIZE=2><SPAN STYLE="font-weight: normal">(1.1)</SPAN></FONT></BLOCKQUOTE>
+			</TD>
+		</TR>
+	</TABLE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR><FONT SIZE=4 STYLE="font-size: 16pt"><B>Игра в
+	темную.</B></FONT><BR><BR><B>Вероятность нахождения
+	в прикупе определенных карт.</B></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Для начала решим задачу о нахождении
+	в прикупе некоторого количества нужных
+	нам карт. Всего в колоде 24 карты, ни
+	одна, ни хуже и не лучше любой другой,
+	колода не заряжена, поэтому попадание
+	любой карты в прикуп есть событие
+	случайное и равновероятное для всех
+	карт.<BR><BR><I><B>Вероятность попадания 1
+	любой карты в прикуп.</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Число возможных прикупов определится<IMG SRC="theory_html_16dca371.gif" NAME="Объект20" HSPACE=8 WIDTH=76 HEIGHT=22>,
+	т.е. сколькими способами можно выбрать
+	3 карты из 24. Далее, найдем число прикупов,
+	не удовлетворяющих условию, т.е. нужная
+	нам карта не вошла в прикуп. Число таких
+	прикупов определится 
+	<IMG SRC="theory_html_m6e7d4ac3.gif" NAME="Объект21" HSPACE=8 WIDTH=123 HEIGHT=22>.
+	Вычислим вероятность по следующей
+	формуле:</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<TABLE WIDTH=665 CELLPADDING=4 CELLSPACING=0>
+		<COL WIDTH=615>
+		<COL WIDTH=34>
+		<TR>
+			<TD WIDTH=615 STYLE="border: none; padding: 0cm">
+				<P ALIGN=CENTER STYLE="text-indent: 0.87cm"><IMG SRC="theory_html_m7d5e706b.gif" NAME="Объект18" HSPACE=8 WIDTH=370 HEIGHT=38></P>
+			</TD>
+			<TD WIDTH=34 STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0.01cm; margin-right: 0.01cm; text-indent: -0.05cm; border: none; padding: 0cm; text-align: right">
+				(1.2)</BLOCKQUOTE>
+			</TD>
+		</TR>
+	</TABLE>
+	<TABLE WIDTH=665 CELLPADDING=4 CELLSPACING=0>
+		<COL WIDTH=615>
+		<COL WIDTH=34>
+		<TR>
+			<TD WIDTH=615 STYLE="border: none; padding: 0cm">
+				<P ALIGN=CENTER STYLE="text-indent: 0.87cm"><IMG SRC="theory_html_m27fc3a61.gif" NAME="Объект3" HSPACE=8 WIDTH=235 HEIGHT=47></P>
+			</TD>
+			<TD WIDTH=34 STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0.01cm; margin-right: 0.01cm; text-indent: -0.03cm; border: none; padding: 0cm; text-align: right">
+				(1.3)</BLOCKQUOTE>
+			</TD>
+		</TR>
+	</TABLE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Вероятность, при игре в темную докупить
+	1 любую карту равна 12.50%.</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Обобщая вышеприведенную формулу (1.3),
+	получим формулу для расчета <I>вероятности
+	попадания в прикуп хотя бы одной из n
+	нужных нам карт (</I><I><IMG SRC="theory_html_m6f0e7de4.gif" NAME="Объект19" HSPACE=8 WIDTH=38 HEIGHT=18></I><I>):</I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<TABLE WIDTH=665 CELLPADDING=4 CELLSPACING=0>
+		<COL WIDTH=609>
+		<COL WIDTH=40>
+		<TR>
+			<TD WIDTH=609 VALIGN=TOP STYLE="border: none; padding: 0cm">
+				<P ALIGN=CENTER STYLE="text-indent: 0.87cm"><IMG SRC="theory_html_6543e424.gif" NAME="Объект4" HSPACE=8 WIDTH=272 HEIGHT=47></P>
+			</TD>
+			<TD WIDTH=40 STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0.01cm; margin-right: 0.01cm; border: none; padding: 0cm; text-align: right">
+				(1.4)</BLOCKQUOTE>
+			</TD>
+		</TR>
+	</TABLE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	для n = 22, 23, 24 вероятность равна 100%, т.к.
+	вычитаемое вырождается.</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<I>Пример</I><I>:</I> 
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Вероятность докупить любого
+	туза:<IMG SRC="theory_html_24ecb547.gif" NAME="Объект5" HSPACE=8 WIDTH=236 HEIGHT=47><BR><BR><I><B>Вероятность
+	докупить 2 карты из </B></I><I><SPAN STYLE="font-weight: normal">n
+	</SPAN></I><I><B>нужных (</B></I><I><B><IMG SRC="theory_html_6326592b.gif" NAME="Объект103" HSPACE=8 WIDTH=38 HEIGHT=18></B></I><I><B>).</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Рассуждения совершенно аналогичны
+	рассуждениям для одной карты, за тем
+	исключением, что нам также не подходят
+	и те прикупы, в которые вошла только
+	одна из двух нужных нам карт. В числитель
+	дроби добавится вычитаемое n*(24-n)C2.
+	Формула для расчета вероятности:<BR><BR>
+	</BLOCKQUOTE>
+	<TABLE WIDTH=665 CELLPADDING=4 CELLSPACING=0>
+		<COL WIDTH=609>
+		<COL WIDTH=40>
+		<TR>
+			<TD WIDTH=609 VALIGN=TOP STYLE="border: none; padding: 0cm">
+				<P ALIGN=CENTER STYLE="text-indent: 0.87cm"><IMG SRC="theory_html_3d1e06c1.gif" NAME="Объект6" HSPACE=8 WIDTH=294 HEIGHT=47></P>
+			</TD>
+			<TD WIDTH=40 STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; border: none; padding: 0cm; text-align: right">
+				 (1.5)</BLOCKQUOTE>
+			</TD>
+		</TR>
+	</TABLE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm; text-align: left">
+	для n = 23, 24 вероятность равна 100%, т.к.
+	вычитаемые вырождаются.</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm; text-align: left">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm; text-align: left">
+	<I>Пример</I><I>:</I> 
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm; text-align: left">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm; text-align: left">
+	Вероятность докупить любого туза с
+	любой десяткой, или 2 любых туза, или 2
+	любые десятки. Речь идет о вероятности
+	докупить 2 карты из 8 (4 Т + 4 10) 
+	<IMG SRC="theory_html_5a53f165.gif" NAME="Объект24" HSPACE=8 WIDTH=123 HEIGHT=19>Удачным
+	будет каждый четвертый прикуп.<BR><BR><I><B>Вероятность
+	докупить 3 карты из </B></I><I><SPAN STYLE="font-weight: normal">n</SPAN></I><I><B>
+	нужных (</B></I><I><B><IMG SRC="theory_html_m298822aa.gif" NAME="Объект22" HSPACE=8 WIDTH=38 HEIGHT=18></B></I><I><B>).</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm; text-align: left">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm; text-align: left">
+	В данном случае проще посчитать число
+	удачных прикупов и отнести его к общему
+	числу прикупов 
+	<IMG SRC="theory_html_4cad62fd.gif" NAME="Объект23" HSPACE=8 WIDTH=30 HEIGHT=22>.<BR><BR>
+	</BLOCKQUOTE>
+	<TABLE WIDTH=665 CELLPADDING=4 CELLSPACING=0>
+		<COL WIDTH=598>
+		<COL WIDTH=51>
+		<TR>
+			<TD WIDTH=598 VALIGN=TOP STYLE="border: none; padding: 0cm">
+				<P ALIGN=CENTER STYLE="text-indent: 0.87cm"><IMG SRC="theory_html_m60498dcf.gif" NAME="Объект7" HSPACE=8 WIDTH=237 HEIGHT=42></P>
+			</TD>
+			<TD WIDTH=51 STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0.01cm; margin-right: 0.01cm; text-indent: -0.03cm; border: none; padding: 0cm; text-align: right">
+				(1.6)</BLOCKQUOTE>
+			</TD>
+		</TR>
+	</TABLE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR><I><B>Задача 1.1. Вероятность докупить
+	прикуп, сумма карт которого не ниже 20
+	очков.</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	В любом случае ни одна комбинация
+	составленная из карт К Д В 9 не даст 20
+	очков. Минимальная комбинация: 10 10 9.
+	Определили, что 2 любые карты из 3 должны
+	быть или Т или 10, третья карта может
+	быть любой. Т.е. первые 2 карты выбираются
+	из 8 (4 Т + 4 10) и после того, как 2 карты
+	заняли свое место в прикупе, оставшаяся
+	карта выбирается из 22.<BR>Искомая
+	вероятность:<IMG SRC="theory_html_m5f993cae.gif" NAME="Объект8" HSPACE=8 WIDTH=189 HEIGHT=47><BR><BR><I><B>Задача
+	1.2. Вероятность докупить любую пару
+	(хваль) (40, 60, 80, 100).</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Всего есть 4 пары, каждая из которых
+	«займет»; 2 карты из 3. Оставшаяся карта
+	может быть любой из 22.</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Искомая вероятность: 
+	<IMG SRC="theory_html_6e1c823f.gif" NAME="Объект9" HSPACE=8 WIDTH=168 HEIGHT=42>.<BR><BR><I><B>Задача
+	1.3. Вероятность докупить хотя бы 1 любую
+	половину (К или Д любой масти).</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Речь идет о вероятности докупить любую
+	1 карту из 8.</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Искомая вероятность: 
+	<IMG SRC="theory_html_m1510ff02.gif" NAME="Объект10" HSPACE=8 WIDTH=235 HEIGHT=47></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Данные вероятности скорее могут
+	пригодиться игроку сидящему на прикупе.
+	Для игрока заказывающего игру в темную
+	ниже рассмотрим более общую задачу.<BR><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm; page-break-before: always">
+	<FONT SIZE=4 STYLE="font-size: 16pt"><B>Игра в темную.
+	Более общая задача.</B></FONT></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	После того как игрок заказал игру в
+	темную, у него на руках оказываются 10
+	карт, 2 из которых он сносит своим
+	оппонентам. Задача ставится следующим
+	образом: рассчитать вероятность
+	нахождения на руках m карт из n нужных<IMG SRC="theory_html_m31e6a8be.gif" NAME="Объект25" HSPACE=8 WIDTH=54 HEIGHT=19>.</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Число возможных раскладов - 
+	<IMG SRC="theory_html_m24625347.gif" NAME="Объект26" HSPACE=8 WIDTH=30 HEIGHT=22>
+	(т.е. сколькими способами можно выбрать
+	10 карт из 24). 
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Действуя по аналогии с задачей «о
+	нахождении в прикупе определенного
+	числа карт», исключая неудачные для
+	нас расклады из общего числа таковых,
+	в конечном итоге придем к общей формуле
+	(2.1). <BR><BR>
+	</BLOCKQUOTE>
+	<TABLE WIDTH=665 CELLPADDING=4 CELLSPACING=0>
+		<COL WIDTH=606>
+		<COL WIDTH=43>
+		<TR>
+			<TD WIDTH=606 HEIGHT=33 STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; border: none; padding: 0cm; text-align: center">
+				<IMG SRC="theory_html_124d0a43.gif" NAME="Объект27" HSPACE=8 WIDTH=270 HEIGHT=47></BLOCKQUOTE>
+			</TD>
+			<TD WIDTH=43 STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0.01cm; margin-right: 0.06cm; text-indent: 0.05cm; border: none; padding: 0cm; text-align: right">
+				(2.1)</BLOCKQUOTE>
+			</TD>
+		</TR>
+	</TABLE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	где a = m … 1. т.е. в каждом аргументе суммы
+	значение переменной a последовательно
+	уменьшается на единицу.<BR><BR><I><B>Задача
+	2.1. Вероятность получить на руки 3 любых
+	туза при игре втемную.</B></I><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Для решения данной задачи найдем частный
+	случай формулы (2.1) для m=3.<BR><BR>
+	</BLOCKQUOTE>
+	<TABLE WIDTH=665 CELLPADDING=4 CELLSPACING=0>
+		<COL WIDTH=609>
+		<COL WIDTH=40>
+		<TR>
+			<TD WIDTH=609 VALIGN=TOP STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm; text-align: center">
+				<IMG SRC="theory_html_4b446636.gif" NAME="Объект29" HSPACE=8 WIDTH=318 HEIGHT=47></BLOCKQUOTE>
+				<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; border: none; padding: 0cm; text-align: center">
+				<IMG SRC="theory_html_m53c68d0b.gif" NAME="Объект28" HSPACE=8 WIDTH=106 HEIGHT=22></BLOCKQUOTE>
+			</TD>
+			<TD WIDTH=40 STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; border: none; padding: 0cm; text-align: right">
+				 (2.2)</BLOCKQUOTE>
+			</TD>
+		</TR>
+	</TABLE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Всего в колоде 4 туза, поэтому искомая
+	вероятность:<IMG SRC="theory_html_233eb258.gif" NAME="Объект30" HSPACE=8 WIDTH=117 HEIGHT=19><BR><BR><I><B>Задача
+	2.2. Вероятность наличия на руках хотя
+	бы одной любой пары (хвали) (40, 60, 80, 100)
+	при игре в темную.</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Просто воспользоваться формулой (2.1)
+	здесь не получится, т.к. при решении
+	данной задачи имеет значение взаимное
+	расположение карт. Интересующие нас
+	половины (всего 8 карт) в расклад могут
+	и войти, но пару могут не составлять.</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	По аналогии с предыдущими расчетами,
+	найдем число раскладов, не удовлетворяющих
+	условию задачи.</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	1) не вошло ни 1й половины: 
+	<IMG SRC="theory_html_470cd630.gif" NAME="Объект31" HSPACE=8 WIDTH=29 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	2) вошла только 1 половина:<IMG SRC="theory_html_1b95d19e.gif" NAME="Объект32" HSPACE=8 WIDTH=36 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	3) вошло 2 половины, но нет пары: 
+	<IMG SRC="theory_html_6027776f.gif" NAME="Объект33" HSPACE=8 WIDTH=132 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	4) вошло 3 половины, но нет пары:<IMG SRC="theory_html_m3ca49aca.gif" NAME="Объект34" HSPACE=8 WIDTH=145 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	5) вошло 4 половины, но нет пары: 
+	<IMG SRC="theory_html_m19f265bd.gif" NAME="Объект35" HSPACE=8 WIDTH=214 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	При любой комбинации из 5, 6, 7, 8 любых
+	половин, так или иначе, есть хотя бы 1
+	пара.<BR>Искомая вероятность найдется:<I>
+	</I><I>
+	<IMG SRC="theory_html_m1eb72350.gif" NAME="Объект104" HSPACE=8 WIDTH=425 HEIGHT=38></I><BR><IMG SRC="theory_html_m30dcf41.gif" NAME="Объект36" HSPACE=8 WIDTH=395 HEIGHT=47><BR><I><B>Задача
+	2.3. Вероятность наличия на руках хотя
+	бы одной любой пары (40, 60, 80, 100) с хотя бы
+	одним любым тузом при игре втемную.</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Пойдем другой путём. Посчитаем число
+	комбинаций, удовлетворяющих условию
+	задачи. Всего имеем дело с 12 интересующими
+	нас картами.<BR><BR>1) вошло 3 карты, удачная
+	комбинация половина + туз: 
+	<IMG SRC="theory_html_m4e6b3cad.gif" NAME="Объект37" HSPACE=8 WIDTH=107 HEIGHT=22><BR>2)
+	вошло 4 карты, число удачных комбинаций:</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	а) пара + туз + любая: 
+	<IMG SRC="theory_html_2d71281a.gif" NAME="Объект53" HSPACE=8 WIDTH=74 HEIGHT=18></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	б) пара + 2 туза:<IMG SRC="theory_html_17f573ad.gif" NAME="Объект54" HSPACE=8 WIDTH=69 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	итого: 
+	<IMG SRC="theory_html_m556363ed.gif" NAME="Объект55" HSPACE=8 WIDTH=165 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>3) вошло 5 карт, число удачных комбинаций:</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	а) пара + туз + 2 любых: 
+	<IMG SRC="theory_html_6599dca0.gif" NAME="Объект56" HSPACE=8 WIDTH=123 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	б) пара + 2 туза + любая: 
+	<IMG SRC="theory_html_4911ca35.gif" NAME="Объект57" HSPACE=8 WIDTH=90 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	в) пара + 3 туза: 
+	<IMG SRC="theory_html_fffa181.gif" NAME="Объект58" HSPACE=8 WIDTH=68 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	г) 2 пары + туз:<IMG SRC="theory_html_4c5c21d5.gif" NAME="Объект59" HSPACE=8 WIDTH=69 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	итого: 
+	<IMG SRC="theory_html_4a1b3f6b.gif" NAME="Объект60" HSPACE=8 WIDTH=225 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>4) вошло 6 карт, число удачных комбинаций:</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	а) пара + туз + 3 любых: 
+	<IMG SRC="theory_html_2b41a70.gif" NAME="Объект61" HSPACE=8 WIDTH=137 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	б) пара + 2 туза + 2 любых: 
+	<IMG SRC="theory_html_m25e96542.gif" NAME="Объект62" HSPACE=8 WIDTH=162 HEIGHT=19></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	в) пара + 3 туза + любая:<IMG SRC="theory_html_b8b6b8b.gif" NAME="Объект63" HSPACE=8 WIDTH=82 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	г) пара + 4 туза: 
+	<IMG SRC="theory_html_m67bd1888.gif" NAME="Объект64" HSPACE=8 WIDTH=52 HEIGHT=18></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	д) 2 пары + туз + любая: 
+	<IMG SRC="theory_html_396e89f1.gif" NAME="Объект65" HSPACE=8 WIDTH=83 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	е) 2 пары + 2 туза: 
+	<IMG SRC="theory_html_m567b0a76.gif" NAME="Объект66" HSPACE=8 WIDTH=77 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	итого: 
+	<IMG SRC="theory_html_m1fdd8cf1.gif" NAME="Объект67" HSPACE=8 WIDTH=272 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	5) вошло 7 карт, число удачных комбинаций:</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	а) пара + туз + 4 любых: 
+	<IMG SRC="theory_html_2cd57d62.gif" NAME="Объект68" HSPACE=8 WIDTH=193 HEIGHT=22>,</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	т.к. 4 из 6 половин = пара</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	б) пара + 2 туза + 3 любых: 
+	<IMG SRC="theory_html_m3c1e8cb.gif" NAME="Объект69" HSPACE=8 WIDTH=145 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	в) пара + 3 туза + 2 любых: 
+	<IMG SRC="theory_html_55b53189.gif" NAME="Объект70" HSPACE=8 WIDTH=131 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	г) пара + 4 туза + любая: 
+	<IMG SRC="theory_html_m4ea1db9c.gif" NAME="Объект71" HSPACE=8 WIDTH=73 HEIGHT=18></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	д) 2 пары + туз + 2 любых: 
+	<IMG SRC="theory_html_4c41d655.gif" NAME="Объект72" HSPACE=8 WIDTH=124 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	е) 2 пары + 2 туза + любая:<IMG SRC="theory_html_f6361e8.gif" NAME="Объект73" HSPACE=8 WIDTH=99 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	ж) 2 пары + 3 туза: 
+	<IMG SRC="theory_html_6adeea46.gif" NAME="Объект74" HSPACE=8 WIDTH=77 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	з) 3 пары + туз: 
+	<IMG SRC="theory_html_m79b12cf5.gif" NAME="Объект75" HSPACE=8 WIDTH=68 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	итого: 
+	<IMG SRC="theory_html_790d873f.gif" NAME="Объект76" HSPACE=8 WIDTH=315 HEIGHT=22><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	6) вошло 8 карт, число удачных комбинаций:</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 1.25cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	а) пара + туз + 5 любых: 0<BR>б) пара + 2 туза
+	+ 4 любых: 0<BR>в) пара + 3 туза + 3 любых: 
+	<IMG SRC="theory_html_m218adc03.gif" NAME="Объект77" HSPACE=8 WIDTH=145 HEIGHT=22><BR>г)
+	пара + 4 туза + 2 любых: 
+	<IMG SRC="theory_html_c3f5b2a.gif" NAME="Объект78" HSPACE=8 WIDTH=114 HEIGHT=22><BR>д)
+	2 пары + туз + 3 любых:<IMG SRC="theory_html_4340d17.gif" NAME="Объект79" HSPACE=8 WIDTH=130 HEIGHT=22>,</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 2.5cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	т.к. 3 из 4 половин = пара</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 1.25cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	е) 2 пары + 2 туза + 2 любых: 
+	<IMG SRC="theory_html_2f09eb6f.gif" NAME="Объект80" HSPACE=8 WIDTH=181 HEIGHT=19><BR>ж)
+	2 пары + 3 туза + любая: 
+	<IMG SRC="theory_html_m5a086c9b.gif" NAME="Объект81" HSPACE=8 WIDTH=91 HEIGHT=22><BR>з)
+	2 пары + 4 туза:<IMG SRC="theory_html_6d3a178.gif" NAME="Объект82" HSPACE=8 WIDTH=60 HEIGHT=22><BR>и)
+	3 пары + туз + любая =<IMG SRC="theory_html_m17f7bd20.gif" NAME="Объект83" HSPACE=8 WIDTH=82 HEIGHT=22><BR>к)
+	3 пары + 2 туза = 
+	<IMG SRC="theory_html_2af6bde7.gif" NAME="Объект84" HSPACE=8 WIDTH=77 HEIGHT=22><BR>итого:<IMG SRC="theory_html_m32c3af7f.gif" NAME="Объект85" HSPACE=8 WIDTH=299 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	7) вошло 9 карт, любые комбинации удачны:
+		<IMG SRC="theory_html_7c00f710.gif" NAME="Объект86" HSPACE=8 WIDTH=51 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	8) вошло 10 карт, любые комбинации удачны:
+		<IMG SRC="theory_html_m3075cae8.gif" NAME="Объект87" HSPACE=8 WIDTH=29 HEIGHT=22><BR><BR>Искомая
+	вероятность найдется: 
+	<IMG SRC="theory_html_m64c1b32f.gif" NAME="Объект88" HSPACE=8 WIDTH=228 HEIGHT=38><BR><BR><IMG SRC="theory_html_m2e89363b.gif" NAME="Объект38" HSPACE=8 WIDTH=486 HEIGHT=47><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<I><B>Задача 2.4. Вероятность наличия на
+	руках комбинации Т 10 К Д любой одинаковой(!)
+	масти при игре в темную.</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.9cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	По аналогии с задачей 2.3. Найдем число
+	комбинаций, являющихся для нас
+	благоприятными. Всего имеем дело с 16
+	интересующими нас картами.<BR><BR>1) вошло
+	4 карты, число комбинаций (Т10КД):<IMG SRC="theory_html_m2df50c94.gif" NAME="Объект89" HSPACE=8 WIDTH=39 HEIGHT=22><BR>2)
+	вошло 5 карт, число комбинаций (Т10КД +
+	любая): 
+	<IMG SRC="theory_html_5ba48c2f.gif" NAME="Объект90" HSPACE=8 WIDTH=123 HEIGHT=22><BR>3)
+	вошло 6 карт, число комбинаций (Т10КД + 2
+	любых): 
+	<IMG SRC="theory_html_33782d60.gif" NAME="Объект91" HSPACE=8 WIDTH=126 HEIGHT=22><BR>4)
+	вошло 7 карт, число комбинаций (Т10КД + 3
+	любых): 
+	<IMG SRC="theory_html_436edd99.gif" NAME="Объект92" HSPACE=8 WIDTH=125 HEIGHT=22><BR>5)
+	вошло 8 карт, число комбинаций:</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	а) Т10КД + 4 любых: 
+	<IMG SRC="theory_html_64087ee3.gif" NAME="Объект93" HSPACE=8 WIDTH=121 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	б) Т10КД + Т10КД: 
+	<IMG SRC="theory_html_mecf479a.gif" NAME="Объект94" HSPACE=8 WIDTH=47 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	итого: 
+	<IMG SRC="theory_html_29483e9e.gif" NAME="Объект95" HSPACE=8 WIDTH=161 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	6) вошло 9 карт, число комбинаций:</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 1.25cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	а) Т10КД + 5 любых: 
+	<IMG SRC="theory_html_53445eab.gif" NAME="Объект96" HSPACE=8 WIDTH=158 HEIGHT=19><BR>б)
+	Т10КД + Т10КД + любая: 
+	<IMG SRC="theory_html_m4a8232f0.gif" NAME="Объект97" HSPACE=8 WIDTH=68 HEIGHT=22><BR>итого:
+		<IMG SRC="theory_html_636c0364.gif" NAME="Объект98" HSPACE=8 WIDTH=155 HEIGHT=22></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	7) вошло 10 карт, число комбинаций:</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 1.25cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	а) Т10КД + 6 любых: 
+	<IMG SRC="theory_html_44df9b2a.gif" NAME="Объект99" HSPACE=8 WIDTH=144 HEIGHT=22><BR>б)
+	Т10КД + Т10КД + 2 любых: 
+	<IMG SRC="theory_html_m20312715.gif" NAME="Объект100" HSPACE=8 WIDTH=85 HEIGHT=22><BR>итого:
+		<IMG SRC="theory_html_79bf0a6a.gif" NAME="Объект101" HSPACE=8 WIDTH=120 HEIGHT=18></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 1.25cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 1.25cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Искомая вероятность найдется: 
+	<IMG SRC="theory_html_m29628b90.gif" NAME="Объект39" HSPACE=8 WIDTH=304 HEIGHT=38><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm; page-break-before: always">
+	<FONT SIZE=4 STYLE="font-size: 16pt"><B>Игра в светлую.</B></FONT></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Карты, пришедшие на руки после раздачи,
+	игроку известны, поэтому рассчитывать
+	вероятности вхождения тех или иных
+	комбинаций в расклад смысла не имеет.
+	Остается вопрос о прикупе. Всего имеется
+	17 (24-7) неизвестных карт, 3 из которых
+	случайным образом входят в прикуп.
+	Вариантов прикупа 
+	<IMG SRC="theory_html_38a648dd.gif" NAME="Объект40" HSPACE=8 WIDTH=29 HEIGHT=22>.
+	Формулы практически идентичны формулам
+	прикупа для игры в темную, с той лишь
+	разницей, что число 24 заменяется числом
+	17. Все же формулы приведены ниже, для
+	полноты картины.<BR><BR><I><B>Вероятность
+	докупить 1 карту из </B></I><I><SPAN STYLE="font-weight: normal">n</SPAN></I><I><B>
+	нужных (</B></I><I><B><IMG SRC="theory_html_m6f0e7de4.gif" NAME="Объект41" HSPACE=8 WIDTH=38 HEIGHT=18></B></I><I><B>).</B></I><BR><BR>
+	</BLOCKQUOTE>
+	<TABLE WIDTH=665 CELLPADDING=4 CELLSPACING=0>
+		<COL WIDTH=607>
+		<COL WIDTH=42>
+		<TR>
+			<TD WIDTH=607 VALIGN=TOP STYLE="border: none; padding: 0cm">
+				<P ALIGN=CENTER STYLE="text-indent: 0.87cm"><IMG SRC="theory_html_1d529a3d.gif" NAME="Объект1" HSPACE=8 WIDTH=283 HEIGHT=47></P>
+			</TD>
+			<TD WIDTH=42 STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0.01cm; margin-right: 0.01cm; text-indent: -0.05cm; border: none; padding: 0cm; text-align: right">
+				(3.1)</BLOCKQUOTE>
+			</TD>
+		</TR>
+	</TABLE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	для n = 15, 16, 17 вероятность равна 100%, т.к.
+	вычитаемое вырождается.<BR><BR><I><B>Вероятность
+	докупить 2 карты из</B></I><I><SPAN STYLE="font-weight: normal">
+	n </SPAN></I><I><B>нужных (</B></I><I><B><IMG SRC="theory_html_6326592b.gif" NAME="Объект11" HSPACE=8 WIDTH=38 HEIGHT=18></B></I><I><B>).</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<TABLE WIDTH=665 CELLPADDING=4 CELLSPACING=0>
+		<COL WIDTH=607>
+		<COL WIDTH=42>
+		<TR>
+			<TD WIDTH=607 VALIGN=TOP STYLE="border: none; padding: 0cm">
+				<P ALIGN=CENTER><IMG SRC="theory_html_m2401e8b7.gif" NAME="Объект45" HSPACE=8 WIDTH=359 HEIGHT=47></P>
+			</TD>
+			<TD WIDTH=42 STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0.01cm; margin-right: 0.01cm; text-indent: -0.03cm; border: none; padding: 0cm; text-align: right">
+				(3.2)</BLOCKQUOTE>
+			</TD>
+		</TR>
+	</TABLE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	для n = 16, 17 вероятность равна 100%, т.к.
+	вычитаемые вырождаются.</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<I><B>Вероятность докупить 3 карты из </B></I><I><SPAN STYLE="font-weight: normal">n
+	</SPAN></I><I><B>нужных (</B></I><I><B><IMG SRC="theory_html_m298822aa.gif" NAME="Объект105" HSPACE=8 WIDTH=38 HEIGHT=18></B></I><I><B>).</B></I></BLOCKQUOTE>
+	<TABLE WIDTH=665 CELLPADDING=4 CELLSPACING=0>
+		<COL WIDTH=607>
+		<COL WIDTH=42>
+		<TR>
+			<TD WIDTH=607 VALIGN=TOP STYLE="border: none; padding: 0cm">
+				<P ALIGN=CENTER STYLE="text-indent: 0.87cm"><IMG SRC="theory_html_5633e129.gif" NAME="Объект12" HSPACE=8 WIDTH=231 HEIGHT=47></P>
+			</TD>
+			<TD WIDTH=42 STYLE="border: none; padding: 0cm">
+				<BLOCKQUOTE STYLE="margin-left: 0.01cm; margin-right: 0.01cm; text-indent: 0.03cm; border: none; padding: 0cm; text-align: right">
+				 (3.2)</BLOCKQUOTE>
+			</TD>
+		</TR>
+	</TABLE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	В довесок к вышеприведенному материалу
+	решим еще несколько задач.<BR><BR><I><B>Задача
+	3.1. У игрока на руках тузов нет. Вероятность
+	докупить любого из 4 тузов.</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Речь идет о вероятности докупить хотя
+	бы 1 любую карту из 4. 
+	<IMG SRC="theory_html_m31bddb84.gif" NAME="Объект13" HSPACE=8 WIDTH=240 HEIGHT=47><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<I><B>Задача 3.2. У игрока на руках нет ни
+	одной половины. Вероятность докупить
+	любую пару</B></I><I> </I><I><B>(хваль).</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 1.01cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Всего есть 4 пары, каждая занимает места
+	2 карт прикупа. Третья карта может быть
+	выбрана из 15 оставшихся. 
+	<IMG SRC="theory_html_2303e167.gif" NAME="Объект14" HSPACE=8 WIDTH=172 HEIGHT=42></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<I><B>Задача 3.3. У игрока на руках нет ни
+	тузов, ни половин. Вероятность докупить
+	любую пару (хваль) с любым из тузов.</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Всего есть 4 пары и 4 туза, что дает 16
+	возможных комбинаций взаимного
+	расположения.</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 1.08cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<IMG SRC="theory_html_788c105a.gif" NAME="Объект15" HSPACE=8 WIDTH=166 HEIGHT=42><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<I><B>Задача 3.4. У игрока на руках есть 4
+	половины, но нет тузов. Вероятность
+	докупить любого туза с любой из оставшихся
+	половин.</B></I><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<IMG SRC="theory_html_3ddad1ad.gif" NAME="Объект16" HSPACE=8 WIDTH=194 HEIGHT=42></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Ниже рассмотрим более обыденный случай,
+	когда есть чем брать первую взятку и
+	есть несколько половин. Удастся ли
+	игроку докупить до пары?<BR><BR><I><B>Задача
+	3.5. У игрока на руках есть 1 половина.
+	Вероятность докупить до пары недостающую
+	половину и/или докупить пару.</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Вероятность докупить половину: 
+	<IMG SRC="theory_html_5df5b66e.gif" NAME="Объект42" HSPACE=8 WIDTH=272 HEIGHT=47></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Вероятность докупить пару: 
+	<IMG SRC="theory_html_556dd4e9.gif" NAME="Объект43" HSPACE=8 WIDTH=180 HEIGHT=42><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Искомая вероятность:<IMG SRC="theory_html_4ebef8d9.gif" NAME="Объект44" HSPACE=8 WIDTH=146 HEIGHT=18><BR><B><BR></B><I><B>Задача
+	3.6. У игрока на руках есть 2 половины.
+	Вероятность докупить до пары хотя бы
+	одну недостающую половину и/или докупить
+	пару.</B></I><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Вероятность докупить половину: 
+	<IMG SRC="theory_html_63139655.gif" NAME="Объект46" HSPACE=8 WIDTH=266 HEIGHT=47>.</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Вероятность докупить пару: 
+	<IMG SRC="theory_html_m64f20d30.gif" NAME="Объект47" HSPACE=8 WIDTH=180 HEIGHT=42><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Искомая вероятность:<IMG SRC="theory_html_m33b805b8.gif" NAME="Объект48" HSPACE=8 WIDTH=151 HEIGHT=18></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR><I><B>Задача 3.7. У игрока на руках есть
+	3 половины. Вероятность докупить до
+	пары хотя бы одну недостающую половину
+	и/или докупить пару.</B></I><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Вероятность докупить половину:<IMG SRC="theory_html_218245bb.gif" NAME="Объект49" HSPACE=8 WIDTH=272 HEIGHT=47></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Вероятность докупить пару: 
+	<IMG SRC="theory_html_faf9c25.gif" NAME="Объект50" HSPACE=8 WIDTH=174 HEIGHT=42><BR><BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	Искомая вероятность: 
+	<IMG SRC="theory_html_556c5ccd.gif" NAME="Объект51" HSPACE=8 WIDTH=146 HEIGHT=18><BR><BR><I><B>Задача
+	3.8. У игрока на руках есть 4 половины.
+	Вероятность докупить до пары хотя бы
+	одну недостающую половину.</B></I></BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<BR>
+	</BLOCKQUOTE>
+	<BLOCKQUOTE STYLE="margin-left: 0cm; margin-right: 0cm; text-indent: 0.87cm; margin-bottom: 0cm; border: none; padding: 0cm">
+	<IMG SRC="theory_html_m3b19196.gif" NAME="Объект52" HSPACE=8 WIDTH=235 HEIGHT=47></BLOCKQUOTE>
+</DIV>
+</BODY>
+</HTML>

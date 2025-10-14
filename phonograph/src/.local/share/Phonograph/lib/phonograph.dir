@@ -1,0 +1,129 @@
+#############################################################
+##
+## Default directories for Phonograph
+##
+## wocson (c)
+##
+#############################################################
+OLDDIR=""
+PWD=$(pwd)
+[[ -f "./Makefile" ]] && DEBUG="YES" || DEBUG="NO";
+
+if [[ "${DEBUG^^}" == "YES" ]];then
+    PRFXDIR="$PWD/src"
+    WORKDIR="$PWD"
+else
+    PRFXDIR="$HOME"
+    WORKDIR="$PRFXDIR/Documents/Phonograph"
+fi
+
+if [[ "$PWD" != "$WORKDIR" && "${DEBUG^^}" != "YES" ]];then
+
+    if [[ -d "$WORKDIR" ]]; then
+        OLDDIR="$PWD"
+        cd "$WORKDIR"
+    else
+        echo "Phonograph installed?"
+        echo "$WORKDIR not find on you home dir."
+        echo "Reinstall Phonograph."
+    fi
+fi
+
+SHAREDIR="$PRFXDIR/.local/share/Phonograph"
+CONFDIR="$PRFXDIR/.config/Phonograph"
+TEMPLATE="$PRFXDIR/.local/share/Phonograph/lib"
+
+BINDIR="$SHAREDIR/bin"
+LIBDIR="$SHAREDIR/lib"
+LOGDIR="$SHAREDIR/log"                # Logs
+DOCDIR="$SHAREDIR/doc"                # Docs dir
+SAVESETDIR="$SHAREDIR/db"             # save work status
+TMPDIR="$SHAREDIR/tmp"                # save result internal process
+
+## Paths down relative on PhonographDir
+STORESDIR="$WORKDIR/Z_Stores"         # Store phonogram
+RECODEDIR="$WORKDIR/Recode"           # Recode tracks
+SOURCEDIR="$WORKDIR/Source"           # Place music source
+BACKUPDIR="$WORKDIR/Backup"           # Copy source current work
+MUSICSDIR="$HOME/Music"               # For link to Music dir
+WRKMUSICDIR="$WORKDIR/Music"          # Work Music dir
+DOCSFILE="tm_cassett.txt"
+
+CURPHONOPRJ="$SAVESETDIR/phonoprj.sv"
+CURNUMTRACK=""
+CURNUMALBUM=""
+LASTFBC=""
+LASTPHNGRNM=""
+FALBUMSAMEN=""
+PHONOGRAMPRJ=""
+
+function writeflprj()
+{
+    local nmphgr="$1"
+    cat "$TEMPLATE/phonograph.prj0" > "$PHONOGRAMDIR/phonograph.prj"
+    echo "NAMEPHONOGRAM=\"$nmphgr\"" >> "$PHONOGRAMDIR/phonograph.prj"
+}
+
+function phonogramprj()
+{
+    local SAVENAME="" 
+
+    if [[ -n "$1" && -n "$2" ]]; then
+        NAMEPHONOGRAM="$1"    
+        PHONOGRAMPRJ="$2"
+        echo "$PHONOGRAMPRJ" > "$CURPHONOPRJ"
+        PHONOGRAMDIR="$STORESDIR/$PHONOGRAMPRJ"
+    else
+        if [[ -f "$CURPHONOPRJ" ]]; then
+            SAVENAME=$(cat "$CURPHONOPRJ")
+            [[ -n "$SAVENAME" ]] && PHONOGRAMPRJ="$SAVENAME"
+            NAMEPHONOGRAM="$(echo "$PHONOGRAMPRJ" | cut -f2 -d'-')"
+        fi
+        
+        if [[ -n "$1" ]]; then NAMEPHONOGRAM="$1"; PHONOGRAMPRJ=""; fi
+   
+        if [[ -n "$NAMEPHONOGRAM" && -z $PHONOGRAMPRJ ]]; then 
+            PHONOGRAMPRJ="Ph$(date +%y%m%d%H%M%S)-$NAMEPHONOGRAM"
+            PHONOGRAMDIR="$STORESDIR/$PHONOGRAMPRJ"    
+            [[ -d "$PHONOGRAMDIR" ]] || mkdir -p "$PHONOGRAMDIR"
+            writeflprj "$NAMEPHONOGRAM"
+            echo "$PHONOGRAMPRJ" > "$CURPHONOPRJ"
+        else    
+            PHONOGRAMDIR="$STORESDIR/$PHONOGRAMPRJ"        
+        fi    
+    fi
+    
+    NAMECUE="$PHONOGRAMPRJ-CD.cue"
+    NAMEM3U="$PHONOGRAMPRJ.m3u"
+    LOGFILE="$PHONOGRAMPRJ.log"
+    LSTFILE="$PHONOGRAMPRJ.lst"
+    NMM3UTX="$PHONOGRAMPRJ.txt"
+    ALLSTNB="$PHONOGRAMPRJ.aln"
+    
+    CURNUMTRACK="$SAVESETDIR/track.$PHONOGRAMPRJ.sv"
+    CURNUMALBUM="$SAVESETDIR/albnum.$PHONOGRAMPRJ.sv"
+    LASTFBC="$SAVESETDIR/lastfbc.$PHONOGRAMPRJ.sv"
+    LASTPHNGRNM="$SAVESETDIR/phngname.$PHONOGRAMPRJ.sv"
+    FALBUMSAMEN="$SAVESETDIR/albname.$PHONOGRAMPRJ.sv"
+
+    M3UFILE="$PHONOGRAMDIR/$NAMEM3U"
+    M3U2TXT="$PHONOGRAMDIR/$NMM3UTX"
+    ALBLIST="$PHONOGRAMDIR/$ALLSTNB"
+    MERGEDIR="$PHONOGRAMDIR/Merge"
+    CUEFILE="$MERGEDIR/$NAMECUE"
+    TAGFILE="$SAVESETDIR/tagfl.sv"
+    NAMETRC="$SAVESETDIR/track.flac"
+
+    ## Create work dirs
+    [[ -d "$LOGDIR"     ]] || mkdir -p "$LOGDIR"
+    [[ -d "$SAVESETDIR" ]] || mkdir -p "$SAVESETDIR"
+    [[ -d "$TMPDIR"     ]] || mkdir -p "$TMPDIR"
+    [[ -d "$BACKUPDIR"  ]] || mkdir -p "$BACKUPDIR"
+    [[ -d "$RECODEDIR"  ]] || mkdir -p "$RECODEDIR"
+    [[ -d "$STORESDIR"  ]] || mkdir -p "$STORESDIR"
+    [[ -d "$SOURCEDIR"  ]] || mkdir -p "$SOURCEDIR"
+    [[ -d "$CONFDIR"    ]] || mkdir -p "$CONFDIR"
+    if ! [[ -d "$WRKMUSICDIR" ]]; then ln -s "$MUSICSDIR" "$WRKMUSICDIR"; fi
+}
+
+phonogramprj

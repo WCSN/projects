@@ -1,0 +1,3 @@
+/usr/home/wocson/projects/test_cpp/work/Release/CMakeFiles/rebuild_cache.dir
+/usr/home/wocson/projects/test_cpp/work/Release/CMakeFiles/edit_cache.dir
+/usr/home/wocson/projects/test_cpp/work/Release/CMakeFiles/testcpp.dir

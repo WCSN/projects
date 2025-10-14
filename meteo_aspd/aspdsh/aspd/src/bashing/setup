@@ -1,0 +1,31 @@
+#!/bin/bash
+
+help()
+{
+  echo -e "=== help =================================\n"
+  echo -e " setup - copy all need files to work directories\n"
+  echo -e "=== help =================================\n"
+}
+
+
+  case $1 in 
+  debud|d)
+	cp -v ./bin/aspd_debug /usr/bin/
+	cp -v ./conf/aspd_debug.conf ./src/conf/
+  ;;
+  release|r)  
+	cp -v ./bin/sinsend /home/meteo/bin/
+	cp -v ./wlib/aspd_inc.sh /usr/share/wlib/
+	cp -v ./bin/aspd /usr/bin/
+	cp -v ./conf/aspd.conf ./src/conf/
+  ;;
+  sinsend|s)
+	cp -v ./bin/sinsend /home/meteo/bin/
+  ;;
+  -h|-H|*)
+	  echo "./setup   debug|d - debug"
+	  echo "./setup release|r - release"
+	  echo "./setup sindend|s - sinsend"
+	  echo "./setup        -h - help"
+  ;;
+  esac

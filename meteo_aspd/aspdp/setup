@@ -1,0 +1,146 @@
+#!/bin/zsh
+
+ARCHIVE=$HOME/projects/archive_backups
+
+function help()
+{
+    echo -e "\nHELP:\n"
+    echo -e " setup - copy all need files to work directories\n"
+    echo " ./setup   debug|d - debug"
+    echo " ./setup   abook|b - abook"
+    echo " ./setup    conf|c - config"
+    echo " ./setup release|r - release"
+    echo " ./setup sindend|s - sinsend"
+    echo " ./setup     all|a - setup all variants"
+    echo " ./setup        -h - help"
+}
+
+function setupdebug()
+{
+    echo -e "\nSetup DEBUG:"
+  
+    if ! [ -f "/usr/bin/aspdtail" ]; then
+	    sudo cp -v /usr/bin/tail /usr/bin/aspdtail
+    fi
+    sudo chown root:aspd /usr/bin/aspdtail
+}
+
+function setupabook()
+{
+    echo -e "\nSetup A.Book:"
+    sudo cp -v ./abook/abook.d.work /var/aspd/abook/abook.d
+    sudo cp -v ./abook/abook.d.work ./src/abook/
+
+    sudo chown root:aspd /var/aspd/abook/abook.d
+    sudo chmod u+r+w,g+r+w /var/aspd/abook/abook.d
+}
+
+function setupconf()
+{
+    echo -e "\nSetup CONFIG:"
+    sudo cp -v ./etc/aspd/aspd.conf /usr/local/etc/aspd/
+
+    sudo chmod u+x,g+x /usr/local/etc/aspd/aspd.conf
+    sudo chown root:aspd /usr/local/etc/aspd/aspd.conf
+}
+
+function setuprelease()
+{
+    setupabook
+    setupconf
+    echo -e "\nSetup RELEASE:"
+    sudo cp -v ./sinsend.py /home/meteo/bin/sinsend
+    sudo cp -v ./aspd_lib/*.py /usr/local/lib/python3.6/site-packages/aspd_lib/
+    sudo cp -v ./manager.py /usr/bin/manager
+    sudo cp -v ./aspd.py /usr/bin/aspd
+    sudo mcedit /usr/local/lib/python3.6/site-packages/aspd_lib/config.py
+    sudo cp -v ./src/etc/aspd/aspd.conf /usr/local/etc/aspd/
+    if ! [ -f "/usr/bin/aspdtail" ]; then
+	    sudo cp -v /usr/bin/tail /usr/bin/aspdtail
+    fi
+
+    sudo chown root:aspd /usr/bin/aspd
+    sudo chown root:aspd /home/meteo/bin/sinsend
+
+    sudo chmod u+x,g+x /usr/bin/aspdtail
+    sudo chmod u+x,g+x /usr/bin/aspd
+    sudo chmod u+x,g+x /home/meteo/bin/sinsend
+}
+
+function setupsin()
+{
+    echo -e "\nSetup SINSEND:"
+    sudo cp -v ./sinsend.py /home/meteo/bin/sinsend
+    if ! [ -f "/usr/bin/aspdtail" ]; then
+	    sudo cp -v /usr/bin/tail /usr/bin/aspdtail
+    fi
+
+    sudo chmod u+x,g+x /home/meteo/bin/sinsend
+    sudo chown root:aspd /home/meteo/bin/sinsend
+}
+
+function packall()
+{
+    OLDDIR="$PWD"
+    cd ../
+    DIR=`basename $PWD`
+    NMARCH="`date +%Y%m%d-%H%M`-$DIR.tar.xz"
+    cd ..
+    tar cf - "$DIR" | xz -f > "$ARCHIVE/$NMARCH"
+
+    REMOTESYS="wocson@172.31.83.13"
+
+    echo -e "\n$NMARCH created.\nPut $NMARCH to $REMOTESYS"
+    echo -e "put $ARCHIVE/$NMARCH ./projects/meteo_aspd/$NMARCH\nexit" > "$OLDDIR/tmp/batch"
+    sftp -b "$OLDDIR/tmp/batch" "$REMOTESYS" &> /dev/null &
+    sleep 1
+    rm "$OLDDIR/tmp/batch"
+    cd "$OLDDIR"		  
+}
+
+    case $1 in 
+    abook|b)
+        setupabook
+    ;;
+    conf|c)
+	    setupconf
+    ;;
+    debud|d)
+	    setupdebug
+    ;;
+    release|r)  
+	    setuprelease
+    ;;
+    sinsend|s)
+	    setupsin
+    ;;
+    all|a)
+	    txt="You shuire?"
+	    while true; do
+	        read "?$txt(y/n/a)==> " ch
+	        case $ch in
+	        y|Y)
+		        setupdebug
+		        setuprelease
+		        setupsin
+		        packall
+		    break
+	        ;;
+	        n|N|a|A)
+		        echo "Cancel..."
+		    break
+	        ;;
+	        *)
+	            txt="Precision press to key! :( again... You shuire?"
+	        ;;	
+	        esac
+	    done
+    ;;
+    -h|-H|*)
+	    help
+    ;;
+    *)
+    ;;
+    esac
+
+    echo "DONE"

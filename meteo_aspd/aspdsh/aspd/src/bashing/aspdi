@@ -1,0 +1,69 @@
+#!/bin/bash
+################################################################################
+##
+## ASPD changer
+##
+## wocson (c) v. 0.97
+##
+## Requare: zsh, lftp, mc
+##
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+
+WHO=`echo $0 | rev | cut -d "/" -f1 | rev`
+LIB=/root/projects/wlib
+RMT_FS="/etc"
+LCL_FS="./"
+
+#source $LIB/aspd_inc.sh
+source $LIB/tcolor_inc.sh
+source $LIB/winlib_inc.sh
+
+################################################################################
+
+function MainScreen()
+{
+  clrscr
+  Menu "$1"
+  Window "Remote" 1 2 $(($TC/2)) $((2*TL/3-2)) $GRAY $BGBLUE						# 0
+  Window "Local" $(($TC/2+2)) 2  $(($TC/2-2)) $((2*TL/3-2)) $GRAY $BGBLUE			# 1
+  Window "Log" 1 $((2*TL/3+1)) $TC-1 $((TL/3-4)) $GRAY $BGBLUE						# 2
+  StatusLine																		# 3
+  KeyTab
+
+  FPanel "Remote" "$RMT_FS" 	
+  FPanel "Local" "$LCL_FS"	
+}
+
+################################################################################
+  MainScreen "F)ile E)dit O)ptions H)elp"
+
+  k=1;m=1;s=1;a=1;
+  while true; do
+
+  getkeyp
+
+	case $KEY in
+	e|q) break;
+	;;
+	1)  FPanelUpdate "Remote" "$RMT_FS"
+	;;
+	2) 	FPanelUpdate "Remote" "/etc";
+	;;
+	3)  winouttext "Log" 1 $k "`date \"+%d.%m %H:%M:%S\"` [$WHO] сообщение в лог"
+		let k++
+	;;
+	4)  winouttext "Status" 1 1 "text win4"
+	;;
+	5)  WindowDialog
+	;;
+	*) 	
+	;;
+	esac
+	let m++
+#  UpdateScreen
+
+  done
+
+CLOSE
+

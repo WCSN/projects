@@ -1,0 +1,111 @@
+#!/bin/sh
+#
+#  TEST!!!
+#
+#
+#
+
+
+DIRCP=`date "+%Y%m%d"`
+SIGNF=ready
+
+BKDIR00=./mnt/HDD/usb/da0/$DIRCP
+BKDIR01=./mnt/HDD/usb/da1/$DIRCP
+BKDIR02=./mnt/HDD/ada0/backup_db/$DIRCP
+
+SRCDIR=./mnt/slbq78-001/db/backups/$DIRCP
+
+MASKF=*0215*
+
+MAILLST=V.Noskov@nw1ab.ru
+REPFILE=./var/tmp/report_$DIRCP
+MAILREPLY=V.Noskov@nw1ab.ru
+LOGF=./var/log/backup_bq/backup_bq.log
+
+DEVMNT=/dev/da0s1d                                                                                                                  
+MNTPNT=/mnt/HDD/usb/da0                                                                                                             
+
+#================ TEST ====================================================
+
+prepare_test()
+{
+  mkdir ./mnt/slbq78-001/db/backups/$DIRCP
+  touch ./mnt/slbq78-001/db/backups/$DIRCP/$SIGNF
+}
+            
+clean_dir()
+{
+
+rm -fR ./mnt/HDD/usb/da0/$DIRCP
+rm -fR ./mnt/HDD/usb/da1/$DIRCP
+rm -fR ./mnt/HDD/ada0/backup_db/$DIRCP
+rm -f ./mnt/slbq78-001/db/backups/$DIRCP/*ready*
+
+prepare_test
+}
+
+#================ TEST ====================================================
+
+#================ WORK ====================================================
+clean_b()
+{
+  rm -f $1
+  touch $1
+}
+                                                                                                              
+message()
+{
+ii=1
+
+  for i in "$@"
+	do
+	  if [ $ii -gt 1 ]; then 
+	  echo -e "$1: ${i}" >> $REPFILE
+	  logg "$1: ${i}"
+	  fi
+	  ii=$(( $ii + 1 ))
+  done
+}
+
+logg()
+{
+  echo -e `date "+%Y%m%d.%H%M"` $1 >> $LOGF
+  echo -e `date "+%Y%m%d.%H%M"` $1
+}
+
+back_cp()
+{
+	  if [ -d "$2" ] ; then
+  		cp -fv $1 $2
+	  else
+		mkdir $2
+		cp -fv $1 $2
+	  fi
+
+	message "INFO" "Contents: $2" `ls  $2`
+}
+
+clean_dir # TEST !!!
+clean_b $REPFILE
+
+  if [ -f "$SRCDIR/$SIGNF" ] ; then
+
+	mount $DEVMNT $MNTPNT
+	
+	back_cp $SRCDIR/$MASKF $BKDIR00
+	back_cp $SRCDIR/$MASKF $BKDIR01
+	back_cp $SRCDIR/$MASKF $BKDIR02
+	
+	TEND=`date "+%Y%m%d.%H%M"`
+
+	message "INFO" "Finish $TEND" "BackUP ready $TEND" "Please, disconnect current drive and connect next drive." "Mem. 01 -> 02 -> 03 -> 01... etc..."
+
+	cp -fv $REPFILE $SRCDIR/$SIGNF-get-$TEND
+	umount -fv $MNTPNT
+
+	mail -s "BACKUP USB HDD READY $TEND" $MAILLST < $REPFILE
+	rm -f $SRCDIR/$SIGNF
+  else 
+	message "ERROR" "Backup copy to USB drive failed." "Not find sign files and do not made copy backup to USB drive."
+	mail -s "BACKUP TO USB HDD FAILED !!!" $MAILLST < $REPFILE
+  fi

@@ -1,0 +1,179 @@
+.TH "mt::smpp" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp \- 
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBClientInspector\fP"
+.br
+.ti -1c
+.RI "class \fBClientProcessor\fP"
+.br
+.ti -1c
+.RI "class \fBCodec\fP"
+.br
+.ti -1c
+.RI "class \fBCodecFactory\fP"
+.br
+.ti -1c
+.RI "struct \fBcommonHeader\fP"
+.br
+.ti -1c
+.RI "class \fBMessage\fP"
+.br
+.ti -1c
+.RI "struct \fBUdhHeader\fP"
+.br
+.ti -1c
+.RI "class \fBRequest\fP"
+.br
+.ti -1c
+.RI "class \fBData\fP"
+.br
+.ti -1c
+.RI "class \fBBindParams\fP"
+.br
+.ti -1c
+.RI "class \fBInspector\fP"
+.br
+.ti -1c
+.RI "class \fBPduFactory\fP"
+.br
+.ti -1c
+.RI "class \fBPduLogHelper\fP"
+.br
+.ti -1c
+.RI "class \fBConnection\fP"
+.br
+.ti -1c
+.RI "class \fBClientConnection\fP"
+.br
+.ti -1c
+.RI "class \fBProcessor\fP"
+.br
+.ti -1c
+.RI "class \fBReciver\fP"
+.br
+.ti -1c
+.RI "class \fBSender\fP"
+.br
+.ti -1c
+.RI "class \fBSMPPHelper\fP"
+.br
+.ti -1c
+.RI "union \fB_RcvBuf\fP"
+.br
+.ti -1c
+.RI "class \fBSmppNwIf\fP"
+.br
+.ti -1c
+.RI "class \fBUtils\fP"
+.br
+.ti -1c
+.RI "class \fBServerInspector\fP"
+.br
+.ti -1c
+.RI "class \fBServerProcessor\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBSmartPtr\fP< \fBCodec\fP > \fBCodecPtr\fP"
+.br
+.ti -1c
+.RI "typedef std::pair< char *, unsigned int > \fBMessagePart\fP"
+.br
+.ti -1c
+.RI "typedef std::pair< unsigned long, bool > \fBPartStatus\fP"
+.br
+.ti -1c
+.RI "typedef union \fB_RcvBuf\fP \fBRcvBuf\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBMessageType\fP { \fBSMS\fP, \fBSUBMIT_RESP\fP, \fBDELIVERY_REPORT\fP, \fBENQ_LINK\fP, \fBUNBIND\fP, \fBUSSD\fP }"
+.br
+.ti -1c
+.RI "enum \fBCodingScheme\fP { \fBDEFAULT\fP =  0x00, \fBUTF8\fP =  0x02, \fBASCII\fP =  0x01, \fBUCS2\fP =  0x08 }"
+.br
+.ti -1c
+.RI "enum \fBBindType\fP { \fBbindReciever\fP, \fBbindTransmiter\fP, \fBbindTranciever\fP }"
+.br
+.in -1c
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBSmartPtr\fP<\fBCodec\fP> \fBmt::smpp::CodecPtr\fP"
+.PP
+Definition at line 48 of file Codec.h.
+.SS "typedef std::pair<char*, unsigned int> \fBmt::smpp::MessagePart\fP"
+.PP
+Definition at line 32 of file DataTypes.h.
+.SS "typedef std::pair<unsigned long, bool> \fBmt::smpp::PartStatus\fP"
+.PP
+Definition at line 81 of file DataTypes.h.
+.SS "typedef union \fB_RcvBuf\fP \fBmt::smpp::RcvBuf\fP"
+.PP
+Definition at line 35 of file SmppNwIf.h.
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBmt::smpp::BindType\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fIbindReciever \fP\fP
+.TP
+\fB\fIbindTransmiter \fP\fP
+.TP
+\fB\fIbindTranciever \fP\fP
+
+.PP
+Definition at line 28 of file DataTypes.h.
+.SS "enum \fBmt::smpp::CodingScheme\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fIDEFAULT \fP\fP
+.TP
+\fB\fIUTF8 \fP\fP
+.TP
+\fB\fIASCII \fP\fP
+.TP
+\fB\fIUCS2 \fP\fP
+
+.PP
+Definition at line 25 of file DataTypes.h.
+.SS "enum \fBmt::smpp::MessageType\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fISMS \fP\fP
+.TP
+\fB\fISUBMIT_RESP \fP\fP
+.TP
+\fB\fIDELIVERY_REPORT \fP\fP
+.TP
+\fB\fIENQ_LINK \fP\fP
+.TP
+\fB\fIUNBIND \fP\fP
+.TP
+\fB\fIUSSD \fP\fP
+
+.PP
+Definition at line 22 of file DataTypes.h.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

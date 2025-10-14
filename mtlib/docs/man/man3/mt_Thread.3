@@ -1,0 +1,216 @@
+.TH "mt::Thread" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::Thread \- 
+.PP
+The class create thread and start code in this thread.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Thread.h>\fP
+.PP
+Inherits \fBmt::Logable\fP.
+.PP
+Inherited by \fBmt::InfiniteThread\fP.
+.SS "Public Member Functions"
+
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBThread\fP ()"
+.br
+.ti -1c
+.RI "\fBThread\fP (const std::string &name, uint32_t stackSize=DEFAULT_STACK_SIZE)"
+.br
+.ti -1c
+.RI "virtual \fB~Thread\fP ()"
+.br
+.in -1c
+.in -1c
+.SS "Protected Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBConstsValue\fP { \fBDEFAULT_STACK_SIZE\fP =  0 }"
+.br
+.in -1c 
+.in +1c
+.ti -1c
+.RI "virtual void \fBstart\fP ()"
+.br
+.RI "\fICreate and start thread. \fP"
+.ti -1c
+.RI "virtual void \fBstop\fP ()"
+.br
+.RI "\fIStop thread. \fP"
+.ti -1c
+.RI "void \fBwait\fP ()"
+.br
+.RI "\fIWait while thread finished. \fP"
+.ti -1c
+.RI "bool \fBsetPriority\fP (int32_t priority)"
+.br
+.RI "\fISet the thread's priority. \fP"
+.ti -1c
+.RI "int32_t \fBgetPriority\fP ()"
+.br
+.RI "\fIGet the thread's priority. \fP"
+.ti -1c
+.RI "virtual void \fBrun\fP ()=0"
+.br
+.RI "\fIThe method will called in created thread. \fP"
+.ti -1c
+.RI "void \fBsetSigSet\fP (const sigset_t &sigSet)"
+.br
+.ti -1c
+.RI "static std::string \fBname\fP ()"
+.br
+.RI "\fIGet name of the current thread. \fP"
+.ti -1c
+.RI "static void \fBsetName\fP (const std::string &name)"
+.br
+.RI "\fISet name of the current thread. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+The class create thread and start code in this thread. 
+
+\fBDeclaration:\fP
+.br
+ 
+.PP
+.nf
+ class InOtherThread : public mt::Thread {
+   void run() {
+     //This code will work on other thread.
+   }
+ };
+
+.fi
+.PP
+.PP
+\fBUsage:\fP 
+.br
+ 
+.PP
+.nf
+ InOtherThread thread;
+ thread.start(); //Create and start thread.
+ thread.stop(); //Stop thread.
+
+.fi
+.PP
+ 
+.PP
+Definition at line 32 of file Thread.h.
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBmt::Thread::ConstsValue\fP\fC [protected]\fP"
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fIDEFAULT_STACK_SIZE \fP\fP
+
+.PP
+Definition at line 98 of file Thread.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::Thread::Thread ()"
+.PP
+Definition at line 11 of file Thread.cpp.
+.SS "mt::Thread::Thread (const std::string & name, uint32_t stackSize = \fCDEFAULT_STACK_SIZE\fP)"\fBParameters:\fP
+.RS 4
+\fIname\fP Name of the thread. 
+.br
+\fIstackSize\fP Stack size of the thread. 
+.RE
+.PP
+
+.PP
+Definition at line 26 of file Thread.cpp.
+.SS "mt::Thread::~Thread ()\fC [virtual]\fP"
+.PP
+Definition at line 41 of file Thread.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "int32_t mt::Thread::getPriority ()"
+.PP
+Get the thread's priority. 
+.PP
+Definition at line 86 of file Thread.cpp.
+.SS "std::string mt::Thread::name ()\fC [static]\fP"
+.PP
+Get name of the current thread. 
+.PP
+Definition at line 94 of file Thread.cpp.
+.SS "virtual void mt::Thread::run ()\fC [pure virtual]\fP"
+.PP
+The method will called in created thread. Client MUST define this method. 
+.SS "void mt::Thread::setName (const std::string & name)\fC [static]\fP"
+.PP
+Set name of the current thread. \fBParameters:\fP
+.RS 4
+\fIname\fP The thread's name. 
+.RE
+.PP
+
+.PP
+Definition at line 104 of file Thread.cpp.
+.SS "bool mt::Thread::setPriority (int32_t priority)"
+.PP
+Set the thread's priority. \fBParameters:\fP
+.RS 4
+\fIpriority\fP Priority of the thread. 
+.RE
+.PP
+
+.PP
+Definition at line 79 of file Thread.cpp.
+.SS "void mt::Thread::setSigSet (const sigset_t & sigSet)\fC [inline]\fP"
+.PP
+Definition at line 90 of file Thread.h.
+.SS "void mt::Thread::start ()\fC [virtual]\fP"
+.PP
+Create and start thread. \fBExceptions:\fP
+.RS 4
+\fImt::ThreadAlreadyRunningException\fP if the thread already started. 
+.br
+\fImt::ThreadTooManyThreadsException\fP if threads limit was reached. 
+.br
+\fImt::ThreadInvalidArgumentException\fP if some of given arguments are invalid. 
+.br
+\fImt::ThreadNoMemoryException\fP if no memory. 
+.br
+\fImt::ThreadCantStartException\fP if other errors was occurred. 
+.RE
+.PP
+
+.PP
+Reimplemented in \fBmt::InfiniteThread\fP.
+.PP
+Definition at line 47 of file Thread.cpp.
+.SS "void mt::Thread::stop ()\fC [virtual]\fP"
+.PP
+Stop thread. 
+.PP
+Reimplemented in \fBmt::LogCollector\fP, \fBmt::smpp::Reciver\fP, \fBmt::smpp::Sender\fP, and \fBmt::InfiniteThread\fP.
+.PP
+Definition at line 67 of file Thread.cpp.
+.SS "void mt::Thread::wait ()"
+.PP
+Wait while thread finished. 
+.PP
+Definition at line 72 of file Thread.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

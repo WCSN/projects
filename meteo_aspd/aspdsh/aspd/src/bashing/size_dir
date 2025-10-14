@@ -1,0 +1,38 @@
+#!/bin/bash
+##
+## ASPD changer
+## Requare: zsh, lftp, mc
+## wocson (c)
+################################################################
+
+function sumdirsize01()
+{
+  local DIRNSZ="$1" SZBL;
+  SZBL=`du -s "$DIRNSZ" | cut -f1`;
+  echo -en "$(($SZBL*512))"
+}
+
+
+function sumdirsize02()
+{
+  local DIRNSZ="$1" SUMSZ=0 SZFLS;
+  SZFLS=`stat -f %z $DIRNSZ/*`
+
+  echo "SZFLS=$SZFLS"
+
+  for fsz in $SZFLS; do let SUMSZ+=$fsz; done
+  echo -en "$SUMSZ"
+}
+
+
+DIRSZ="./store02/aspd_debug/infobox/log"
+
+  echo -e "\n============"
+
+  sumdirsize01 $DIRSZ
+
+  echo -e "\n============"
+
+  sumdirsize02 $DIRSZ
+
+  echo -e "\n============"

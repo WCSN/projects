@@ -1,0 +1,71 @@
+.TH "mt::smpp::Connection" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::Connection \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Processor.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB~Connection\fP ()"
+.br
+.ti -1c
+.RI "\fBConnection\fP (\fBBindType\fP t, \fBQueue\fP< \fBData\fP * > *q)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBBindType\fP \fBtype\fP"
+.br
+.ti -1c
+.RI "\fBSender\fP * \fBsender\fP"
+.br
+.ti -1c
+.RI "\fBReciver\fP * \fBreciver\fP"
+.br
+.ti -1c
+.RI "\fBQueue\fP< \fBData\fP * > * \fBin\fP"
+.br
+.ti -1c
+.RI "\fBQueue\fP< \fBData\fP * > * \fBout\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 33 of file Processor.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::smpp::Connection::~Connection ()"
+.PP
+Definition at line 8 of file ServerProcessor.cpp.
+.SS "mt::smpp::Connection::Connection (\fBBindType\fP t, \fBQueue\fP< \fBData\fP * > * q)"
+.PP
+Definition at line 15 of file ServerProcessor.cpp.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBQueue\fP<\fBData\fP*>* \fBmt::smpp::Connection::in\fP"
+.PP
+Definition at line 38 of file Processor.h.
+.SS "\fBQueue\fP<\fBData\fP*>* \fBmt::smpp::Connection::out\fP"
+.PP
+Definition at line 39 of file Processor.h.
+.SS "\fBReciver\fP* \fBmt::smpp::Connection::reciver\fP"
+.PP
+Definition at line 37 of file Processor.h.
+.SS "\fBSender\fP* \fBmt::smpp::Connection::sender\fP"
+.PP
+Definition at line 36 of file Processor.h.
+.SS "\fBBindType\fP \fBmt::smpp::Connection::type\fP"
+.PP
+Definition at line 35 of file Processor.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

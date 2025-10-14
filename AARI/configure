@@ -1,0 +1,48 @@
+#!/bin/bash
+
+COMMONPROFILE="aari.pro"
+OSTYPE=$(uname)
+QT=5
+
+cp ./.settings/aari_pro00 ./aari.pro
+
+function conftarget()
+{
+	local TARGET="$1"
+	local PROFILE="./${TARGET}/${TARGET}.pro"
+
+	if ! [[ -f "$PROFILE" ]]; then 
+    	cat "./.settings/${TARGET}_pro01" > "$PROFILE"
+	    echo "    PREFIXPATHINC = $INCLUDE" >> "./$PROFILE"
+	    echo "    LIBS += -L${LIB}/qt${QT} -l${QWTLIB}" >> "./$PROFILE"
+	    echo "    INCLUDEPATH += \$\${PREFIXPATHINC}/qt${QT}/${QWTINC} \\" >> "./$PROFILE"
+	    cat "./.settings/${TARGET}_pro02" >> "./$PROFILE"
+	fi
+}
+
+if [[ "$OSTYPE" == "FreeBSD" ]]; then
+    QMAKE="/usr/local/bin/qmake"
+    INCLUDE="/usr/local/include"
+    LIB="/usr/local/lib"
+    QWTLIB="qwt6"
+    QWTINC="qwt6"
+elif [[ "$OSTYPE" == "Linux" ]]; then
+    QMAKE="/usr/bin/qmake"
+    INCLUDE="/usr/include"
+    LIB="/usr/lib64"
+    QWTLIB="qwt-qt5"
+    QWTINC="qwt6"
+fi
+
+[[ -d "./tmp" ]] || mkdir "./tmp"
+
+
+conftarget "brga"
+#conftarget "brga-qt6"
+
+$QMAKE -o Makefile "$COMMONPROFILE"
+
+cat ./.settings/make.add >> ./Makefile
+cp ./.settings/.gitignore ./
+
+exit 0

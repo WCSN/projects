@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<Options>
+		<Datafiles filedata="/home/wocson/data/nfparser.dat"
+			filestat="/home/wocson/data/nfparser.sta" />
+		<Pidfile pidfile="/home/wocson/var/run/nfparser.pid" />
+		<Timeoutstat timeoutstatistic="10" /> <!-- in seconds -->
+		<Flows maxflows="64" /> <!-- increase this if have drop packets -->
+	</Options>
+	<Connections>
+		<VRadiusIP lhost="0.0.0.0" dhost="127.0.0.1" dport="3813"
+			username="nfparser" sharedSecret="secret" />
+		<TemplateProcessorIP lhost="0.0.0.0" lport="0"
+			dhost="127.0.0.1" dport="7777" id="NFPARSER1" />
+		<NflowSourceIP dhost="0.0.0.0" dport="9993" />
+	</Connections>
+	<Filters>
+		<Filter id="1FOKsiBdsipti">
+			<srcNet network="10.255.2.0/24" operation="include" />
+		</Filter>
+		<Filter id="2FOKsiBdsipti">
+			<srcNet network="10.255.2.0/24" operation="include" />
+			<dstport value="1234" operation="include" />
+		</Filter>
+
+	</Filters>
+</config>

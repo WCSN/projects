@@ -1,0 +1,66 @@
+.TH "mt::OrderSafeProcessorHandler" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::OrderSafeProcessorHandler \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <OrderSafeProcessorHandler.h>\fP
+.PP
+Inherits \fBmt::InfiniteThread\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBsetInQueue\fP (\fBQueue\fP< std::pair< uint32_t, DataIn > > *q)"
+.br
+.ti -1c
+.RI "void \fBsetOutQueue\fP (\fBOrderSafeQueue\fP< DataOut > *q)"
+.br
+.ti -1c
+.RI "void \fBsetInterface\fP (const \fBmt::SmartPtr\fP< \fBOrderSafeProcessorInterface\fP< DataIn, DataOut > > &i)"
+.br
+.ti -1c
+.RI "\fBOrderSafeProcessorHandler\fP ()"
+.br
+.ti -1c
+.RI "void \fBrunLoop\fP ()"
+.br
+.RI "\fIThe method will called in infinite loop created thread. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class DataIn, class DataOut> class mt::OrderSafeProcessorHandler< DataIn, DataOut >"
+
+.PP
+Definition at line 19 of file OrderSafeProcessorHandler.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class DataIn , class DataOut > \fBmt::OrderSafeProcessorHandler\fP< DataIn, DataOut >::\fBOrderSafeProcessorHandler\fP ()"
+.PP
+Definition at line 45 of file OrderSafeProcessorHandler.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class DataIn , class DataOut > void \fBmt::OrderSafeProcessorHandler\fP< DataIn, DataOut >::runLoop ()\fC [virtual]\fP"
+.PP
+The method will called in infinite loop created thread. Client MUST define this method. 
+.PP
+Implements \fBmt::InfiniteThread\fP.
+.PP
+Definition at line 52 of file OrderSafeProcessorHandler.h.
+.SS "template<class DataIn, class DataOut> void \fBmt::OrderSafeProcessorHandler\fP< DataIn, DataOut >::setInQueue (\fBQueue\fP< std::pair< uint32_t, DataIn > > * q)\fC [inline]\fP"
+.PP
+Definition at line 26 of file OrderSafeProcessorHandler.h.
+.SS "template<class DataIn, class DataOut> void \fBmt::OrderSafeProcessorHandler\fP< DataIn, DataOut >::setInterface (const \fBmt::SmartPtr\fP< \fBOrderSafeProcessorInterface\fP< DataIn, DataOut > > & i)\fC [inline]\fP"
+.PP
+Definition at line 34 of file OrderSafeProcessorHandler.h.
+.SS "template<class DataIn, class DataOut> void \fBmt::OrderSafeProcessorHandler\fP< DataIn, DataOut >::setOutQueue (\fBOrderSafeQueue\fP< DataOut > * q)\fC [inline]\fP"
+.PP
+Definition at line 30 of file OrderSafeProcessorHandler.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

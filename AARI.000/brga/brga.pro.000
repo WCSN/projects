@@ -1,0 +1,448 @@
+################################################################
+# BRGA
+# Copyright (C) 2019   Vladimir Noskov
+# Using QWT
+# Copyright (C) 2019   Josef Wilgen
+# Copyright (C) 2002   Uwe Rathmann
+################################################################
+
+TEMPLATE = app
+TARGET = brga
+DEPENDPATH += . src
+INCLUDEPATH += . src
+#OBJECTS_DIR = obj
+#DESTDIR  = ../bin
+COMMONSRC = ../common
+
+QMAKE_CXXFLAGS   *= -std=c++17
+#QMAKE_CXXFLAGS	 *= -O3
+
+QT += widgets printsupport serialport network
+
+#QMAKE_LFLAGS += -static -static-libgcc
+
+INCLUDEPATH += \
+        $${COMMONSRC}
+
+# Source
+HEADERS += \
+        src/plotterbox.h \
+        src/axistag.h \
+        src/mainwindow.h \
+        src/vplot.h \
+        src/options.h \
+        $${COMMONSRC}/qcustomplot.h \
+		$${COMMONSRC}/settings.h \
+        $${COMMONSRC}/wlib.h
+
+SOURCES += \
+        src/plotterbox.cpp \
+        src/axistag.cpp \
+        src/main.cpp \
+        src/mainwindow.cpp \
+        src/vplot.cpp \
+        src/options.cpp \
+        $${COMMONSRC}/qcustomplot.cpp \
+		$${COMMONSRC}/settings.cpp \
+        $${COMMONSRC}/wlib.cpp 
+
+FORMS += \
+        resources/plotterbox.ui \
+    	resources/options.ui \
+	    resources/mainwindow.ui
+
+RESOURCES += \
+    	resources/icons.qrc \
+    	resources/btns.qrc 
+
+TRANSLATIONS += \
+    	src/english.ts \
+    	src/russian.ts
+
+######################################################################
+# qmake internal options
+######################################################################
+
+CONFIG           += qt
+CONFIG           += warn_on
+#CONFIG           += no_keywords
+CONFIG           += silent
+
+QWT_VER_MAJ      = 6
+QWT_VER_MIN      = 2
+QWT_VER_PAT      = 0
+QWT_VERSION      = $${QWT_VER_MAJ}.$${QWT_VER_MIN}.$${QWT_VER_PAT}
+
+win32 {
+#    QWT_PREFIX    = C:/Qt/qwt-$${QWT_VERSION}
+    QWT_PREFIX    = C:/Qt/qwt
+    QWT_DOCS      = $${QWT_PREFIX}/doc
+    QWT_HEADERS   = $${QWT_PREFIX}/include
+    QWT_LIBS      = $${QWT_PREFIX}/lib
+    LIBS += -lqwt -L$${QWT_LIBS}
+    INCLUDEPATH += $${QWT_PREFIX}/include
+}
+
+unix {
+    PREFIXPATHINC = /usr/local/include
+    LIBS += -L/usr/local/lib/qt5 -lqwt6
+    INCLUDEPATH += $${PREFIXPATHINC}/qt5/qwt6 \
+    $${PREFIXPATHINC}/qt5/QtWidgets \
+    $${PREFIXPATHINC}/qt5/QtMultimedia
+}
+
+######################################################################
+# release/debug mode
+######################################################################
+
+win32 {
+    # On Windows you can't mix release and debug libraries.
+    # The designer is built in release mode. If you like to use it
+    # you need a release version. For your own application development you
+    # might need a debug version.
+    # Enable debug_and_release + build_all if you want to build both.
+
+    CONFIG           += debug_and_release
+    CONFIG           += build_all
+}
+else {
+
+    CONFIG           += debug_and_release
+    VER_MAJ           = $${QWT_VER_MAJ}
+    VER_MIN           = $${QWT_VER_MIN}
+    VER_PAT           = $${QWT_VER_PAT}
+    VERSION           = $${QWT_VERSION}
+}
+
+######################################################################
+# CustomPlot
+######################################################################
+
+DEFINES += QCUSTOMPLOT_USE_OPENGL
+
+unix {
+	LIBS += -lOpenGL
+}
+
+win32 {
+	LIBS += -lopengl32
+}
+
+######################################################################
+# paths for building qwt
+######################################################################
+
+MOC_DIR      = moc
+RCC_DIR      = resources
+
+!debug_and_release {
+
+    # in case of debug_and_release object files
+    # are built in the release and debug subdirectories
+    OBJECTS_DIR       = obj
+}
+
+######################################################################
+# Install paths
+######################################################################
+
+QWT_INSTALL_PREFIX = $$[QT_INSTALL_PREFIX]
+#/include/qt5/qwt6
+unix {
+	QWT_INSTALL_PREFIX    = /usr/local
+	QWT_INSTALL_DOCS      = $${QWT_INSTALL_PREFIX}/share/doc/qwt6-qt5
+	QWT_INSTALL_HEADERS   = $${QWT_INSTALL_PREFIX}/include/qt5/qwt6
+	QWT_INSTALL_LIBS      = $${QWT_INSTALL_PREFIX}/lib/qt5
+}
+
+win32 {
+#	QWT_INSTALL_PREFIX    = C:/Qwt-$$QWT_VERSION
+	QWT_INSTALL_PREFIX    = C:/Qwt
+	# QWT_INSTALL_PREFIX = C:/Qwt-$$QWT_VERSION-qt-$$QT_VERSION
+
+	QWT_INSTALL_DOCS      = $${QWT_INSTALL_PREFIX}/doc
+	QWT_INSTALL_HEADERS   = $${QWT_INSTALL_PREFIX}/include
+	QWT_INSTALL_LIBS      = $${QWT_INSTALL_PREFIX}/lib
+}
+
+
+######################################################################
+# Designer plugin
+# creator/designer load designer plugins from certain default
+# directories ( f.e the path below QT_INSTALL_PREFIX ) and the
+# directories listed in the QT_PLUGIN_PATH environment variable.
+# When using the path below QWT_INSTALL_PREFIX you need to
+# add $${QWT_INSTALL_PREFIX}/plugins to QT_PLUGIN_PATH in the
+# runtime environment of designer/creator.
+######################################################################
+
+QWT_INSTALL_PLUGINS   = $${QWT_INSTALL_PREFIX}/share/plugins/designer
+
+# linux distributors often organize the Qt installation
+# their way and QT_INSTALL_PREFIX doesn't offer a good
+# path. Also QT_INSTALL_PREFIX is only one of the default
+# search paths of the designer - not the Qt creator
+
+#QWT_INSTALL_PLUGINS   = $$[QT_INSTALL_PREFIX]/share/plugins/designer
+
+######################################################################
+# Features
+# When building a Qwt application with qmake you might want to load
+# the compiler/linker flags, that are required to build a Qwt application
+# from qwt.prf. Therefore all you need to do is to add "CONFIG += qwt"
+# to your project file and take care, that qwt.prf can be found by qmake.
+# ( see http://doc.trolltech.com/4.7/qmake-advanced-usage.html#adding-new-configuration-features )
+# I recommend not to install the Qwt features together with the
+# Qt features, because you will have to reinstall the Qwt features,
+# with every Qt upgrade.
+######################################################################
+
+QWT_INSTALL_FEATURES  = $${QWT_INSTALL_PREFIX}/share/features
+# QWT_INSTALL_FEATURES  = $$[QT_INSTALL_PREFIX]/features
+
+######################################################################
+# Build the static/shared libraries.
+# If QwtDll is enabled, a shared library is built, otherwise
+# it will be a static library.
+######################################################################
+
+QWT_CONFIG           += QwtDll
+
+######################################################################
+# QwtPlot enables all classes, that are needed to use the QwtPlot
+# widget. 
+######################################################################
+
+QWT_CONFIG       += QwtPlot
+
+######################################################################
+# QwtWidgets enables all classes, that are needed to use the all other
+# widgets (sliders, dials, ...), beside QwtPlot.
+######################################################################
+
+QWT_CONFIG     += QwtWidgets
+
+######################################################################
+# If you want to display svg images on the plot canvas, or
+# export a plot to a SVG document
+######################################################################
+
+QWT_CONFIG     += QwtSvg
+
+######################################################################
+# If you want to use a OpenGL plot canvas
+######################################################################
+
+QWT_CONFIG     += QwtOpenGL
+
+######################################################################
+# You can use the MathML renderer of the Qt solutions package to
+# enable MathML support in Qwt. Because of license implications
+# the ( modified ) code of the MML Widget solution is included and
+# linked together with the QwtMathMLTextEngine into an own library.
+# To use it you will have to add "CONFIG += qwtmathml"
+# to your qmake project file.
+######################################################################
+
+#QWT_CONFIG     += QwtMathML
+
+######################################################################
+# If you want to build the Qwt designer plugin,
+# enable the line below.
+# Otherwise you have to build it from the designer directory.
+######################################################################
+
+QWT_CONFIG     += QwtDesigner
+
+######################################################################
+# Compile all Qwt classes into the designer plugin instead
+# of linking it against the shared Qwt library. Has no effect
+# when QwtDesigner or QwtDll are not both enabled.
+#
+# On systems where rpath is supported ( all Unixoids ) the
+# location of the installed Qwt library is compiled into the plugin,
+# but on Windows it might be easier to have a self contained
+# plugin to avoid any hassle with configuring the runtime
+# environment of the designer/creator.
+######################################################################
+
+win32 {
+    QWT_CONFIG     += QwtDesignerSelfContained
+}
+
+######################################################################
+# If you want to auto build the examples, enable the line below
+# Otherwise you have to build them from the examples directory.
+######################################################################
+
+#QWT_CONFIG     += QwtExamples
+
+######################################################################
+# The playground is primarily intended for the Qwt development
+# to explore and test new features. Nevertheless you might find
+# ideas or code snippets that help for application development
+# If you want to auto build the applications in playground, enable
+# the line below.
+# Otherwise you have to build them from the playground directory.
+######################################################################
+
+#QWT_CONFIG     += QwtPlayground
+
+######################################################################
+# When Qt has been built as framework qmake wants
+# to link frameworks instead of regular libs
+######################################################################
+
+macx:!static:CONFIG(qt_framework, qt_framework|qt_no_framework) {
+
+    QWT_CONFIG += QwtFramework
+}
+
+######################################################################
+# Create and install pc files for pkg-config
+# See http://www.freedesktop.org/wiki/Software/pkg-config/
+######################################################################
+
+unix {
+
+    QWT_CONFIG     += QwtPkgConfig
+}
+
+defineReplace(qwtLibraryTarget) {
+
+    unset(LIBRARY_NAME)
+    LIBRARY_NAME = $$1
+
+    mac:contains(QWT_CONFIG, QwtFramework) {
+
+        QMAKE_FRAMEWORK_BUNDLE_NAME = $$LIBRARY_NAME
+        export(QMAKE_FRAMEWORK_BUNDLE_NAME)
+    }
+
+    contains(TEMPLATE, .*lib):CONFIG(debug, debug|release) {
+
+        !debug_and_release|build_pass {
+
+            mac:RET = $$member(LIBRARY_NAME, 0)_debug
+            win32:RET = $$member(LIBRARY_NAME, 0)d
+        }
+    }
+
+    isEmpty(RET):RET = $$LIBRARY_NAME
+    return($$RET)
+}
+
+defineTest(qwtAddLibrary) {
+
+    LIB_PATH = $$1
+    LIB_NAME = $$2
+
+    mac:contains(QWT_CONFIG, QwtFramework) {
+
+        LIBS      *= -F$${LIB_PATH}
+    }
+    else {
+
+        unix:lessThan(QT_MAJOR_VERSION, 5) {
+
+            # Many Linux distributions install Qwt in the same directory
+            # as the Qt libs and thus we need to prepend the path for the local build
+            # to avoid conflicting with the installed version.
+            # Qt5 qmake appends ( instead of prepending ) the path to the Qt libs
+            # to LIBS, but for Qt4 we need to use the QMAKE_LIBDIR_FLAGS.
+
+            QMAKE_LIBDIR_FLAGS *= -L$${LIB_PATH}
+        }
+        else {
+            LIBS *= -L$${LIB_PATH}
+        }
+    }
+
+    unset(LINKAGE)
+
+    mac:contains(QWT_CONFIG, QwtFramework) {
+
+        LINKAGE = -framework $${LIB_NAME}
+    }
+
+    isEmpty(LINKAGE) {
+
+        if(!debug_and_release|build_pass):CONFIG(debug, debug|release) {
+
+            mac:LINKAGE = -l$${LIB_NAME}_debug
+            win32:LINKAGE = -l$${LIB_NAME}d
+        }
+    }
+
+    isEmpty(LINKAGE) {
+
+        LINKAGE = -l$${LIB_NAME}
+    }
+
+    !isEmpty(QMAKE_LSB) {
+
+        QMAKE_LFLAGS *= --lsb-shared-libs=$${LIB_NAME}
+    }
+
+    LIBS += $$LINKAGE
+    export(LIBS)
+    export(QMAKE_LFLAGS)
+    export(QMAKE_LIBDIR_FLAGS)
+
+    return(true)
+}
+
+ROOT = $${PWD}
+OUT_ROOT = $${OUT_PWD}
+
+INCLUDEPATH += $${ROOT}/src
+DEPENDPATH  += $${ROOT}/src
+
+!debug_and_release {
+
+    DESTDIR      = $${OUT_ROOT}/release
+}
+else {
+    CONFIG(debug, debug|release) {
+
+        DESTDIR      = $${OUT_ROOT}/debug
+    }
+    else {
+
+        DESTDIR      = $${OUT_ROOT}/release
+    }
+}
+
+QMAKE_RPATHDIR *= $${OUT_ROOT}/lib
+#qwtAddLibrary($${OUT_ROOT}/lib/qt5, qwt)
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+
+    QT += printsupport
+    QT += concurrent
+}
+
+contains(QWT_CONFIG, QwtOpenGL ) {
+
+    QT += opengl
+}
+else {
+
+    DEFINES += QWT_NO_OPENGL
+}
+
+contains(QWT_CONFIG, QwtSvg) {
+
+    QT += svg
+}
+else {
+
+    DEFINES += QWT_NO_SVG
+}
+
+
+win32 {
+    contains(QWT_CONFIG, QwtDll) {
+        DEFINES    += QT_DLL QWT_DLL
+    }
+}

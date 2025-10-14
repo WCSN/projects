@@ -1,0 +1,159 @@
+.TH "mt::InfiniteThread" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::InfiniteThread \- 
+.PP
+The class create thread and start code in infinite loop in this thread.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <InfiniteThread.h>\fP
+.PP
+Inherits \fBmt::Thread\fP.
+.PP
+Inherited by \fBmt::ConfigChecker\fP, \fBmt::LogCollector\fP, \fBmt::OrderSafeProcessorHandler< DataIn, DataOut >\fP, \fBmt::smpp::Inspector\fP, \fBmt::smpp::Processor\fP, \fBmt::smpp::Reciver\fP, and \fBmt::smpp::Sender\fP.
+.SS "Public Member Functions"
+
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBInfiniteThread\fP (uint32_t timeout=0)"
+.br
+.ti -1c
+.RI "\fBInfiniteThread\fP (const std::string &name, uint32_t stackSize=DEFAULT_STACK_SIZE, uint32_t timeout=0)"
+.br
+.ti -1c
+.RI "virtual \fB~InfiniteThread\fP ()"
+.br
+.in -1c
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "virtual void \fBstart\fP ()"
+.br
+.RI "\fICreate and start thread. \fP"
+.ti -1c
+.RI "virtual void \fBstop\fP ()"
+.br
+.RI "\fIStop thread. \fP"
+.in -1c
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBrunLoop\fP ()=0"
+.br
+.RI "\fIThe method will called in infinite loop created thread. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+The class create thread and start code in infinite loop in this thread. 
+
+\fBDeclaration:\fP
+.br
+ 
+.PP
+.nf
+ class InOtherThread : public mt::InfiniteThread {
+   void runLoop() {
+     //This code will work in infinite loop in other thread.
+   }
+ };
+
+.fi
+.PP
+.PP
+\fBUsage:\fP 
+.br
+ 
+.PP
+.nf
+ InOtherThread thread;
+ thread.start(); //Create and start thread.
+ thread.stop(); //Stop thread.
+
+.fi
+.PP
+ 
+.PP
+Definition at line 28 of file InfiniteThread.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::InfiniteThread::InfiniteThread (uint32_t timeout = \fC0\fP)"\fBParameters:\fP
+.RS 4
+\fItimeout\fP The pause in milliseconds between executing \fI\fBrunLoop()\fP\fP. \fItimeout\fP set to 0 by default. 
+.RE
+.PP
+
+.PP
+Definition at line 6 of file InfiniteThread.cpp.
+.SS "mt::InfiniteThread::InfiniteThread (const std::string & name, uint32_t stackSize = \fCDEFAULT_STACK_SIZE\fP, uint32_t timeout = \fC0\fP)"\fBParameters:\fP
+.RS 4
+\fIname\fP Name of the thread. 
+.br
+\fIstackSize\fP Stack size of the thread. 
+.br
+\fItimeout\fP The pause in milliseconds between executing \fB\fBrunLoop()\fP\fP. \fItimeout\fP set to 0 by default. 
+.RE
+.PP
+
+.PP
+Definition at line 10 of file InfiniteThread.cpp.
+.SS "mt::InfiniteThread::~InfiniteThread ()\fC [virtual]\fP"
+.PP
+Definition at line 15 of file InfiniteThread.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual void mt::InfiniteThread::runLoop ()\fC [protected, pure virtual]\fP"
+.PP
+The method will called in infinite loop created thread. Client MUST define this method. 
+.PP
+Implemented in \fBmt::OrderSafeProcessorHandler< DataIn, DataOut >\fP, \fBmt::LogCollector\fP, \fBmt::smpp::ClientInspector\fP, \fBmt::smpp::ClientProcessor\fP, \fBmt::smpp::Reciver\fP, \fBmt::smpp::Sender\fP, \fBmt::smpp::ServerProcessor\fP, and \fBmt::ConfigChecker\fP.
+.SS "void mt::InfiniteThread::start ()\fC [virtual]\fP"
+.PP
+Create and start thread. \fBExceptions:\fP
+.RS 4
+\fImt::ThreadAlreadyRunningException\fP if the thread already started. 
+.br
+\fImt::ThreadTooManyThreadsException\fP if threads limit was reached. 
+.br
+\fImt::ThreadInvalidArgumentException\fP if some of given arguments are invalid. 
+.br
+\fImt::ThreadNoMemoryException\fP if no memory. 
+.br
+\fImt::ThreadCantStartException\fP if other errors was occurred. 
+.RE
+.PP
+
+.PP
+Reimplemented from \fBmt::Thread\fP.
+.PP
+Definition at line 20 of file InfiniteThread.cpp.
+.SS "void mt::InfiniteThread::stop ()\fC [virtual]\fP"
+.PP
+Stop thread. 
+.PP
+Reimplemented from \fBmt::Thread\fP.
+.PP
+Reimplemented in \fBmt::LogCollector\fP, \fBmt::smpp::Reciver\fP, and \fBmt::smpp::Sender\fP.
+.PP
+Definition at line 28 of file InfiniteThread.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

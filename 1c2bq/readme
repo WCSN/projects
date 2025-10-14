@@ -1,0 +1,10 @@
+Convetting 1C to Bisquit
+
+Create: вторник, 14 июня 2012 г.
+
+1c2bq			script
+readme			readme
+test.xml		1C export file
+test.csv		BQ import file
+xml2csv.xslt		xml transform tags
+

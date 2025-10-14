@@ -1,0 +1,44 @@
+#!/bin/bash
+######################################################
+##
+## Loader / Unloader Virtual Box modules
+##
+## wocson (c)
+##
+######################################################
+
+function usage()
+{
+    echo -ne "    \nusage:\n\tvboxmod [start|stop]\n\n"
+}
+
+function cmd_exec()
+{
+    local CMD="$1"
+    
+    sudo $CMD vboxdrv.ko
+    sudo $CMD vboxnetflt.ko
+    sudo $CMD vboxnetadp.ko
+}
+
+case $1 in
+start)
+    echo "Starting vbox modules"
+    cmd_exec "kldload"
+;;
+stop)
+    echo "Stoping vbox modules"
+    cmd_exec "kldunload -fv"
+;;
+--help)
+    usage
+    exit 0
+;;
+*)
+    echo -en "Unknown command $1 !!!"
+    usage
+    exit -1
+;;
+esac
+
+exit 0

@@ -1,0 +1,47 @@
+#!/bin/bash
+# echo подсветка
+# echo color 
+#
+# http://ashep.org/2011/10-poleznyx-utilit-dlya-ispolzovaniya-v-scenariyax/#.V2q9kOcxBpg
+#
+
+
+source ./share/bash.inc
+
+clear  
+
+gotoxy 1 1 ; echo -en "$LGREEN$TERM $TC X $TL"
+
+#dialog --calendar "`date`" 20 100 01 01 2016
+#dialog --title "Memory Results" --infobox "`echo ;vmstat;echo ;echo`" 15 85
+#echo response=$?
+
+X=1
+shifty=3
+
+for (( sh=0 ; sh<38 ; sh++ )); do
+
+    lenstr=$(strlen "$sh")
+
+	Y=$(( 1+$shifty ))
+	gotoxy $X $Y ;  echo -en "\033[0;$sh" ; echo -en 'm'; echo -en "$sh" ;
+	
+	Y=$(( 2+$shifty ))
+	gotoxy $X $Y ;  echo -en "\033[1;$sh" ; echo -en 'm'; echo -en "$sh" ;
+	  
+	Y=$(( 3+$shifty ))
+	gotoxy $X $Y ;  echo -en "\033[2;$sh" ; echo -en 'm'; echo -en "$sh" ;
+
+	Y=$(( 4+$shifty ))
+	gotoxy $X $Y ;  echo -en "\033[3;$sh" ; echo -en 'm'; echo -en "$sh" ;
+
+	X=$(( $X+$lenstr+1 ))
+
+#	 printf "$LGREEN%2s" $sh
+#    #outtextxy 5 $(( $sh+$np )) $LGREEN "$sh"
+
+done
+
+echo ''
+
+

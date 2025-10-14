@@ -1,0 +1,144 @@
+#!/bin/bash
+####################################################
+##
+## Prepare Phonogram for record to DAT
+##
+## m3u to txt
+##
+## requare: ffmpeg
+##
+## wocson (c)
+##
+####################################################
+[[ -f "./Makefile" ]] && DEBUG="YES" || DEBUG="NO"; [[ "${DEBUG^^}" == "YES" ]] && PRFXDIR="$PWD/src" || PRFXDIR="$HOME" # $PRFXDIR
+
+n=0 ; fline="" ;
+TIMESUMALL=0; TIMESUMTRK=0; TIMESUMSLN=0;
+
+SHAREDIR="$PRFXDIR/.local/share/Phonograph"
+LIBDIR="$SHAREDIR/lib"
+source "$LIBDIR/tcolor_inc.lib"
+
+TYPELIST="$1"
+FILEM3U="$2"
+
+MM=0; HH=0; SS=0; RESINFO=""; HAVEPAUSETRK="NO"
+DOCS="$PRFXDIR/.local/share/Phonograph/doc/tm_cassett.txt"
+
+function resultinfo()
+{
+    local TIMEVAR="$1" MM=0 HH=0 SS=0
+    let MM=TIMEVAR/60; let SS=TIMEVAR-$MM*60; let HH=0
+
+    if (( $MM > 59 )); then
+        let HH=MM/60; let MM=MM-HH*60
+    fi
+
+    if (( $HH < 10 )); then HH="0$HH"; fi
+    if (( $MM < 10 )); then MM="0$MM"; fi
+    if (( $SS < 10 )); then SS="0$SS"; fi
+
+    RESINFO="$HH:$MM:$SS"
+}
+
+if [[ -z "$FILEM3U" ]]; then usage; exit 0;fi
+
+case "$TYPELIST" in
+csv)
+    CSVFMT="YES"
+;;
+txt)
+    CSVFMT="NO"
+;;
+*)
+;;
+esac
+
+if ! [[ -f "$FILEM3U" ]]; then
+    echo -e " File m3u\n $FILEM3U\n not find."
+    exit 7;
+fi
+
+TITLC="${BYELLOW}${BGBLUE}"
+INFOC="${WHITE}${BGBLUE}"
+CL1=9; CL2=3; CL3=7; CL4=$(( TC-(CL1+CL2+CL3)-5 ))
+
+if [[ "$CSVFMT" == "NO" ]]; then
+    printf "${TITLC}%-${TC}s${INFOC}\n" " Count list:"
+    printf "┌─────────┬───┬───────┬"; LN="$(printf "─%.s" $(seq $CL4))"; printf "$LN┐\n";
+    printf "│%-${CL1}s│%-${CL2}s│%-${CL3}s│%-${CL4}s│\n" "Count" "ID" "time tr" "Name track"
+    printf "├─────────┼───┼───────┼"; LN="$(printf "─%.s" $(seq $CL4))"; printf "$LN┤\n";
+else
+    printf "%s;%s;%s;%s;\n" "Count" "#tr" "ttr" "Name track"
+fi
+
+while read -r -u5 fline ; do
+    if (( "${#fline}" > 0 )); then
+
+        NAME="$(echo -e "$fline" | grep "EXTINF" | cut -f2 -d',')"
+
+        if (( "${#NAME}" > 0 )); then
+
+            TIME=$(echo "$fline" | grep "EXTINF" | cut -f2 -d':' | cut -f1 -d',')
+            TIME=$(echo "$TIME/1" | bc)
+
+            let MM=TIME/60
+            let SS=TIME-MM*60
+
+            if (( $SS < 10 )); then SS="0$SS"; fi
+            if (( $MM < 10 )); then MM="0$MM"; fi
+
+            if ! [ -z "${NAME##*$'= SILENCE ='*}" ]; then
+
+                let TIMESUMTRK=TIMESUMTRK+TIME
+
+                let ntr++
+                if [[ "$CSVFMT" == "NO" ]]; then
+                    if (( ntr > 0 && ntr < 10 )); then NTR="  $ntr";
+                    elif (( ntr > 9 && ntr < 100 )); then NTR=" $ntr";
+                    elif (( ntr > 99 )); then NTR="$ntr";
+                    fi
+                else
+                    NTR=$ntr
+                fi
+
+                resultinfo $TIMESUMALL
+
+                if [[ "$CSVFMT" == "NO" ]]; then
+                    printf "│%${CL1}s│%${CL2}s│%${CL3}s│%-${CL4}s│\n" "$RESINFO" "$NTR" "$MM:$SS" "$NAME"
+                else
+                    printf "%s;%s;%s;%s;\n" "$RESINFO" "$NTR" "$MM:$SS" "$NAME"
+                fi
+
+            elif [ -z "${NAME##*$'= SILENCE ='*}" ]; then
+                let TIMESUMSLN=TIMESUMSLN+TIME
+                if [[ "$PAUSETRK" == "YES" ]]; then
+                    TMPAUSE="$SEP30 +$MM:$SS$SEP31"
+                    HAVEPAUSETRK="YES"
+                fi
+            fi
+            let TIMESUMALL=TIMESUMALL+TIME
+        fi
+    fi
+done 5< "$FILEM3U"
+
+resultinfo $TIMESUMALL
+if [[ "$CSVFMT" == "NO" ]]; then
+    printf "├─────────┼───┴───────┴"; LN="$(printf "─%.s" $(seq $CL4))"; printf "$LN┤\n";
+    CL2=$(( TC-CL1-3 ))
+    printf "│%${CL1}s│%-${CL2}s│\n" "$RESINFO" " TAPE END"
+else
+    printf "%s;%s;\n" "$RESINFO" " TAPE END"
+fi
+
+if [[ "$CSVFMT" == "NO" ]]; then
+    printf "└─────────┴";  LN="$(printf "─%.s" $(seq $CL2))"; printf "$LN┘\n";
+    resultinfo $TIMESUMTRK; RES01=" Time: all tracks $RESINFO"
+    resultinfo $TIMESUMSLN; RES02="pauses $RESINFO"
+    resultinfo $TIMESUMALL; RES03="total: $RESINFO"
+    echo -e "${TITLC}$RES01 $RES02 $RES03${NORMAL}${INFOC}"
+    while read -r -u5 fline ; do
+        printf "$fline\n"
+    done 5< "$DOCS"
+    printf "${NORMAL}"
+fi

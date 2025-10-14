@@ -1,0 +1,19 @@
+#!/bin/bash
+############################################################################
+##
+##  requares
+##
+##  wocson (c) 2024
+##
+############################################################################
+
+PATH2SAVE=/mnt/da0/Storages/save_projects
+
+    Pwd=$(basename $PWD)
+    tar="$Pwd"
+    Date=$(date +'%Y%m%d_%H%M%S')
+    Ver=$(grep "version:" ./readme | cut -f2 -d':' | cut -c2-)
+    cd .. && \
+    tar cf - "$Pwd" | 7zz a -si "$tar-$Ver-$Date.tar.7z"
+    echo "Store to: $tar-$Ver-$Date.tar.7z"
+    cp "$tar-$Ver-$Date.tar.7z" "$PATH2SAVE"/

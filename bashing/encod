@@ -1,0 +1,107 @@
+#!/bin/bash
+#
+# Eccode aes-bf | Decode bf-aes files in directory
+#
+#		-s  save permishens tar?
+#
+
+usage()
+{
+  echo -en "\nUsage: $0 [-edh] [-t text] dirrectory\n\t-e Encode\n\t-d Decode\n\t-h Help\n\n"
+}
+
+coding()
+{
+    cat $2 | openssl enc -$1 -aes-256-cbc -k $GW > $2.tmp
+    if [ "$?" == "0" ]; then
+	  mv -f $2.tmp $2  	
+	else
+	  rm -f $2.tmp
+	fi
+}
+
+
+cryptotxt()
+{
+    echo -en "$(echo -en $1 | openssl enc -e -aes-256-cbc -k $GW)\n"
+}
+
+decryptotxt()
+{
+    echo -en $1 | openssl enc -d -aes-256-cbc -k $GW
+}
+
+
+cryptodir()
+{
+	  D=$2
+      opt=$1
+
+#	for D in $WDIR/* ;  do 
+	  if [ -d $D ]; then
+		for F in $D/* ;  do
+		  if [ -f "$F" ];  then
+
+  			case "$opt" in
+    		"e")
+			  #Encode        
+			  coding 'e' $F
+      		;;
+    		"d")
+			  #Decode
+			  coding 'd' $F
+      		;;
+  			esac
+      	  fi
+		done
+		# if [ "$D" == "/bin" ]; then 
+		#  break
+		# fi
+	  fi
+#	done
+}
+
+echo "Load... $0 $1 $2 $3"
+
+if [ ! "$#" == "2" ]; then
+  usage
+  exit
+elif [ "$1" == "-t" ] || [ "$1" == "-r" ]; then
+	CONTT=$2
+else
+	WDIR=$2			# work dir
+	if [ ! -e $WDIR ]; then echo "Directory $WDIR not find" ; exit 0; fi
+fi
+
+read -p "Gendalf say: " GW
+
+    case "$1" in
+      "-e")
+		  #Encode        
+		  echo "Encode $WDIR"
+		  cryptodir $1 $WDIR
+        ;;
+      "-d")
+		  #Decode
+      	  echo "Decode $WDIR"
+  		  cryptodir $1 $WDIR
+        ;;
+	  "-h")
+		  usage
+		;;
+	  "-t")
+		  cryptotxt $CONTT
+		;;
+	  "-r")
+		  decryptotxt $CONTT
+		;;
+      "-?")
+      	  echo "Unknown option $OPTARG"
+		  usage
+        ;;
+      *)
+      # Соответствий не найдено
+        echo "Unknown error while processing options"
+		usage
+        ;;
+    esac

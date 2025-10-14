@@ -1,0 +1,23 @@
+#!/bin/python
+##############################################################################
+##
+## translate
+##
+## xdotool key 'ctrl+c'; xclip -out -sel clip | translit | xclip -in -sel clip; xdotool key 'ctrl+v'
+##
+## Повесить на глобальный хот-кей. 
+##
+##############################################################################
+
+import sys
+
+# Define the Latin and Cyrillic character sets
+lat = r'\`~!@#$&qwertyuiop[]asdfghjkl;\'zxcvbnm,./QWERTYUIOP{}ASDFGHJKL:\"|ZXCVBNM<>?'  #'
+cyr = r'ёЁ!\"№;%:?йцукенгшщзхъфывапролджэячсмитьбю.ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭ/ЯЧСМИТЬБЮ,'
+
+# Read from standard input
+for line in sys.stdin:
+    # Translate characters from Latin to Cyrillic and vice versa
+    translated_line = line.translate(str.maketrans(lat + cyr, cyr + lat))
+    # Print the translated line
+    print(translated_line, end='')

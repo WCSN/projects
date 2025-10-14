@@ -1,0 +1,109 @@
+#!/bin/zsh
+
+ARCHIVE=$HOME/projects/archive_backups
+
+help()
+{
+  echo -e "\nHELP:\n"
+  echo -e " setup - copy all need files to work directories\n"
+  echo " ./setup   debug|d - debug"
+  echo " ./setup release|r - release"
+  echo " ./setup sindend|s - sinsend"
+  echo " ./setup     all|a - setup all variants"
+  echo " ./setup        -h - help"
+}
+
+setupdebug()
+{
+  echo -e "\nSetup DEBUG:"
+  sudo cp -v ./bin/aspd_debug /usr/bin/
+  if ! [ -f "/usr/bin/aspdtail" ]; then
+	sudo cp -v /usr/bin/tail /usr/bin/aspdtail
+  fi
+  sudo chown root:aspd /usr/bin/aspdtail
+}
+
+setuprelease()
+{
+  echo -e "\nSetup RELEASE:"
+#  sudo cp -v ./abook/abook.d /var/aspd/abook/
+#  sudo cp -v ./abook/abook.d ./src/abook/
+  sudo cp -v ./bin/sinsend /home/meteo/bin/sinsend.sh
+  sudo cp -v ./wlib/aspd_inc.sh /usr/share/wlib/
+  sudo cp -v ./bin/aspd /usr/bin/aspd.sh
+  sudo cp -v ./src/etc/aspd/aspd.conf /usr/local/etc/aspd/
+  if ! [ -f "/usr/bin/aspdtail" ]; then
+	sudo cp -v /usr/bin/tail /usr/bin/aspdtail
+  fi
+  sudo chown root:aspd /usr/bin/aspdtail
+}
+
+setupsin()
+{
+  echo -e "\nSetup SINSEND:"
+  sudo cp -v ./bin/sinsend /home/meteo/bin/sinsend.sh
+  if ! [ -f "/usr/bin/aspdtail" ]; then
+	sudo cp -v /usr/bin/tail /usr/bin/aspdtail
+  fi
+  sudo chown root:aspd /usr/bin/aspdtail
+}
+
+packall()
+{
+  OLDDIR="$PWD"
+  cd ../
+  DIR=`basename $PWD`
+  NMARCH="`date +%Y%m%d-%H%M`-$DIR.tar.xz"
+  cd ..
+  tar cf - "$DIR" | xz -f > "$ARCHIVE/$NMARCH"
+
+  REMOTESYS="wocson@172.31.83.13"
+
+  echo -e "\n$NMARCH created.\nPut $NMARCH to $REMOTESYS"
+  echo -e "put $ARCHIVE/$NMARCH ./projects/meteo_aspd/$NMARCH\nexit" > "$OLDDIR/tmp/batch"
+  sftp -b "$OLDDIR/tmp/batch" "$REMOTESYS" &> /dev/null &
+  sleep 1
+  rm "$OLDDIR/tmp/batch"
+  cd "$OLDDIR"		  
+}
+
+  case $1 in 
+  debud|d)
+	setupdebug
+  ;;
+  release|r)  
+	setuprelease
+  ;;
+  sinsend|s)
+	setupsin
+  ;;
+  all|a)
+	txt="You shuire?"
+	while true; do
+	  read "?$txt(y/n/a)==> " ch
+	  case $ch in
+	  y|Y)
+		setupdebug
+		setuprelease
+		setupsin
+		packall
+		break
+	  ;;
+	  n|N|a|A)
+		echo "Cancel..."
+		break
+	  ;;
+	  *)
+	  txt="Pretision press to key! :( again... You shuire?"
+	  ;;	
+	  esac
+	done
+  ;;
+  -h|-H|*)
+	help
+  ;;
+  *)
+  ;;
+  esac
+
+  echo "DONE"

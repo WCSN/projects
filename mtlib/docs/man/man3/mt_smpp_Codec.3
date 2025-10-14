@@ -1,0 +1,55 @@
+.TH "mt::smpp::Codec" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::Codec \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Codec.h>\fP
+.PP
+Inherits \fBmt::Logable\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCodec\fP (const std::string &from, const std::string &to)"
+.br
+.ti -1c
+.RI "int32_t \fBinit\fP ()"
+.br
+.ti -1c
+.RI "int \fBEncode\fP (char *str, unsigned int len, std::string &body)"
+.br
+.ti -1c
+.RI "int \fBEncode\fP (const std::string &str, std::string &body)"
+.br
+.ti -1c
+.RI "int \fBDecode\fP (char *, unsigned int)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 26 of file Codec.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::smpp::Codec::Codec (const std::string & from, const std::string & to)"
+.PP
+Definition at line 31 of file Codec.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "int mt::smpp::Codec::Decode (char *, unsigned int)"
+.SS "int mt::smpp::Codec::Encode (char * str, unsigned int len, std::string & body)"
+.PP
+Definition at line 81 of file Codec.cpp.
+.SS "int mt::smpp::Codec::Encode (const std::string & str, std::string & body)"
+.PP
+Definition at line 102 of file Codec.cpp.
+.SS "int32_t mt::smpp::Codec::init ()"
+.PP
+Definition at line 43 of file Codec.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

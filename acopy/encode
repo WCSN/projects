@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# Backup copy to USB and NAS drive
+#
+# (c) Wocson 2015
+#
+# Create: 20131018
+# Change: 20160322
+#
+
+PREFDIR=/usr/local
+source $PREFDIR/etc/backdb.conf
+source $PREFDIR/share/backdb/backdb.inc
+
+if [ ! -f /usr/local/bin/pv ]
+then
+    pkg install -y pv
+fi
+
+if [ -f "$1" ] 
+then
+	message "INFO" "Encode: $1"
+	
+	# origin sha256
+	shasum -a 256 $1 >  $1.sha256 
+	
+	pv $1 | openssl enc -e -aes-256-cbc -k $GENDALF > $1.enc
+	message "INFO" "Control summ save in $1.sha256"	
+	
+	# after encode sha256
+	shasum -a 256 $1.enc >> $1.sha256  
+	message "INFO" "SHA256 Origin: `sed -n -e 1p $1.sha256`"
+	message "INFO" "SHA256 Encode: `sed -n -e 2p $1.sha256`"
+else 
+    echo "Usage: encode <namefile>"
+    echo "wocson (c) 2013"
+fi

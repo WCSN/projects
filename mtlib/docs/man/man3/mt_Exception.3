@@ -1,0 +1,207 @@
+.TH "mt::Exception" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::Exception \- 
+.PP
+Base class for all mtlib exceptions.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Exception.h>\fP
+.SS "Public Member Functions"
+
+.PP
+.RI "\fBConstructors & Destructor\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBException\fP (const std::string &msg, int code=0)"
+.br
+.RI "\fIMain constructor. \fP"
+.ti -1c
+.RI "\fBException\fP (const std::string &msg, const std::string &arg, int code=0)"
+.br
+.RI "\fIConstructor with argument \fIarg\fP which contains additional information which will be appended to message text \fImsg\fP. \fP"
+.ti -1c
+.RI "\fBException\fP (const \fBException\fP &exc)"
+.br
+.RI "\fICopy constructor. \fP"
+.ti -1c
+.RI "virtual \fB~Exception\fP ()  throw ()"
+.br
+.RI "\fIDestructor. \fP"
+.in -1c
+.in -1c
+.PP
+.RI "\fBOperators\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBException\fP & \fBoperator=\fP (const \fBException\fP &exc)"
+.br
+.RI "\fIAssignment operator. \fP"
+.in -1c
+.in -1c
+.PP
+.RI "\fBFunctions\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "virtual const char * \fBname\fP () const   throw ()"
+.br
+.RI "\fIDefinitions of the inline-functions. \fP"
+.ti -1c
+.RI "virtual const char * \fBclassName\fP () const   throw ()"
+.br
+.ti -1c
+.RI "virtual const char * \fBwhat\fP () const   throw ()"
+.br
+.RI "\fISame as \fBname()\fP, for compatibility with std::exception. \fP"
+.ti -1c
+.RI "const std::string & \fBmessage\fP () const "
+.br
+.ti -1c
+.RI "int \fBcode\fP () const "
+.br
+.ti -1c
+.RI "std::string \fBdisplayText\fP () const "
+.br
+.ti -1c
+.RI "virtual void \fBrethrow\fP () const "
+.br
+.RI "\fIRethrows the exception. \fP"
+.in -1c
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBException\fP (int code=0)"
+.br
+.RI "\fIGeneral constructor. \fP"
+.ti -1c
+.RI "void \fBmessage\fP (const std::string &msg)"
+.br
+.RI "\fISets the message for the exception to \fImsg\fP. \fP"
+.ti -1c
+.RI "void \fBextendedMessage\fP (const std::string &arg)"
+.br
+.RI "\fISets the extended message for the exception e.g. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Base class for all mtlib exceptions. 
+.PP
+Definition at line 23 of file Exception.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::Exception::Exception (const std::string & msg, int code = \fC0\fP)"
+.PP
+Main constructor. Sets message text to \fImsg\fP and code to \fIcode\fP. 
+.PP
+Definition at line 12 of file Exception.cpp.
+.SS "mt::Exception::Exception (const std::string & msg, const std::string & arg, int code = \fC0\fP)"
+.PP
+Constructor with argument \fIarg\fP which contains additional information which will be appended to message text \fImsg\fP. 
+.PP
+Definition at line 17 of file Exception.cpp.
+.SS "mt::Exception::Exception (const \fBException\fP & exc)"
+.PP
+Copy constructor. 
+.PP
+Definition at line 24 of file Exception.cpp.
+.SS "mt::Exception::~Exception ()  throw ()\fC [virtual]\fP"
+.PP
+Destructor. 
+.PP
+Definition at line 32 of file Exception.cpp.
+.SS "mt::Exception::Exception (int code = \fC0\fP)\fC [protected]\fP"
+.PP
+General constructor. Creates exception with code \fIcode\fP. 
+.PP
+Definition at line 28 of file Exception.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "const char * mt::Exception::className () const  throw ()\fC [inline, virtual]\fP"\fBReturns:\fP
+.RS 4
+the name of the exception class. 
+.RE
+.PP
+
+.PP
+Definition at line 100 of file Exception.h.
+.SS "int mt::Exception::code () const\fC [inline]\fP"\fBReturns:\fP
+.RS 4
+the exception code if defined. 
+.RE
+.PP
+
+.PP
+Definition at line 113 of file Exception.h.
+.SS "std::string mt::Exception::displayText () const"\fBReturns:\fP
+.RS 4
+a string consisting of the exception name and the message text. 
+.RE
+.PP
+
+.PP
+Definition at line 45 of file Exception.cpp.
+.SS "void mt::Exception::extendedMessage (const std::string & arg)\fC [protected]\fP"
+.PP
+Sets the extended message for the exception e.g. appends \fIarg\fP to message text. 
+.PP
+Definition at line 54 of file Exception.cpp.
+.SS "void mt::Exception::message (const std::string & msg)\fC [inline, protected]\fP"
+.PP
+Sets the message for the exception to \fImsg\fP. 
+.PP
+Definition at line 121 of file Exception.h.
+.SS "const std::string & mt::Exception::message () const\fC [inline]\fP"\fBReturns:\fP
+.RS 4
+the message text. 
+.RE
+.PP
+
+.PP
+Definition at line 109 of file Exception.h.
+.SS "const char * mt::Exception::name () const  throw ()\fC [inline, virtual]\fP"
+.PP
+Definitions of the inline-functions. \fBReturns:\fP
+.RS 4
+a description of the exception.
+.RE
+.PP
+
+.PP
+Definition at line 95 of file Exception.h.
+.SS "\fBException\fP & mt::Exception::operator= (const \fBException\fP & exc)"
+.PP
+Assignment operator. 
+.PP
+Definition at line 36 of file Exception.cpp.
+.SS "void mt::Exception::rethrow () const\fC [inline, virtual]\fP"
+.PP
+Rethrows the exception. 
+.PP
+Definition at line 117 of file Exception.h.
+.SS "const char * mt::Exception::what () const  throw ()\fC [inline, virtual]\fP"
+.PP
+Same as \fBname()\fP, for compatibility with std::exception. 
+.PP
+Definition at line 105 of file Exception.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

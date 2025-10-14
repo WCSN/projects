@@ -1,0 +1,126 @@
+#!/bin/bash
+################################################
+##
+## prj.build
+##
+## (c) wocson
+##
+################################################
+PROJECT_NAME=$1
+
+makework=$2
+PREFIX=$3
+BINDIR=$4
+
+CDIR=`pwd`
+
+INST="no"
+TmpDel="Yes"
+
+usage()
+{
+	echo "usage: $0 [ Debug | Release | Clean | Install | Deinstall | Reinstall ]"
+}
+
+
+diradd()
+{
+	if [ ! -d ./build/$1 ]; then
+		echo "make dir build/$1"
+		mkdir -p ./build/$1
+	fi
+
+	if [ ! -d ./$1 ]; then
+		echo "make dir ./$1"
+		mkdir -p $1
+	fi
+}
+
+
+clean_tmp()
+{
+	if [ $TmpDel = Yes ] || [ $TmpDel = yes ] ; then
+		echo "clean temp... "
+		if [ -d ./build ]; then
+			rm -Rf ./build
+			rm -Rf $CDIR/config/CMakeLists.txt
+			echo "Done"
+		else
+			echo "... not find."
+		fi
+	else
+		echo "temp not delete!!! TmpDel=\"$TmpDel\" change it for clean."
+	fi
+}
+
+
+clean_all()
+{
+	echo "Clean All ..."
+	clean_tmp
+	
+	if [ -d ./Release ]; then
+		rm -Rfv ./Release
+	fi
+	if [ -d ./Debug ]; then
+		rm -Rfv ./Debug
+	fi
+
+	echo "Done cleaning."
+}
+
+case "$makework" in
+[C,c]lean )
+	clean_all
+	exit 0
+;;
+[D,d]einstall )
+	whereis $PROJECT_NAME
+	if [ -f $PREFIX$BINDIR/$PROJECT_NAME ]; then
+		rm -fv $PREFIX$BINDIR/$PROJECT_NAME
+		echo "Program $PROJECT_NAME delete from your system"
+	else
+		echo "Program $PROJECT_NAME not installed in you system"
+	fi
+	exit 0
+;;
+[I,i]nstall|[R,r]einstall )
+	INST="yes"
+;&
+[R,r]elease )
+	DIRBLD=Release
+	BTYPE=RELEASE
+;;
+[D,d]ebug )
+	DIRBLD=Debug
+	BTYPE=DEBUG
+;;
+*)
+	echo "$0: Unknowmn options..."
+	usage
+	exit 1
+;;
+esac
+
+echo "project($PROJECT_NAME)" > $CDIR/config/CMakeLists.txt
+
+diradd $DIRBLD
+cd ./build/$DIRBLD
+
+cat $CDIR/config/CMakeLists.inc >> $CDIR/config/CMakeLists.txt
+
+echo "BUILD: `pwd`/../.."
+
+cmake -D CMAKE_BUILD_TYPE=$BTYPE -D PROJECT_ROOT_PATH="`pwd`/../.." $CDIR/config/ 
+make
+
+cp -fv $CDIR/build/$DIRBLD/$PROJECT_NAME $CDIR/$DIRBLD/
+# if need exec file in ./ dir incomment next line 
+# cp -fv $CDIR/build/$DIRBLD/$PROJECT_NAME $CDIR/
+
+if [ $INST = yes ]; then
+	cp -fv $CDIR/build/$DIRBLD/$PROJECT_NAME $PREFIX$BINDIR/
+fi
+
+cd $CDIR
+clean_tmp

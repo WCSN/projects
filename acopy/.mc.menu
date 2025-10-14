@@ -1,0 +1,48 @@
+shell_patterns=0
+
+s svn commit
+	svn commit -m correct
+
+i install backdb
+	sudo cp -fv ./backdb /usr/local/bin/
+	sudo cp -fv ./layout /usr/local/bin/
+	sudo cp -fv ./decode /usr/local/bin/
+	sudo cp -fv ./encode /usr/local/bin/
+	sudo cp -fv ./dfch /usr/local/bin/
+	sudo cp -fv ./etc/backdb.conf /usr/local/etc/
+	
+	if [ ! -d /usr/local/share/backdb ]; then 
+	    sudo mkdir -p /usr/local/share/backdb; 
+	fi
+	sudo cp -fv ./share/backdb/backdb.inc /usr/local/share/backdb/
+	sudo chmod -v 600 /usr/local/share/backdb/backdb.inc
+	
+	if [ ! -d /var/log/backdb ]; then 
+	    sudo mkdir -p /var/log/backdb
+	    sudo chmod -v 600 /var/log/backdb
+	fi
+	
+	sudo chmod -v 700 /usr/local/bin/backdb
+	sudo chmod -v 700 /usr/local/bin/layout
+	sudo chmod -v 700 /usr/local/bin/decode
+	sudo chmod -v 700 /usr/local/bin/encode
+	sudo chmod -v 755 /usr/local/bin/dfch
+	sudo chmod -v 600 /usr/local/etc/backdb.conf
+	
+	sudo ls -l /usr/local/bin/backdb
+	sudo ls -l /usr/local/bin/layout
+	sudo ls -l /usr/local/bin/decode
+	sudo ls -l /usr/local/bin/encode
+	sudo ls -l /usr/local/bin/dfch
+
+d deinstall backdb
+	sudo rm -fv /usr/local/bin/backdb
+	sudo rm -fv /usr/local/bin/decode
+	sudo rm -fv /usr/local/bin/encode
+	sudo rm -fv /usr/local/bin/layout
+	sudo rm -fv /usr/local/bin/dfch
+	sudo rm -fv /usr/local/etc/backdb.conf
+	sudo rm -fv /usr/local/share/backdb/backdb.inc
+
+r run backdb
+	sudo backdb

@@ -1,0 +1,27 @@
+#!SVC RADIO !
+#===================================================================================
+# Letter TAGs:
+#   Letter tag:
+#       only for e-mail adress:
+#          E-MAIL: tag for string email tags
+#          TMAIL: text for e-mail place to letter
+#
+#   SUBJ:   for email SUBJ E-MAIL. TLG @adress place after adress
+#   ATTACH: attaches send for all adress and ASPD and e-mail
+#           if tag plase e-mail string attachs will be sen only for this e-mail (now blocked)
+#           if tag place in body letter send for all place before tag @adress
+#
+#   CHEEF:  add cheef sign
+#   GRECV: or GCONF:
+#           add string confirmed of recv
+#   SHRM:   add ship radio master sign
+#   [DATE] [WEEK] [YEAR] [MONTH] [MONTH-1] - add it for value
+#================== Letter =========================================================
+@НЭС АК ФЁДОРОВ
+
+СООБЩЕНИЕ ТОЛЬКО ДЛЯ НЭС АК ФЁДОРОВ
+
+ТЕСТОВОЕ СООБЩЕНИЕ УДАЛИТЬ
+
+#Добавить подпись начальника
+CHEEF:

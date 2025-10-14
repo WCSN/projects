@@ -1,0 +1,60 @@
+#!/bin/bash
+############################################################################
+##                              ##
+## rebase - code/decode file    ## Note: BROKEN
+##                              ##
+## wocson (c) 2025 BSD          ##
+##                              ##
+############################################################################
+. "$HOME"/.config/shells/share/include/services.sh
+### Help ###################################################################
+NAMEPRG="rebase"
+VERPRG="0.0.15"
+HelpAnnotation "rebase - code/decode file"
+HelpVarCmd "[comand] namefile"
+HelpSubCmd "add|a|-a" "added file to packet"
+HelpSubCmd "res|r|-r" "restore file from packet"
+### Help end ###############################################################
+DEBUG=OFF
+note()
+{
+    local notes="${ARGV[2]}"
+cat << EOF
+    Rebase packets $notes.
+EOF
+}
+question()
+{
+    defansw="$1"
+    read -p " Name pack[$defansw]: " answ; answ=${answ:-$defansw}
+    note "==> Rebase $answ ..."
+}
+unpack()
+{
+    question "$1"
+    base64 -d "${answ}" > /tmp/${answ}.tmp
+    local dstfile="$(echo ${answ} | cut -f1 -d'.').tar.bz2"
+    mv /tmp/${answ}.tmp ./"$dstfile"
+    tar -C "./" -xjf ./"$dstfile"
+}
+pack()
+{
+    question "$1"
+    base64 "./$answ" > "/tmp/$answ".tmp
+    mv /tmp/$answ.tmp ./$(echo $answ | cut -f1 -d'.').pkg
+}
+case ${ARGV[1]} in
+add|a|-a)
+    pack ${ARGV[2]}
+;;
+res|r|-r)
+    unpack ${ARGV[2]}
+;;
+help|h-h)
+    Help ${ARGV[2]}
+;;
+*)  
+    Help
+;;
+esac
+exit 0

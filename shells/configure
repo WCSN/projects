@@ -1,0 +1,30 @@
+#!/bin/bash
+##############################################################################
+##
+## Shells. Configure
+##
+## wocson (c) 2008
+##
+##############################################################################
+SETTINGS="./.settings"
+
+OSTYPE="$(uname)"
+
+## For find compratible on Linux
+if [[ "${OSTYPE^^}" =~ "BSD" ]]; then
+    cp -f "$SETTINGS"/Makefile.BSD ./Makefile
+    echo "BSD type"
+elif [[ "${OSTYPE^^}" == "LINUX" ]]; then
+    cp -f "$SETTINGS"/Makefile.Lnx ./Makefile
+    echo "Linux type"
+else
+    echo -en "\nUnknowmn OS. Close.\n\n"
+fi
+
+cp ./$SETTINGS/mc.menu.gen ./.mc.menu
+
+exit 0
+
+
+
+

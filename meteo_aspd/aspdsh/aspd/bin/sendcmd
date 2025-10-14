@@ -1,0 +1,10 @@
+#!/bin/bash
+
+exec 5>/dev/tcp/172.31.83.16/17775
+
+echo "aspd $1" >&5
+
+exec 5>&-
+
+
+

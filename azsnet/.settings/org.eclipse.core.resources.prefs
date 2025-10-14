@@ -1,0 +1,11 @@
+#Tue Dec 20 16:23:12 MSK 2011
+eclipse.preferences.version=1
+encoding//src/adddata.py=utf-8
+encoding//src/create_db.py=utf-8
+encoding//src/delete_db.py=utf-8
+encoding//src/getdata.py=utf8
+encoding//src/uplnewdata2db.py=utf-8
+encoding//src/wcpack/azsncfg.py=utf-8
+encoding//src/wcpack/wctools.py=utf-8
+encoding//src/web_engine.py=utf-8
+encoding/<project>=UTF-8

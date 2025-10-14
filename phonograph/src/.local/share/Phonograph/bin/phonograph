@@ -1,0 +1,407 @@
+#!/bin/bash
+####################################################
+##
+## Phonograph
+##
+## Create Phonogram for DAT
+##
+## wocson (c)
+##
+####################################################
+[[ -f "./Makefile" ]] && DEBUG="YES" || DEBUG="NO"; [[ "${DEBUG^^}" == "YES" ]] && PRFXDIR="$PWD/src" || PRFXDIR="$HOME" # $PRFXDIR
+
+source "$PRFXDIR/.local/share/Phonograph/lib/phonograph.lib"
+nOp=1
+
+if ! [[ "${ARGV[1]}" == "help" || "${ARGV[1]}" == "version" || -z "${ARGV[1]}" ]]; then
+    infoline
+    infoline -S "Phonograph. Creator DAT / CD phonogram"
+    if [[ -n "$NAMEPHONOGRAM" ]]; then infoline -S "Phonogram: $NAMEPHONOGRAM"; fi
+    infoline
+fi
+
+case "${ARGV[1]}" in
+clean|cl)
+    ## Clean
+    let nOp++
+    "$BINDIR"/clean "${ARGV[$nOp]}"
+    [[ "${ARGV[$nOp]}" == "-r" ]] && writeconf
+;;
+conf|cn)
+    ## edit conf
+    let nOp++
+    if [[ "${ARGV[$nOp]}" == "-v" ]]; then
+        viewconf
+    else
+        msg "\nEdit: .conf file..."
+        "$EDITOR" "$PRFXDIR/.config/Phonograph/phonograph.conf"
+    fi
+;;
+create|cr)
+    ## All code
+
+    let nOp++
+
+    for (( i=0; i<${#ARGV[@]}; i++ )); do
+
+        case "${ARGV[$nOp]}" in
+        -a)
+            msg "All options for coding is ON."
+            RECODECREATE="YES"
+            MERGE="YES"
+        ;;
+        -r)
+            ROPT="-r"
+            RECURCE="YES"
+        ;;
+        *)
+            break
+        ;;
+        esac
+        let nOp++
+    done
+
+    initcodes
+    path=$(trim "${ARGV[$nOp]}");
+    
+    [[ -d "$path" || -f "$path" ]] && viewtracks -c "$path" || viewtracks -v "$SOURCEDIR"
+
+    phonogramcode
+;;
+data|dt)
+    ## Data info about track
+    let nOp++;
+
+    if [[ "${ARGV[$nOp]}" == "-f" ]]; then
+        FFPROBE="ffprobe -hide_banner -v info -show_format -show_streams"; let nOp++
+        SCROLL="YES"
+    else
+        FFPROBE="ffprobe -hide_banner -v info"
+    fi
+
+    if [[ -f "${ARGV[$nOp]}" ]]; then
+        DataInfo+="\n$($FFPROBE "${ARGV[$nOp]}" &> /dev/stdout )\n"
+        [[ "$SCROLL" == "YES" ]] && echo -e "$DataInfo" | most || echo -e "$DataInfo"
+    elif [[ -d "${ARGV[$nOp]}" ]]; then
+        SOURCEPATHF="${ARGV[$nOp]}"
+        while read -r track; do
+            DataInfo+="\n$( $FFPROBE "$track" &> /dev/stdout )\n"
+            DataInfo+="─────────────────────────────────────────────────────────────────────────────────"
+        done < <(find "${ARGV[$nOp]}" $DEPTH -type f | egrep -i "$maskfind" | $SORTLIST)
+        echo -e "$DataInfo" | most
+    else
+        Error "Files not be find"
+        help data
+        exit -3
+    fi
+;;
+getaudio|ga)
+    ## Data info about track
+    let nOp++
+
+    if [[ -f "${ARGV[$nOp]}" ]]; then
+        viewtracks -v "${ARGV[$nOp]}"
+        getaudiostream "${ARGV[$nOp]}"
+    elif [[ -d "${ARGV[$nOp]}" ]]; then
+        SOURCEPATHF="${ARGV[$nOp]}"
+        viewtracks -v "$SOURCEPATHF"
+
+        declare -a Tracks; i=0
+        while read -r fl; do
+            Tracks[$i]="$fl"; let i++;
+        done < <(find "${ARGV[$nOp]}" $DEPTH -type f | egrep -i "$maskfind" | $SORTLIST);
+
+        if (( $i == 0 )); then msgsourceempty "$SOURCEPATHF"; exit 9; fi
+
+        for (( i=0; i < ${#Tracks[@]}; i++ )); do
+            getaudiostream "${Tracks[$i]}"
+        done
+    else
+        Error "Files not be fined"
+        help getaudio
+        exit -3
+    fi
+    viewtracks -v "$SOURCEDIR"
+;;
+info|in)
+    ## DAT Casset info
+    infodocs;
+;;
+label|lb)
+    mod="libreoffice"
+    if [[ -z $(whereis $mod | grep -i "bin" | cut -f2 -d':') ]]; then
+        Error "Module $mod not have"
+    else
+        "$mod" "$DOCDIR"/lb_cassett.ods
+    fi
+;;
+list|ls)
+    ## m3u to txt
+    let nOp++
+    
+    listsetprj
+    
+    TYPELIST="${ARGV[$nOp]}";
+    [[ -z "$TYPELIST" ]] && TYPELIST="txt" || let nOp++
+
+    PATH_M3U="${ARGV[$nOp]}"
+    
+    if [[ "$TYPELIST" == "id" ]]; then
+        idshow
+        QUIT -3
+    fi
+
+    if [[ -z "$PATH_M3U" ]]; then
+        if [[ -f "$M3UFILE" ]]; then
+            PATH_M3U="$M3UFILE"
+        else
+            Error " File m3u not find. Phonogram not make?"
+            help list
+            exit 7
+        fi
+    fi
+
+    if [[ $TYPELIST == "list" ]]; then
+        msg "List track from m3u."
+        msg "$PHONOGRAMDIR"
+        msg "$(getnametrack -f "$PATH_M3U")"
+    fi
+    
+    "$BINDIR"/m3u2txt "$TYPELIST" "$PATH_M3U"
+;;
+merge|mr)
+    ## MERGE
+    let nOp++
+    MERGE="YES"
+
+    initcodes
+
+    if [[ "${ARGV[$nOp]}" == "AUTO" || "${ARGV[$nOp]}" == "DAT" || "${ARGV[$nOp]}" == "CD" || "${ARGV[$nOp]}" == "LONG" ]]; then
+        TYPECODE="${ARGV[$nOp]}"; nOp=3;
+        if [[ -d "${ARGV[$nOp]}" ]]; then
+            pathfile="${ARGV[$nOp]}"
+            merge "$TYPECODE" "$pathfile"
+        else
+            merge "$TYPECODE"
+        fi
+    elif [[ -d "${ARGV[$nOp]}" ]]; then
+        pathfile="${ARGV[$nOp]}";
+        merge "$TYPECODE" "$pathfile"
+    elif [[ -n ${ARGV[$nOp]} ]]; then
+        Error "TypeCode: ${ARGV[$nOp]} is not applicable"
+        help merge
+    else
+        merge
+    fi
+;;
+play|pl)
+    
+    if [[ -n "$SNDDEVNOTHAVE" ]]; then Error "Not have sound device"; QUIT -3; fi
+    if [[ -z $(whereis mpv | grep -i "bin" | cut -f2 -d':') ]]; then Error "mpv player not find"; QUIT -3; fi
+    
+    PLAYDEV="$SNDDEV"
+    PLAYVOL="$MPVVOLUME"
+    PLAYFRQ="$FRQDIS"
+    
+    listsetprj
+
+    if [[ -f "$LASTPHNGRNM" ]]; then
+        PhonogramName="$(cat "$LASTPHNGRNM")"
+        let nOp++
+
+        if [[ -f "$PhonogramName" ]]; then
+
+            for (( i=0; i<${#ARGV[@]}; i++ )); do
+
+                case "${ARGV[$nOp]}" in
+                -d) let nOp++;
+                    DEV="${ARGV[$nOp]}"
+                ;;
+                -v) let nOp++;
+                    VOL="${ARGV[$nOp]}"
+                ;;
+                -f) let nOp++;
+                    FRQ="${ARGV[$nOp]}"
+                ;;
+                *)
+                ;;
+                esac
+                let nOp++;
+            done
+
+            [[ -n $DEV ]] && PLAYDEV="dsp$DEV"
+            [[ -n $VOL ]] && PLAYVOL="$VOL"
+            [[ -n $FRQ ]] && PLAYFRQ="$FRQ"            
+
+            msg "Phonogram: $(getptnmtrack -f "$PhonogramName")"
+            msg "Volume: $MPVVOLUME"
+            infoline
+
+            if [[ "$OSTYPE" == "FreeBSD" ]]; then
+                msg "Play: /dev/$PLAYDEV"
+                mixer pcm 100:100 # set 100:100 !!!
+                export SILENT="YES"
+                "$BINDIR"/snddev set "$DEV" "$PLAYFRQ"
+                mpv --audio-device=oss//dev/$PLAYDEV --hwdec=auto --volume="$PLAYVOL" --pause "$PhonogramName"
+                "$BINDIR"/snddev set "$DEV" "48000"                 
+            else
+                mpv --hwdec=auto --volume="$PLAYVOL" --pause "$PhonogramName"
+            fi
+
+        else
+            Error "Phonogram not find"
+            help play
+        fi
+    else
+        Error "Phonogram not ready?"
+    fi
+;;
+project|pr)
+    ## edit prj 
+    let nOp++
+    case "${ARGV[$nOp]}" in
+    -e)
+        "$EDITOR" "$PHONOGRAMDIR/phonograph.prj"
+    ;;
+    -n) 
+        echo -en "\n"
+        read -p "$(msg "Project name '[q - quit]': ")" NMPRJ;
+        [[ "${NMPRJ^^}" == "Q" ]] && QUIT -3 
+
+        "$BINDIR"/clean -y -s
+        phonogramprj "$NMPRJ"
+        "$EDITOR" "$PHONOGRAMDIR/phonograph.prj"                
+    ;;
+    -s)
+        listsetprj
+    ;;
+    -l)
+        listprj
+    ;;
+    *)
+        help "pr"          
+    ;;
+    esac
+;;
+recode|rc)
+    ## Recode
+    msg "Recode media files only."
+    RECODECREATE="YES"
+    let nOp++
+
+    for (( i=0; i<${#ARGV[@]}; i++ )); do
+
+        case "${ARGV[$nOp]}" in
+        -r)
+            ROPT="-r"
+            RECURCE="YES"
+        ;;
+        *)
+            [[ -n "${ARGV[$nOp]}" ]] && ! [[ -d "${ARGV[$nOp]}" ]] && setoptions "${ARGV[$nOp]}";
+            break
+        ;;
+        esac
+        let nOp++
+    done
+
+    [[ -d "${ARGV[$nOp]}" ]] && viewtracks -c "${ARGV[$nOp]}" || viewtracks -v "$SOURCEDIR"
+
+    initcodes
+    tracksrecode
+;;
+require|rq)
+    msg -n "Require:";
+    for prg in ${REQMOD[@]}; do msg -n "${BCYAN}$prg"; done
+    echo ""
+    showinstreq
+;;
+sound|sn)
+    if [[ -n "$SNDDEVNOTHAVE" ]]; then Error "Not have sound device"; QUIT; exit -3; fi
+    "$BINDIR"/snddev "${ARGV[$((nOp+1))]}" "${ARGV[$((nOp+2))]}" "${ARGV[$((nOp+3))]}" "${ARGV[$((nOp+4))]}" 
+;;
+split|sp)
+    ## Split solid flac
+    let nOp++
+    if [[ -d "${ARGV[$nOp]}" ]]; then
+        Split "${ARGV[$nOp]}"
+    elif [[ "${ARGV[$nOp]}" == "-a" ]]; then
+        let nOp++
+        if [[ -d "${ARGV[$nOp]}" ]]; then
+            Split "${ARGV[$nOp]}"
+            initcodes
+            phonogramcode
+        else
+            Error "Path not set!"
+            help split
+        fi
+    else
+        Error "Path not set!"
+        help split
+    fi
+;;
+tagedit|tg)
+    settagman "${ARGV[2]}"
+;;
+time|tm)
+    ## Time track
+    let nOp++
+
+    for (( i=0; i<${#ARGV[@]}; i++ )); do
+
+        case "${ARGV[$nOp]}" in
+        -z)
+            listsetprj
+            pathfile="$PHONOGRAMDIR"
+            SHOWZ="YES"
+        ;;
+        -r)
+            ROPT="-r"
+            RECURCE="YES"
+        ;;
+        -a)
+            SHASIS="ASIS"
+        ;;
+        -s)
+            SHOWSEC="YES"
+        ;;
+        *)
+            [[ -n "$pathfile" ]] && break        
+            
+            path=$(trim "${ARGV[$nOp]}")
+            
+            if [[ -f "$path" ]] || [[ -d "$path" ]]; then                
+                pathfile="$path"
+            else    
+                Info "Path not find - set default"
+                pathfile="$SOURCEDIR"
+            fi
+            break
+        ;;
+        esac
+        let nOp++
+    done
+    
+    pathfile=$(trim "$pathfile")
+    viewtracks -v "$pathfile"
+
+    [[ -f "$ALBLIST" && "$SHOWZ" == "YES" ]] && idshow
+    [[ "${SHOWCASSETINFO^^}" == "YES" ]] && infodocs;
+;;
+version|ver|-v)
+    ## version
+    Version
+;;
+help|--help|-h)
+    ## Help
+    let nOp++
+    [[ -z "${ARGV[$nOp]}" ]] && usage || help "${ARGV[$nOp]}"
+;;
+build)
+    exit 0
+;;
+*)
+    [[ -z "${ARGV[$nOp]}" ]] && usage || Error "Unknown command '${ARGV[$nOp]}'"
+;;
+esac
+
+QUIT

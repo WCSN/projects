@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>./images/btnCL.png</file>
+        <file>./images/btnS0.png</file>
+        <file>./images/btnSX.png</file>
+        <file>./images/btnSY.png</file>
+        <file>./images/btnOpt.png</file>
+        <file>./images/btnRt.png</file>
+        <file>./images/btn_exit.png</file>
+    </qresource>
+</RCC>

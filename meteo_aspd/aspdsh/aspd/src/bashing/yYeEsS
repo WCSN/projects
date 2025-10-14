@@ -1,0 +1,29 @@
+#!/bin/zsh
+
+#  read -p "(y/n/e)" CH
+
+  read "?if(y/n/e)" CH
+
+
+  if [[ "$CH" =~ ^([yY][eE][sS]|[yY])+$ ]]; then 
+	  echo "YES"
+  elif [[ "$CH" =~ ^([nN][oO]|[nN])+$ ]]; then
+	  echo "NO"
+  else
+	  echo "HZ"
+  fi
+
+  case $CH in
+  ^[yY][eE][sS]|[yY]) 
+	  echo "YES"
+  ;;
+  [nN][oO]|[nN])
+	  echo "NO"
+  ;;
+  *)
+	  echo "HZ"
+  esac
+
+
+sleep 10
+

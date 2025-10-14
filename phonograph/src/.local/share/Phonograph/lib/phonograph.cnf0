@@ -1,0 +1,50 @@
+#######################################################
+##
+## Config phonograph
+##
+## Note: set YES(ON) NO(OFF)
+##
+## wocson (c)
+#######################################################
+
+##
+## mpv player options
+##
+MPVVOLUME="103"         # this system depend !!! need correct value
+SNDDEV="dsp3"           # this system depend !!! change this value on you system
+DEFSND="5"              # this system depend !!! change this value on you system
+
+##
+## Options phonograph
+##
+RECODECREATE="NO"       # Make recode with create
+MERGE="NO"              # Make megre with create
+TYPECODE="AUTO"         # AUTO (from source) | DAT (16/48000) | CD (16/44100) | LONG (12/32000) | CONF (from conf)
+ADDFPATH="NO"
+SHOWCASSETINFO="YES"    # About Casset info (as opt. -i)
+SHOWALLFILES="NO"       # Show all files on dirs
+CHECKONETYPE="AUTO"     # Check equal fq and bitrate YES, NO, AUTO
+SHOWSEC="NO"            # Show time second.msec too
+
+##
+## FFMPEG coding internal code use flac
+##
+## Fq. 128000 96000 48000 44100 32000
+##
+NTHREADS="4"            # Threads for ffmpeg
+BITRATE="320k"
+FRQDIS="48000"
+BITCODE="s16"
+
+# editing / modificate
+CLIPGAIN="0.0"          # float negativ value!!! rec. -1.0, dB
+FADESZBGN="0"           # if 0 fade not added, second
+FADESZEND="1"           # if 0 fade not added, second
+TIMEPADBGN="1650"       # if 0 padding not added, millisec
+TIMEPADEND="1.65"       # if 0 padding not added, second
+
+# Recode options
+RCODEFMT="opus"         # flac mp3 wma ogg ape opus wav
+RBITRATE="320k"         # Bitrate
+RFRQDIS="48000"         # opus support sample_rate 48000 only
+RBITCODE="s16"          # opus support bitcode type s16 only

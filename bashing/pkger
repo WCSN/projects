@@ -1,0 +1,18 @@
+#!/bin/bash
+
+qaws=$(cat qwer) 
+FILE="linuxpkg"
+CMD="delete"
+
+let i=0 
+
+echo -n "pkg $CMD " > $FILE
+
+for str in $qaws; do 
+    arr[i]="$str" 
+    echo -n "${arr[i]} " >> $FILE
+    let i+=1 
+done
+
+echo "" >> $FILE
+

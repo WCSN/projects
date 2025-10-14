@@ -1,0 +1,15 @@
+I Install
+    ./bin/setup
+
+| ==== Devel =================
+
+P git pull
+	git pull
+
+C git push
+    OLD=$(pwd)
+    cd ../
+    git add ./bashing/*
+	git commit -m "correct"
+    git push
+    cd "$OLD"

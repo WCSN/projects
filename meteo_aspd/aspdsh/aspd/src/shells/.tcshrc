@@ -1,0 +1,71 @@
+# $FreeBSD: src/share/skel/dot.cshrc,v 1.14.10.1.6.1 2010/12/21 17:09:25 kensmith Exp $
+#
+# .cshrc - csh resource script, read at beginning of execution by each shell
+#
+# see also csh(1), environ(7).
+#
+
+if ( `id -u` == 0 ) then 
+	set root
+endif
+
+set path = (/bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin $HOME/bin)
+set PROXY=""
+
+source $HOME/.config/tcshrc.inc
+
+alias h         history 25
+alias j         jobs -l
+alias la        ls -a
+alias lf        ls -FA
+alias ll        ls -lA
+alias sus        sudo -s
+alias pfu       portsnap fetch update
+#alias vpnup    /usr/local/etc/rc.d/openvpn start
+#alias vpndown  /usr/local/etc/rc.d/openvpn stop
+alias spa	'df -h | grep "100%" | grep -v "/dev" | grep -v "proc"'
+
+alias utf-en	"setenv LANG en_US.UTF-8 && setenv LC_ALL en_US.UTF-8"                                                                  
+alias utf-ru	"setenv LANG ru_RU.UTF-8 && setenv LC_ALL ru_RU.UTF-8"                                                                  
+alias iso-en	"setenv LANG en_US.ISO8859-1 && setenv LC_ALL en_US.ISO8859-1"
+alias cp866	"setenv LANG ru_RU.CP866 && setenv LC_ALL ru_RU.CP866"
+alias utf	utf-ru
+
+#alias cp        cp -iR
+##alias ls       ls -FG
+#alias df        df -h
+#alias du        du -h
+alias me	mcedit
+
+#alias wup_bk78  "wake re0 08:60:6e:da:0c:f4" # sfbk78-001
+
+# A righteous umask
+umask 22
+
+## ENVIRONMENT VARIABLES
+
+#setenv CLICOLOR		true
+#setenv PAGER    		less
+setenv EDITOR   		mcedit
+setenv PAGER    		most
+setenv BLOCKSIZE		K
+setenv FORCE_PKG_REGISTER 	YES
+setenv GDK_USE_XFT 		1
+setenv PKG_FETCH '/usr/local/bin/wget -O '%2\$s' '%1\$s''
+#setenv PACKAGEROOT ftp://ftp.corbina.ru
+#setenv PACKAGESITE $PACKAGEROOT/pub/FreeBSD/ports/`uname -p`/packages-9-stable/All/
+
+## LOCALE
+utf
+
+if ( ${?root} ) unset root
+
+if ( $SHLVL == 1 ) then
+  if sinsend ; then exit 0; endif
+  echo ""
+  echo " Вход в сессию пользователя LOGNAME: $LOGNAME"
+  echo " Выход \"Ctrl-C\", \"exit\" [Enter]"
+  echo " Отправить СИН: \"sendsin\""
+  echo " Полная Справка: \"aspd help\""
+  echo ""
+endif

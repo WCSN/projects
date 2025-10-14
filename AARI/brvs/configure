@@ -1,0 +1,37 @@
+#!/bin/bash
+
+OSTYPE=$(uname)
+
+TARGET=brvs
+QT=5
+
+if [[ "$OSTYPE" == "FreeBSD" ]]; then
+    QMAKE="/usr/local/bin/qmake"
+    INCLUDE="/usr/local/include"
+    LIB="/usr/local/lib"
+    QWT="qwt6"
+    OSLIB="LIBS += -lKF5WidgetsAddons -L${LIB}/qt${QT} -l${QWT}"
+    
+    
+elif [[ "$OSTYPE" == "Linux" ]]; then
+    QMAKE="/usr/bin/qmake"
+    INCLUDE="/usr/include"
+    LIB="/usr/lib64"
+    QWT="qwt"
+    OSLIB="LIBS += -lKF5WidgetsAddons -L${LIB}/qt${QT} -l${QWT}"    
+fi
+
+PROFILE="./$TARGET.pro"
+
+if ! [[ -f "$PROFILE" ]]; then 
+    cat "./config/pro01" > "$PROFILE"
+    echo "PREFIXPATHINC = $INCLUDE" >> "./$PROFILE"
+    echo "$OSLIB" >> "./$PROFILE"
+    cat "./config/pro02" >> "./$PROFILE"
+fi
+
+[[ -d "./tmp" ]] || mkdir "./tmp"
+
+$QMAKE -o Makefile "$PROFILE"
+
+exit 0

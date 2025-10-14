@@ -1,0 +1,36 @@
+#################################################
+# Created by: wocson
+# $FreeBSD: 
+#
+# wocson (c)
+#
+#################################################
+PROJECT_NAME=Phonograph
+SHELL=/bin/sh
+BINDIR="./src/srv"
+PHNOGR="./src/.local/share/Phonograph/bin"
+
+.if ${PROJECT_NAME}
+all: build
+reinstall:
+	@${BINDIR}/setup reinstall
+commit:
+	@${BINDIR}/setup commit
+update:
+	@${BINDIR}/setup update
+install:
+	@${BINDIR}/setup install
+deinstall:
+	@${BINDIR}/setup deinstall
+clean:
+	@${BINDIR}/setup clean
+help:
+	@${BINDIR}/setup
+build:
+	@${BINDIR}/setup build
+	@${PHNOGR}/phonograph build
+.else
+all: .DEFAULT
+.DEFAULT:
+	@echo " Value PROJECT_NAME on Makefile not set"
+.endif

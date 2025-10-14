@@ -1,0 +1,20 @@
+#!/bin/sh
+
+case "$1" in
+'clean')
+echo "Clean build"
+rm -Rv ./build
+;;
+esac
+
+if [ -d ./build ]
+then
+echo Build...
+else
+echo "make dir build"
+mkdir ./build
+fi
+
+cd ./build 
+cmake -DMTLIB_PATH=/home/wocson/projects/ ../ && make
+

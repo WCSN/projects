@@ -1,0 +1,28 @@
+14.2 Graphics Fix
+
+pkg remove drm-kmod
+pkg clean
+pkg autoremove
+
+cd /usr
+git clone -b releng/14.2 --depth 1 https://git.freebsd.org/src.git /usr/src
+git clone --depth 1 https://git.freebsd.org/ports.git /usr/ports
+
+cd /usr/ports/
+git -C /usr/ports pull
+make fetchindex
+make search name=drm-kmod
+cd /usr/ports/graphics/drm-kmod
+make describe
+make run-depends
+MAKE_JOBS_UNSAFE=yes
+make install
+pkg info drm-kmod
+
+in my case "amdgpu", if intel i915kms;
+FYI : https://docs.freebsd.org/en/books/handbook/x11/
+
+kldload amdgpu
+sysrc kld_list+="amdgpu"
+
+

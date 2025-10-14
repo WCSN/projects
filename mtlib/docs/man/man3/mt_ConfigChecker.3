@@ -1,0 +1,65 @@
+.TH "mt::ConfigChecker" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::ConfigChecker \- 
+.PP
+File change time checker.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <ConfigChecker.h>\fP
+.PP
+Inherits \fBmt::InfiniteThread\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBConfigChecker\fP (const \fBmt::XmlConfigPtr\fP &config, time_t last_change_time, uint32_t timer)"
+.br
+.ti -1c
+.RI "virtual \fB~ConfigChecker\fP ()"
+.br
+.ti -1c
+.RI "bool \fBconfigWasReloaded\fP ()"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBrunLoop\fP ()"
+.br
+.RI "\fIThe method will called in infinite loop created thread. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+File change time checker. 
+.PP
+Definition at line 16 of file ConfigChecker.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::ConfigChecker::ConfigChecker (const \fBmt::XmlConfigPtr\fP & config, time_t last_change_time, uint32_t timer)"
+.PP
+Definition at line 7 of file ConfigChecher.cpp.
+.SS "mt::ConfigChecker::~ConfigChecker ()\fC [virtual]\fP"
+.PP
+Definition at line 15 of file ConfigChecher.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "bool mt::ConfigChecker::configWasReloaded ()"
+.PP
+Definition at line 18 of file ConfigChecher.cpp.
+.SS "void mt::ConfigChecker::runLoop ()\fC [protected, virtual]\fP"
+.PP
+The method will called in infinite loop created thread. Client MUST define this method. 
+.PP
+Implements \fBmt::InfiniteThread\fP.
+.PP
+Definition at line 25 of file ConfigChecher.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

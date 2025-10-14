@@ -1,0 +1,29 @@
+#!VOS RADIO !
+#===================================================================================
+# Letter TAGs:
+#   Letter tag:
+#       only for e-mail adress:
+#          E-MAIL: tag for string email tags
+#          TMAIL: text for e-mail place to letter
+#
+#   SUBJ:   for email and tlg adress
+#   ATTACH: attaches send for all adress and ASPD and e-mail
+#           if tag plase e-mail string attachs will be sen only for this e-mail
+#           if tag place in body letter send for all place before tag @adress
+#
+#   CHEEF:  add cheef sign
+#   GRECV: или GCONF:
+#           add string confirmed of recv
+#   SHRM:   add ship radio master sign
+#   [DATE] [WEEK] [YEAR] [MONTH] [MONTH-1] - add it for value
+#================== Letter =========================================================
+@АСПД НС
+#@ПРОГРЕСС #ШРМ
+#@МИРНЫЙ #ШРМ
+#@НОВОЛАЗАРЕВСКАЯ #ШРМ
+#@БЕЛЛИНСГАУЗЕН #ШРМ
+#@МОЛОДЁЖНАЯ #ШРМ
+
+#ТЕСТ СООБЩЕНИЯ
+
+#CHEEF:

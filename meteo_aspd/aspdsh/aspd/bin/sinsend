@@ -1,0 +1,458 @@
+#!/bin/zsh
+####################################
+## sinsend
+## wocson (c) 
+##
+
+version="0.31S"
+
+if (( $SHLVL>2 )); then 
+  echo "'sinsend' уже запущен?"
+  ps axu | grep 'sinsend'
+  echo "Возврат: 'exit' [Enter]"
+  exit 0
+fi
+
+source /usr/share/wlib/tcolor_inc.sh
+
+INFO="" #"Дмитрий! Отправка ФАП "
+AWR=false # true/false
+
+TBCOLOR=$GRAY;		BBCOLOR=$BGBLUE;
+TBTCOLOR=$BLACK;	TBBCOLOR=$BGGRAY
+
+WORKTYPE="$1"
+
+if [[ -z "$WORKTYPE" ]];then ASPD="aspd.sh"; WORKTYPE="work";
+elif [[ "$WORKTYPE" == "d" ]]; then echo "DEBUG!!!"; ASPD="aspd_debug"; WORKTYPE="debug"; 
+else exit 1
+fi
+
+ASPDLOG=`$ASPD g "LOG"`; 			SIGN_DELAY=`$ASPD g "SIGN_DELAY"`
+LDIRDELAY=`$ASPD g "LDIRDELAY"`;	CONF=`$ASPD g "CONFIG"`
+
+source "$CONF"
+
+LASTMT=`$ASPD g "LASTMT"`
+LASTFILESEND=""; WSLZ=$WIDESCREEN; RETCHS=""; LDTTM="";
+
+function choiceOQ()
+{
+  local QUEST="$1" ch
+
+  while true; do
+#	outt -s ""
+	read "?$QUEST(y/n)==> " ch 
+	case $ch in
+	y|Y) RETCHS=0; break;;
+	n|N) RETCHS=1; break;;
+	*) ;;
+	esac
+  done
+}
+
+################################################################
+##
+## outt printing function
+##
+## void outt [-l|-s] "text"
+##
+setcolors()
+{ 
+  if ! [ -z "$1" ]; then TBCOLOR=$1; fi
+  if ! [ -z "$2" ]; then BBCOLOR=$2; fi
+}
+
+setdefcolors()
+{
+  TBCOLOR=$GRAY; 	BBCOLOR=$BGBLUE;
+  TBTCOLOR=$BLACK;  TBBCOLOR=$BGGRAY
+}
+ 
+function outt()
+{
+  local TXTOUT="" format type;
+
+  case "$1" in
+  -l) shift 1; type="log"; ;;
+  -s) shift 1; type="scr"; ;;
+  *)  type="all"; ;;
+  esac
+
+  for arg in "$@"; do TXTOUT+="$arg "; done
+  TXTOUT="${TXTOUT%' '}"
+
+  format="$TBCOLOR$BBCOLOR%-${WSLZ}s$STDCL$BGDEF\n"
+  TXTOUT=`printf "$format" "$TXTOUT"`
+
+  if [[ "$type" == "all" || "$type" == "log" ]]; then echo -en "$TXTOUT\n" >> "$ASPDLOG"; fi
+  if [[ "$type" == "all" || "$type" == "scr" ]]; then echo -en "$TXTOUT\n"; fi
+}
+
+function gettimedate()
+{
+  local fmttime="$1";
+  if [ -z $fmttime ]; then fmttime=`$ASPD g "DTSTAMP"`; fi
+  LDTTM=`date "+$fmttime"`	# local date
+}
+
+################################################################
+##
+## Out text info
+##
+## void infoline [-l|-s] "text"
+##
+function infoline()
+{
+  local TXTOUT="" format type DT lz;
+  gettimedate
+
+  case "$1" in
+  -l) shift 1; type="log"; ;;
+  -s) shift 1; type="scr"; ;;
+  *)  type="all"; ;;
+  esac
+
+  for arg in "$@"; do TXTOUT+="$arg "; done
+  TXTOUT="${TXTOUT%' '}" # delete last ' '
+
+  if [[ $WORKTYPE == "work" ]]; then lz=$(($WSLZ-19)); DT="$LDTTM"
+  else lz=$(($WSLZ-22)); DT="░D░$LDTTM"; fi
+
+  format="$TBTCOLOR$TBBCOLOR%-${lz}s"; setdefcolors; format+="$TBTCOLOR$TBBCOLOR%18s$STDCL$BGDEF"
+  TXTOUT=`printf "$format" "$TXTOUT" "$DT"`
+
+  if [[ "$type" == "all" || "$type" == "log" ]]; then echo -en "$TXTOUT\n" >> "$ASPDLOG"; fi
+  if [[ "$type" == "all" || "$type" == "scr" ]]; then echo -en "$TXTOUT\n"; fi
+  setdefcolors
+}
+
+function help()
+{
+  infoline -s "Справка"
+  inform
+  outt -s "Меню:"
+  outt -s " [1] - Отправка/подготовка СИН"
+  outt -s " [2] - Отправка климатического сообщения"
+  outt -s " [3] - Просмотр/Удаление отложенной отправки СИН"
+  outt -s " [4] - Контроль отложенной отправки СИН"
+  outt -s " [5] - Список файлов каталога отправки/приёма на АСПД"
+  outt -s " [6] - Удалить последний отправленный СИН с сервера АСПД"
+  outt -s " [7] - ФАП"
+  outt -s " [s] - Переход в коммандную строку"
+  outt -s " [h] - Эта справка"
+  outt -s " [x] - Выход из программы отправки СИН"
+}
+
+function inform()
+{
+  setcolors "$LYELLOW"
+  outt -s " СИН-сроки АСПД ААНИИ:" 
+  outt -s " 1. $SIN0 $STATION  3. $SIN2 $STATION"
+  outt -s " 2. $SIN1 $STATION  4. $SIN3 $STATION"
+  setdefcolors
+  outt -s ""
+  setcolors "$LGREEN"
+  outt -s " СИН, если необходимо, можно cформировать до текущего СИН-срока."
+  setdefcolors
+  outt -s " СИН будет помещён в отложенную отправку."
+  outt -s ""
+  outt -s "    '[3]Отл. СИН'    - .Просмотр(удаление) отложенных СИН"
+  outt -s "    '[4]Контр. отпр' -  Контроль автоматической отправки"
+  setcolors "$LYELLOW"
+  outt -s ""
+  outt -s " СИН будет отправлен автоматически в ближайший СИН-срок!"
+  outt -s " Будьте внимательны."
+  outt -s ""
+  setdefcolors
+}
+
+function msgnextsin()
+{
+  local txt TCOLOR
+
+  TIMESIN=`$ASPD g "TIMESIN"`
+
+  setcolors "$LGREEN"
+  outt -s "$TIMESIN" 
+  setdefcolors
+}
+
+function mhelp()
+{
+  msgnextsin
+  setcolors $BLACK $BGGRAY
+  outt -s "Выход 'x' или 'Ctrl-C Выход из Shell: 'exit' Cправка: 'h' "
+  setdefcolors
+}
+
+function showinfo()
+{
+  if ! [ -z "$INFO" ]; then 
+	setcolors "$LYELLOW" "$BGRED";
+	outt -s "$INFO"
+	setdefcolors
+  fi
+}
+
+function MainMenu()
+{ 
+  local i count tmenu="";
+  declare -a key 
+  declare -a word
+
+  checkdelay "OUTKEY"  
+  mhelp
+
+  TIMESIN=`$ASPD g "TIMESIN"`
+
+  BDCL="$DGRAY$BGCYAN"; 
+  BFCL="$DGRAY$BGCYAN"; 
+
+  if [ -z "${TIMESIN##$*"Текущий"*}" ]; then
+      if [[ -f "$LASTMT" ]] then BDCL="$LYELLOW$BGRED"; fi
+  fi
+    
+  if $AWR; then BFCL="$BLACK$BGCYAN"; fi
+
+  key[1]="1"; word[1]="СИН"; key[2]="2"; word[2]="Климат"; key[3]="3"; word[3]="Отл.СИН"; 
+  key[4]="4"; word[4]="Контр.отпр"; key[5]="5"; word[5]="Запрос"; key[6]="6"; word[6]="$BDCL \bУдалить!"; 
+  key[7]="7"; word[7]="$BFCL ФАП "; key[8]="S"; word[8]="hell"; key[9]="H"; word[9]="Справка"; key[10]="X"; word[10]="Выход"; 
+
+  if [[ "$WORKTYPE" == "debug" ]]; then spacefil=" ░$version"
+  else spacefil=" ░░░$version░";fi
+
+  count=${#key[@]}
+  KTCL=$BWHITE; KBCL=$BGBLACK; TNCL=$BLACK; BNCL=$BGCYAN;
+
+  for (( i=1; i<=count; i++ )); do  
+	format="$KTCL$KBCL%1s$TNCL$BNCL%0s%-3s"
+	tmenu+=`printf "$format" "${key[$i]}" "" "${word[$i]}"`	
+  done
+
+  showinfo
+# Show menu
+  infoline  -s "$tmenu$spacefil"
+}
+
+function tip()
+{
+  setcolors "$LGREEN"
+  outt -s "[3]Отл.СИН-Проверить. [4]'Контроль'-Ход отправки. Отправка состоялась: [5]Запрос / [6]Удалить"
+  setdefcolors
+}
+
+function checkdelay()
+{
+  local ret=1
+  if [ -f "$SIGN_DELAY" ]; then
+	msg=`cat "$SIGN_DELAY"`
+	setcolors  "$LRED"
+	outt "Есть отложенный СИН! $msg"
+	if [[ "$1" == "OUTKEY" ]]; then tip; fi
+	setdefcolors
+	ret=0
+  fi
+return $ret
+}
+
+function MChdelay()
+{
+  local chm
+
+  if checkdelay; then
+
+	outt -s "Проверьте введённые данные:"
+	cat "$LDIRDELAY/avos.txt"; echo -en "\n"
+
+	while true; do
+	  outt -s "1 - Переключиться на контроль отправки СИН"
+	  outt -s "2 - Удалить отложенный и создать новый СИН"
+	  outt -s "3 - Вернуться в Меню"
+
+	  read "?==> " chm 
+
+	  case $chm in
+	  1) delaysendcontrol; RETCHS=1; break;;
+	  2) delaycancel; RETCHS=2; break;;
+	  3) RETCHS=3; break;;
+	  *) outt -s "Неизвестный ответ";;
+	  esac
+	done
+  else
+	RETCHS=0
+  fi
+}
+
+function sending()
+{
+  local TYPELETTER="$1" ch
+  $ASPD ll meteo; $ASPD ll delay;
+
+  case "$TYPELETTER" in
+  avos|AVOS) 
+	MChdelay #==> $RETCHS
+    case $RETCHS in
+	1|3);;
+	0|2) $ASPD lt avos
+	;;
+	esac
+  ;;  
+  climat|CLIMAT) 
+	$ASPD lt climat
+  ;;
+  awr|AWR) 
+	$ASPD lt grp ФАП awr
+  ;;
+  *) 
+  ;;
+  esac
+  
+  if [ -f "$LASTMT" ]; then LASTFILESEND=`cat "$LASTMT"`; fi
+}
+
+function deletelast()
+{
+  if [ -f "$LASTMT" ]; then 
+	  LASTFILESEND=`cat "$LASTMT"`
+	if ! [[ -z $LASTFILESEND ]]; then
+	  setcolors "$LYELLOW" "$BGRED"
+	  outt -s "Удаление $LASTFILESEND !!!"
+	  setdefcolors
+	  $ASPD del "/aspd/$LASTFILESEND"
+	  if [ -f "$LASTMT" ]; then sudo rm "$LASTMT"; fi
+	fi
+  else
+	setcolors "$LYELLOW"
+	outt -s "Удалять нечего." 
+	setdefcolors
+	listing "NO"
+  fi
+}
+
+function delaycancel()
+{
+  $ASPD ll delay;
+
+  if [ -f "$SIGN_DELAY" ]; then
+	outt -s "Содержимое отложенного СИН:"
+	outt -s ""
+	msg=`cat "$LDIRDELAY/avos.txt"`
+	echo -e "$msg"
+	outt -s ""
+	choiceOQ "Удалить отложенный СИН?"; 
+	if [[ $RETCHS == 1 ]]; then 
+	  return;
+	else	 
+	  msg=`cat "$SIGN_DELAY"`
+	  outt -s "СИН. $msg. Удаление!"
+	  $ASPD rmdl;
+	fi
+  else
+    setcolors "$LYELLOW"
+	outt "Отправка не была назначена."
+  fi
+}
+
+function delaysendcontrol()
+{
+  $ASPD ll delay;
+
+  if [ -f "$SIGN_DELAY" ]; then
+	choiceOQ "Перейти на контроль отправки?"; 
+	if [[ $RETCHS == 1 ]]; then return; fi
+	msg="Контроль отправки."	
+	infoline  -l "$msg"
+	msg=`cat "$SIGN_DELAY"`
+	infoline  "Отложенный СИН: $msg"
+	setcolors "$LYELLOW"
+	outt -s "После отправки СИН произойдёт возврат в Меню"
+	infoline  -s "Ожидайте сообщений об отправке..."
+	clear
+	aspdtail -f -n 11 "$ASPDLOG"
+  else
+	clear
+	tail -n 3 "$ASPDLOG"
+	setcolors "$LYELLOW"
+	outt -s "Отправка состоялась или не была назначена"
+    outt -s "[5]Запрос - Каталог АСПД"
+	setdefcolors
+  fi
+}
+
+function listing()
+{
+  if [[ "$1" != "NO" ]]; then clear; fi
+  infoline "Каталоги отправки/приёма"; 
+  $ASPD ll meteo; 
+  $ASPD ll delay; 
+  setcolors $LGREEN
+  outt -s "Запрос каталогов сервера АСПД может занять некоторое время."
+  outt -s "Подождите..."
+  setdefcolors
+  $ASPD rl /aspd;
+}
+
+function close()
+{
+  txt="Программа отправки завершена."
+  outt -l "$txt"
+  $ASPD rt "$txt"
+}
+
+  txt="Oтправкa метео данных. Login: $LOGNAME"
+  infoline "$txt"; $ASPD rt "$txt"
+  
+  if ! [ -z "$SSH_TTY" ]; then infoline -l "CONNECTION=$SSH_CONNECTION TTY=$SSH_TTY"; fi
+  inform
+  MENU=ON
+
+  while true; do
+
+	if [[ $MENU == ON ]]; then  MainMenu; fi
+	MENU=ON
+
+	read "?=> " chm 
+
+	case $chm in
+	1) 	clear
+	    sending avos
+    ;;
+	2) 	clear 
+	    sending climat
+    ;;
+	3)  clear
+        $ASPD rt "Отмена СИН"
+		delaycancel
+    ;;
+	4)  clear
+        $ASPD rt "Контроль отправки"
+		delaysendcontrol
+    ;;
+	5)  clear
+        $ASPD rt "Просмотр"
+		listing
+    ;;
+	6)  $ASPD rt "Удаление отправленного"
+        if [[ -f "$LASTMT" ]]; then 
+		  deletelast
+		else
+	  	  MENU=OFF
+		fi
+    ;;
+	7)  clear 
+	    if $AWR; then sending awr
+        else outt "ФАП не требуется"
+        fi
+    ;;    
+	s|S) mhelp 				
+         zsh
+	;;
+	h|H) help
+    ;;
+	x|q|X|Q|exit|EXIT) close;	exit 0
+    ;;
+	*) MENU=OFF
+    ;;
+	esac
+  done

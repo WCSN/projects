@@ -1,0 +1,59 @@
+#!/bin/bash
+#
+# Backup copy to USB and NAS drive
+#
+# (c) Wocson 2015
+#
+# Create: 20131018
+# Change: 20160322
+#
+
+PREFDIR=/usr/local
+source $PREFDIR/etc/backdb.conf
+source $PREFDIR/share/backdb/backdb.inc
+
+if [ ! -f /usr/local/bin/pv ]
+then
+    pkg install -y pv
+fi
+
+if [ -f "$1" ]
+then
+	CfName=`echo $1 | sed 's/\.enc//'`  # Remove ext. file
+	OriginS="`sed -n -e 1p $CfName.sha256 | awk '{print $1}'`" # Origin
+	EncodeS="`sed -n -e 2p $CfName.sha256 | awk '{print $1}'`" # Encode	
+	message "INFO" "Origin: $OriginS"
+	message "INFO" "Encode: $EncodeS"
+	message "INFO" "Calc checksum $1"
+	CalcS="`shasum -a 256 $1 | awk '{print $1}'`"            # Current calc
+        message "INFO" "Calcs:  $CalcS"
+	
+	if [ "$EncodeS" = "$CalcS" ] # Check encode summ
+	then
+	    message "INFO" "Controll summ $1 equial encode summ" 
+	    message "INFO" "Decode: $1"
+	    NameORG=`echo  $1 | sed -e 's/\.enc//'`
+	    pv $1 | openssl enc -d -aes-256-cbc -k $GENDALF > $NameORG
+
+	    message "INFO" "Calc checksum $NameORG"	    
+	    CalcS=`shasum -a 256 $NameORG | awk '{print $1}'` # Current calc
+	    message "INFO" "Calcs:  $CalcS"
+	    
+    	    if [ "$OriginS" = "$CalcS" ] # Check OriginS summ
+	    then
+                message "INFO" "Controll summ $NameORG equial OriginS summ"
+	    else
+		message "ERROR" "Controll summ $NameORG NOT equial OriginS summ!!!" 
+		message "ERROR"	"SHA256: Store $OriginS" 
+		message "ERROR" "SHA256: Calc  $CalcS"
+		exit 1
+	    fi
+	else
+	    message "ERROR" "Controll sum $1 NOT equial encode summ!!!"
+	    message "ERROR" "SHA256: Store $EncodeS" 
+	    message "ERROR" "SHA256: Calc  $CalcS"
+	fi
+else 
+    echo "Usage: decode <namefile>"
+    echo "wocson (c) 2013"
+fi

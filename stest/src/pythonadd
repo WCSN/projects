@@ -1,0 +1,11 @@
+#!/bin/bash
+
+PV=311
+
+pkg install	py${PV}-qt5 py${PV}-qt5-chart	py${PV}-qt5-core py${PV}-qt5-dbus	py${PV}-qt5-demo py${PV}-qt5-designer py${PV}-qt5-gui \
+py${PV}-qt5-help py${PV}-qt5-multimedia py${PV}-qt5-multimediawidgets py${PV}-qt5-network py${PV}-qt5-networkauth \
+py${PV}-qt5-opengl	py${PV}-qt5-printsupport py${PV}-qt5-qml	py${PV}-qt5-qscintilla2 py${PV}-qt5-quick py${PV}-qt5-quickwidgets \
+py${PV}-qt5-sensors py${PV}-qt5-serialport py${PV}-qt5-sip py${PV}-qt5-sql py${PV}-qt5-svg	py${PV}-qt5-test py${PV}-qt5-webchannel \
+py${PV}-qt5-webkit py${PV}-qt5-webkitwidgets py${PV}-qt5-websockets py${PV}-qt5-widgets	py${PV}-qt5-xml py${PV}-qt5-xmlpatterns
+
+

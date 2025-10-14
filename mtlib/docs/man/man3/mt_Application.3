@@ -1,0 +1,100 @@
+.TH "mt::Application" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::Application \- 
+.PP
+Abstract base class for mt applications.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Application.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBApplication\fP (int argc, char *argv[])"
+.br
+.RI "\fIPut command's line arguments to constructor. \fP"
+.ti -1c
+.RI "virtual \fB~Application\fP ()"
+.br
+.ti -1c
+.RI "void \fBstart\fP ()"
+.br
+.RI "\fIStart application. \fP"
+.ti -1c
+.RI "void \fBstop\fP ()"
+.br
+.RI "\fIStop application. \fP"
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual void \fBinitialize\fP ()=0"
+.br
+.RI "\fIInitialize application after read all command line's arguments. \fP"
+.ti -1c
+.RI "virtual void \fBprocess\fP ()=0"
+.br
+.RI "\fIThis method will called in inplicit loop. \fP"
+.ti -1c
+.RI "virtual void \fBusage\fP (uint32_t opt)=0"
+.br
+.RI "\fIThis method will be called if command line's arguments are incorrect. \fP"
+.ti -1c
+.RI "virtual int32_t \fBreadArguments\fP (int argc, char *argv[])=0"
+.br
+.RI "\fIRead command line's arguments. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Abstract base class for mt applications. 
+.PP
+Definition at line 12 of file Application.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::Application::Application (int argc, char * argv[])"
+.PP
+Put command's line arguments to constructor. 
+.PP
+Definition at line 5 of file Application.cpp.
+.SS "mt::Application::~Application ()\fC [virtual]\fP"
+.PP
+Definition at line 10 of file Application.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual void mt::Application::initialize ()\fC [protected, pure virtual]\fP"
+.PP
+Initialize application after read all command line's arguments. 
+.SS "virtual void mt::Application::process ()\fC [protected, pure virtual]\fP"
+.PP
+This method will called in inplicit loop. 
+.SS "virtual int32_t mt::Application::readArguments (int argc, char * argv[])\fC [protected, pure virtual]\fP"
+.PP
+Read command line's arguments. 
+.SS "void mt::Application::start ()"
+.PP
+Start application. 
+.PP
+Definition at line 13 of file Application.cpp.
+.SS "void mt::Application::stop ()\fC [inline]\fP"
+.PP
+Stop application. 
+.PP
+Definition at line 47 of file Application.h.
+.SS "virtual void mt::Application::usage (uint32_t opt)\fC [protected, pure virtual]\fP"
+.PP
+This method will be called if command line's arguments are incorrect. \fBParameters:\fP
+.RS 4
+\fIopt\fP number of incorrect parameter. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

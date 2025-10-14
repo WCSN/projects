@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<logger>
+		<logfile path='/home/wocson/log/nfparserd.log' level='TRACE' default='true' stdout='true'>
+			<class name='*' />
+		</logfile>
+	</logger>
+	<Options>
+		<NfParser id="NFPARSER1" dumpfilepath="/home/wocson/data/nfparser.dat" /> <!-- if ="" no create -->
+		<Statistic timeout="10" statfilepath="/home/wocson/data/nfparser.sta" /> <!-- if ="" no create -->
+	</Options>
+	<Connections>
+		<!-- lhost - local host dhost - Vradius host IP dport - Vradius host port 
+			username - name autorisation sharedSecret - "secret" ??? -->
+		<VRadius lhost="10.255.2.99" dhost="10.255.2.178" dport="3813"
+			username="nfparser" sharedSecret="secret" />
+		<!-- lhost - local host lport - local port dhost - TemplateProcessor host 
+			IP dport - TemplateProcessor host port username - name authorization id - 
+			identificator nfparser instance NFPARSER1,"any other" -->
+		<TemplateProcessor lhost="0.0.0.0" lport="0"
+			dhost="10.255.2.99" dport="7777" searchbase="wap,mms;wap" />
+		<!-- dhost - Nflows Source host IP Ex.: 0.0.0.0 listen all on source port 
+			dport - Nflows Source host port -->
+		<NflowSource host="0.0.0.0" port="9993" />
+	</Connections>
+	<Filters>
+		<Filter id="TEST 01">
+			<srcNet network="10.255.2.0/24" operation="include" /> <!-- operation="include" / operation="exclude" -->
+		</Filter>
+		<Filter id="SMB">
+			<srcNet network="10.255.2.0/24" operation="include" /> <!-- operation="include" / operation="exclude" -->
+			<dstport value="137" operation="include" />
+			<protocol value="17" operation="include" />
+			<typeos value="253" operation="include" />
+		</Filter>
+		<Filter id="TEST 02">
+			<typeos value="255" operation="exclude" />
+		</Filter>
+
+		<Filter id="TEST 03">
+			<dstNet network="10.255.3.0/24" operation="include" />
+		</Filter>
+	</Filters>
+</config>

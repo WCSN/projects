@@ -1,0 +1,33 @@
+#!/bin/bash
+
+source ./share/bash.inc
+
+clrscr
+
+message 1 10 $LRED "LTRED"
+message 2 10 $LGREEN "LTGREEN"
+message 3 10 $LBLUE "LTBLUE"
+
+setcolor $LGREEN
+
+echo -e "\nu - uname, l - ls -l, d - df -h, other = $term\n\n"
+
+read -n 1 B # one symbol
+
+echo
+
+case "$B" in #аналог команды switch
+  U|u  )  uname -a
+	    ;; #обратите внимание на скобку и пробелы
+  L|l  )  ls -l
+	    ;;
+  [Q-Z])  df -h
+	    ;; #можно использовать маски, похожие на регэкспы
+  *)  echo $TERM
+	    ;; 
+esac #конец case
+
+#dialog --title " Уведомление " --msgbox "\n Свершилось что-то страшное!" 6 50
+
+sleep 3
+

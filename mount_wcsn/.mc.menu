@@ -1,0 +1,28 @@
+1	Install
+    echo "Install wnfs"
+	sudo cp -fv ./src/wnfs /usr/bin/wnfs
+	if ! [ -d $HOME/.config/wnfs ]; then
+	    mkdir -p $HOME/.config/wnfs
+	    if ! [ -d $HOME/.config/wnfs/nfs ]; then
+	        mkdir -p $HOME/.config/wnfs/nfs
+	    fi
+   	    if ! [ -d $HOME/.config/wnfs/smbfs ]; then
+	        mkdir -p $HOME/.config/wnfs/smbfs
+	    fi
+	fi
+	cp -Rfv ./config/wnfs/nfs/*   "$HOME"/.config/wnfs/nfs/
+    cp -Rfv ./config/wnfs/smbfs/* "$HOME"/.config/wnfs/smbfs/
+
+3	Deinstall
+    echo "Deinstall wnfs"
+    echo "Remove:"
+	sudo rm -fv /usr/bin/wnfs
+    if [ -d $HOME/.config/wnfs ] ; then
+        rm -Rv "$HOME"/.config/wnfs
+    fi
+
+4	svn commit
+        svn commit 
+
+5	svn update
+        svn update

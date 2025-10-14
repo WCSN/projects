@@ -1,0 +1,245 @@
+.TH "mt::smpp::Processor" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::Processor \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Processor.h>\fP
+.PP
+Inherits \fBmt::InfiniteThread\fP.
+.PP
+Inherited by \fBmt::smpp::ClientProcessor\fP, and \fBmt::smpp::ServerProcessor\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBProcessor\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~Processor\fP ()"
+.br
+.ti -1c
+.RI "int \fBProcessMP\fP (\fBData\fP *data)"
+.br
+.ti -1c
+.RI "\fBRequest\fP * \fBGetRequestBySN\fP (uint32_t)"
+.br
+.ti -1c
+.RI "void \fBsetRequestBySN\fP (uint32_t, \fBRequest\fP *)"
+.br
+.ti -1c
+.RI "\fBRequest\fP * \fBGetRequestByMsisdn\fP (\fBData\fP *)"
+.br
+.ti -1c
+.RI "void \fBRemoveRequestByMsisdn\fP (const std::string &to)"
+.br
+.ti -1c
+.RI "void \fBsetInQ\fP (\fBQueue\fP< \fBData\fP * > *q)"
+.br
+.ti -1c
+.RI "void \fBsetOutQ\fP (\fBQueue\fP< \fBData\fP * > *q)"
+.br
+.ti -1c
+.RI "void \fBsetUserQ\fP (\fBQueue\fP< \fBData\fP * > *q)"
+.br
+.ti -1c
+.RI "\fBQueue\fP< \fBData\fP * > * \fBGetInQ\fP ()"
+.br
+.ti -1c
+.RI "\fBQueue\fP< \fBData\fP * > * \fBGetOutQ\fP ()"
+.br
+.ti -1c
+.RI "\fBQueue\fP< \fBData\fP * > * \fBGetUserQ\fP ()"
+.br
+.ti -1c
+.RI "unsigned long \fBGetSeqNum\fP ()"
+.br
+.ti -1c
+.RI "unsigned long \fBGetRequestId\fP ()"
+.br
+.ti -1c
+.RI "void \fBSetRequestId\fP (unsigned id)"
+.br
+.ti -1c
+.RI "void \fBSetStepReqId\fP (unsigned int i)"
+.br
+.ti -1c
+.RI "void \fBsetSystemId\fP (const std::string &si)"
+.br
+.ti -1c
+.RI "void \fBsetConnectionType\fP (const std::string &c)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBm_systemId\fP"
+.br
+.ti -1c
+.RI "std::string \fBm_connectionType\fP"
+.br
+.ti -1c
+.RI "\fBSMPPHelper\fP * \fBsmppHelper\fP"
+.br
+.ti -1c
+.RI "\fBMysqlConnector\fP * \fBmysql\fP"
+.br
+.ti -1c
+.RI "\fBLoggerPtr\fP \fBhexLogger\fP"
+.br
+.ti -1c
+.RI "\fBLoggerPtr\fP \fBCDRlogger\fP"
+.br
+.ti -1c
+.RI "std::map< uint32_t, \fBRequest\fP * > \fBm_reqMap\fP"
+.br
+.ti -1c
+.RI "std::map< std::string, \fBRequest\fP * > \fBm_mpMap\fP"
+.br
+.ti -1c
+.RI "\fBQueue\fP< \fBData\fP * > * \fBinQ\fP"
+.br
+.ti -1c
+.RI "\fBQueue\fP< \fBData\fP * > * \fBoutQ\fP"
+.br
+.ti -1c
+.RI "\fBQueue\fP< \fBData\fP * > * \fBuserQ\fP"
+.br
+.ti -1c
+.RI "unsigned long \fBseqNum\fP"
+.br
+.ti -1c
+.RI "int \fBrequiestId\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBstepReqId\fP"
+.br
+.ti -1c
+.RI "\fBMutex\fP \fBseqNumMtx\fP"
+.br
+.ti -1c
+.RI "\fBMutex\fP \fBrequestIdMtx\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 76 of file Processor.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::smpp::Processor::Processor ()"
+.PP
+Definition at line 7 of file Processor.cpp.
+.SS "virtual mt::smpp::Processor::~Processor ()\fC [inline, virtual]\fP"
+.PP
+Definition at line 110 of file Processor.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBQueue\fP<\fBData\fP*>* mt::smpp::Processor::GetInQ ()\fC [inline]\fP"
+.PP
+Definition at line 138 of file Processor.h.
+.SS "\fBQueue\fP<\fBData\fP*>* mt::smpp::Processor::GetOutQ ()\fC [inline]\fP"
+.PP
+Definition at line 142 of file Processor.h.
+.SS "\fBRequest\fP * mt::smpp::Processor::GetRequestByMsisdn (\fBData\fP * data)"
+.PP
+Definition at line 87 of file Processor.cpp.
+.SS "\fBRequest\fP * mt::smpp::Processor::GetRequestBySN (uint32_t i)"
+.PP
+Definition at line 69 of file Processor.cpp.
+.SS "unsigned long mt::smpp::Processor::GetRequestId ()\fC [inline]\fP"
+.PP
+Definition at line 156 of file Processor.h.
+.SS "unsigned long mt::smpp::Processor::GetSeqNum ()\fC [inline]\fP"
+.PP
+Definition at line 151 of file Processor.h.
+.SS "\fBQueue\fP<\fBData\fP*>* mt::smpp::Processor::GetUserQ ()\fC [inline]\fP"
+.PP
+Definition at line 146 of file Processor.h.
+.SS "int mt::smpp::Processor::ProcessMP (\fBData\fP * data)"
+.PP
+Definition at line 26 of file Processor.cpp.
+.SS "void mt::smpp::Processor::RemoveRequestByMsisdn (const std::string & to)"
+.PP
+Definition at line 61 of file Processor.cpp.
+.SS "void mt::smpp::Processor::setConnectionType (const std::string & c)\fC [inline]\fP"
+.PP
+Definition at line 180 of file Processor.h.
+.SS "void mt::smpp::Processor::setInQ (\fBQueue\fP< \fBData\fP * > * q)\fC [inline]\fP"
+.PP
+Definition at line 125 of file Processor.h.
+.SS "void mt::smpp::Processor::setOutQ (\fBQueue\fP< \fBData\fP * > * q)\fC [inline]\fP"
+.PP
+Definition at line 129 of file Processor.h.
+.SS "void mt::smpp::Processor::setRequestBySN (uint32_t sn, \fBRequest\fP * req)"
+.PP
+Definition at line 82 of file Processor.cpp.
+.SS "void mt::smpp::Processor::SetRequestId (unsigned id)\fC [inline]\fP"
+.PP
+Definition at line 164 of file Processor.h.
+.SS "void mt::smpp::Processor::SetStepReqId (unsigned int i)\fC [inline]\fP"
+.PP
+Definition at line 169 of file Processor.h.
+.SS "void mt::smpp::Processor::setSystemId (const std::string & si)\fC [inline]\fP"
+.PP
+Definition at line 175 of file Processor.h.
+.SS "void mt::smpp::Processor::setUserQ (\fBQueue\fP< \fBData\fP * > * q)\fC [inline]\fP"
+.PP
+Definition at line 133 of file Processor.h.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBLoggerPtr\fP \fBmt::smpp::Processor::CDRlogger\fP\fC [protected]\fP"
+.PP
+Definition at line 89 of file Processor.h.
+.SS "\fBLoggerPtr\fP \fBmt::smpp::Processor::hexLogger\fP\fC [protected]\fP"
+.PP
+Definition at line 88 of file Processor.h.
+.SS "\fBQueue\fP<\fBData\fP*>* \fBmt::smpp::Processor::inQ\fP\fC [protected]\fP"
+.PP
+Definition at line 94 of file Processor.h.
+.SS "std::string \fBmt::smpp::Processor::m_connectionType\fP\fC [protected]\fP"
+.PP
+Definition at line 84 of file Processor.h.
+.SS "std::map<std::string, \fBRequest\fP*> \fBmt::smpp::Processor::m_mpMap\fP\fC [protected]\fP"
+.PP
+Definition at line 92 of file Processor.h.
+.SS "std::map<uint32_t, \fBRequest\fP*> \fBmt::smpp::Processor::m_reqMap\fP\fC [protected]\fP"
+.PP
+Definition at line 91 of file Processor.h.
+.SS "std::string \fBmt::smpp::Processor::m_systemId\fP\fC [protected]\fP"
+.PP
+Definition at line 81 of file Processor.h.
+.SS "\fBMysqlConnector\fP* \fBmt::smpp::Processor::mysql\fP\fC [protected]\fP"
+.PP
+Definition at line 87 of file Processor.h.
+.SS "\fBQueue\fP<\fBData\fP*>* \fBmt::smpp::Processor::outQ\fP\fC [protected]\fP"
+.PP
+Definition at line 95 of file Processor.h.
+.SS "\fBMutex\fP \fBmt::smpp::Processor::requestIdMtx\fP\fC [protected]\fP"
+.PP
+Definition at line 102 of file Processor.h.
+.SS "int \fBmt::smpp::Processor::requiestId\fP\fC [protected]\fP"
+.PP
+Definition at line 98 of file Processor.h.
+.SS "unsigned long \fBmt::smpp::Processor::seqNum\fP\fC [protected]\fP"
+.PP
+Definition at line 97 of file Processor.h.
+.SS "\fBMutex\fP \fBmt::smpp::Processor::seqNumMtx\fP\fC [protected]\fP"
+.PP
+Definition at line 101 of file Processor.h.
+.SS "\fBSMPPHelper\fP* \fBmt::smpp::Processor::smppHelper\fP\fC [protected]\fP"
+.PP
+Definition at line 86 of file Processor.h.
+.SS "unsigned int \fBmt::smpp::Processor::stepReqId\fP\fC [protected]\fP"
+.PP
+Definition at line 99 of file Processor.h.
+.SS "\fBQueue\fP<\fBData\fP*>* \fBmt::smpp::Processor::userQ\fP\fC [protected]\fP"
+.PP
+Definition at line 96 of file Processor.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

@@ -1,0 +1,273 @@
+.TH "mt::smpp::SmppNwIf" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::SmppNwIf \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <SmppNwIf.h>\fP
+.PP
+Inherits \fBmt::Logable\fP.
+.PP
+Inherited by \fBmt::smpp::Inspector\fP, \fBmt::smpp::Reciver\fP, and \fBmt::smpp::Sender\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBsetMaxRps\fP (uint32_t max)"
+.br
+.ti -1c
+.RI "virtual \fB~SmppNwIf\fP ()"
+.br
+.ti -1c
+.RI "void \fBSetBindType\fP (const \fBBindType\fP &t)"
+.br
+.ti -1c
+.RI "\fBBindType\fP \fBGetBindType\fP ()"
+.br
+.ti -1c
+.RI "void \fBsetSystemId\fP (const std::string &si)"
+.br
+.ti -1c
+.RI "void \fBsetConnectionType\fP (const std::string &c)"
+.br
+.ti -1c
+.RI "std::string \fBGetSystemId\fP ()"
+.br
+.ti -1c
+.RI "\fBTCPSocket\fP * \fBGetSocket\fP ()"
+.br
+.ti -1c
+.RI "bool \fBIfInactive\fP ()"
+.br
+.ti -1c
+.RI "void \fBSetIfInactive\fP (bool)"
+.br
+.ti -1c
+.RI "\fBSmppNwIf\fP ()"
+.br
+.ti -1c
+.RI "bool \fBIsActive\fP ()"
+.br
+.ti -1c
+.RI "void \fBActivate\fP ()"
+.br
+.ti -1c
+.RI "void \fBDeactivate\fP ()"
+.br
+.ti -1c
+.RI "int \fBSendPdu\fP (\fBTCPSocket\fP *s, Smpp::Header *h)"
+.br
+.ti -1c
+.RI "Smpp::Header * \fBRecvPdu\fP (\fBTCPSocket\fP *s)"
+.br
+.ti -1c
+.RI "int \fBSendPdu\fP (Smpp::Header *h)"
+.br
+.ti -1c
+.RI "Smpp::Header * \fBRecvPdu\fP ()"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBLogPduHex\fP (bool rcv, const uint8_t *const ptr, unsigned int len)"
+.br
+.ti -1c
+.RI "void \fBLogPdu\fP (Smpp::Header *h, bool rcv=false)"
+.br
+.ti -1c
+.RI "void \fBLogSmResp\fP (Smpp::SubmitSmResp *smr, bool rcv)"
+.br
+.ti -1c
+.RI "void \fBLogSm\fP (Smpp::SubmitSm *sm, bool rcv)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBRcvBuf\fP * \fBm_rcvBuf\fP"
+.br
+.ti -1c
+.RI "uint32_t \fBm_maxRps\fP"
+.br
+.ti -1c
+.RI "uint32_t \fBm_sendTimeout\fP"
+.br
+.ti -1c
+.RI "std::string \fBm_systemId\fP"
+.br
+.ti -1c
+.RI "std::string \fBm_connectionType\fP"
+.br
+.ti -1c
+.RI "bool \fBnotifyInspector\fP"
+.br
+.ti -1c
+.RI "\fBTCPSocket\fP * \fBsock\fP"
+.br
+.ti -1c
+.RI "bool \fBhexLogEnable\fP"
+.br
+.ti -1c
+.RI "bool \fBsmppLogEnable\fP"
+.br
+.ti -1c
+.RI "\fBLoggerPtr\fP \fBCDRlogger\fP"
+.br
+.ti -1c
+.RI "\fBBindType\fP \fBtype\fP"
+.br
+.ti -1c
+.RI "\fBLoggerPtr\fP \fBhexLogger\fP"
+.br
+.ti -1c
+.RI "\fBLoggerPtr\fP \fBsmppLogger\fP"
+.br
+.ti -1c
+.RI "bool \fBdeletInactive\fP"
+.br
+.ti -1c
+.RI "bool \fBactive\fP"
+.br
+.ti -1c
+.RI "\fBMutex\fP \fBactiveMtx\fP"
+.br
+.ti -1c
+.RI "\fBMutex\fP \fBdeletInactiveMtx\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 38 of file SmppNwIf.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::smpp::SmppNwIf::~SmppNwIf ()\fC [virtual]\fP"
+.PP
+Definition at line 12 of file SmppNwIf.cpp.
+.SS "mt::smpp::SmppNwIf::SmppNwIf ()"
+.PP
+Definition at line 17 of file SmppNwIf.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "void mt::smpp::SmppNwIf::Activate ()"
+.PP
+Definition at line 50 of file SmppNwIf.cpp.
+.SS "void mt::smpp::SmppNwIf::Deactivate ()"
+.PP
+Definition at line 55 of file SmppNwIf.cpp.
+.SS "\fBBindType\fP mt::smpp::SmppNwIf::GetBindType ()\fC [inline]\fP"
+.PP
+Definition at line 79 of file SmppNwIf.h.
+.SS "\fBTCPSocket\fP* mt::smpp::SmppNwIf::GetSocket ()\fC [inline]\fP"
+.PP
+Definition at line 97 of file SmppNwIf.h.
+.SS "std::string mt::smpp::SmppNwIf::GetSystemId ()\fC [inline]\fP"
+.PP
+Definition at line 93 of file SmppNwIf.h.
+.SS "bool mt::smpp::SmppNwIf::IfInactive ()"
+.PP
+Definition at line 35 of file SmppNwIf.cpp.
+.SS "bool mt::smpp::SmppNwIf::IsActive ()"
+.PP
+Definition at line 45 of file SmppNwIf.cpp.
+.SS "void mt::smpp::SmppNwIf::LogPdu (Smpp::Header * h, bool rcv = \fCfalse\fP)\fC [protected]\fP"
+.PP
+Definition at line 412 of file SmppNwIf.cpp.
+.SS "void mt::smpp::SmppNwIf::LogPduHex (bool rcv, const uint8_t *const  ptr, unsigned int len)\fC [protected]\fP"
+.PP
+Definition at line 339 of file SmppNwIf.cpp.
+.SS "void mt::smpp::SmppNwIf::LogSm (Smpp::SubmitSm * sm, bool rcv)\fC [protected]\fP"
+.PP
+Definition at line 358 of file SmppNwIf.cpp.
+.SS "void mt::smpp::SmppNwIf::LogSmResp (Smpp::SubmitSmResp * smr, bool rcv)\fC [protected]\fP"
+.PP
+Definition at line 390 of file SmppNwIf.cpp.
+.SS "Smpp::Header * mt::smpp::SmppNwIf::RecvPdu (\fBTCPSocket\fP * s)"
+.PP
+Definition at line 201 of file SmppNwIf.cpp.
+.SS "Smpp::Header* mt::smpp::SmppNwIf::RecvPdu ()\fC [inline]\fP"
+.PP
+Definition at line 117 of file SmppNwIf.h.
+.SS "int mt::smpp::SmppNwIf::SendPdu (\fBTCPSocket\fP * s, Smpp::Header * h)"
+.PP
+Definition at line 60 of file SmppNwIf.cpp.
+.SS "int mt::smpp::SmppNwIf::SendPdu (Smpp::Header * h)\fC [inline]\fP"
+.PP
+Definition at line 114 of file SmppNwIf.h.
+.SS "void mt::smpp::SmppNwIf::SetBindType (const \fBBindType\fP & t)\fC [inline]\fP"
+.PP
+Definition at line 75 of file SmppNwIf.h.
+.SS "void mt::smpp::SmppNwIf::setConnectionType (const std::string & c)\fC [inline]\fP"
+.PP
+Definition at line 88 of file SmppNwIf.h.
+.SS "void mt::smpp::SmppNwIf::SetIfInactive (bool b)"
+.PP
+Definition at line 40 of file SmppNwIf.cpp.
+.SS "void mt::smpp::SmppNwIf::setMaxRps (uint32_t max)\fC [inline]\fP"
+.PP
+Definition at line 68 of file SmppNwIf.h.
+.SS "void mt::smpp::SmppNwIf::setSystemId (const std::string & si)\fC [inline]\fP"
+.PP
+Definition at line 83 of file SmppNwIf.h.
+.SH "Member Data Documentation"
+.PP 
+.SS "bool \fBmt::smpp::SmppNwIf::active\fP\fC [protected]\fP"
+.PP
+Definition at line 58 of file SmppNwIf.h.
+.SS "\fBMutex\fP \fBmt::smpp::SmppNwIf::activeMtx\fP\fC [protected]\fP"
+.PP
+Definition at line 59 of file SmppNwIf.h.
+.SS "\fBLoggerPtr\fP \fBmt::smpp::SmppNwIf::CDRlogger\fP\fC [protected]\fP"
+.PP
+Definition at line 53 of file SmppNwIf.h.
+.SS "bool \fBmt::smpp::SmppNwIf::deletInactive\fP\fC [protected]\fP"
+.PP
+Definition at line 57 of file SmppNwIf.h.
+.SS "\fBMutex\fP \fBmt::smpp::SmppNwIf::deletInactiveMtx\fP\fC [protected]\fP"
+.PP
+Definition at line 60 of file SmppNwIf.h.
+.SS "bool \fBmt::smpp::SmppNwIf::hexLogEnable\fP\fC [protected]\fP"
+.PP
+Definition at line 51 of file SmppNwIf.h.
+.SS "\fBLoggerPtr\fP \fBmt::smpp::SmppNwIf::hexLogger\fP\fC [protected]\fP"
+.PP
+Definition at line 55 of file SmppNwIf.h.
+.SS "std::string \fBmt::smpp::SmppNwIf::m_connectionType\fP\fC [protected]\fP"
+.PP
+Definition at line 46 of file SmppNwIf.h.
+.SS "uint32_t \fBmt::smpp::SmppNwIf::m_maxRps\fP\fC [protected]\fP"
+.PP
+Definition at line 43 of file SmppNwIf.h.
+.SS "\fBRcvBuf\fP* \fBmt::smpp::SmppNwIf::m_rcvBuf\fP\fC [protected]\fP"
+.PP
+Definition at line 41 of file SmppNwIf.h.
+.SS "uint32_t \fBmt::smpp::SmppNwIf::m_sendTimeout\fP\fC [protected]\fP"
+.PP
+Definition at line 44 of file SmppNwIf.h.
+.SS "std::string \fBmt::smpp::SmppNwIf::m_systemId\fP\fC [protected]\fP"
+.PP
+Definition at line 45 of file SmppNwIf.h.
+.SS "bool \fBmt::smpp::SmppNwIf::notifyInspector\fP\fC [protected]\fP"
+.PP
+Definition at line 49 of file SmppNwIf.h.
+.SS "bool \fBmt::smpp::SmppNwIf::smppLogEnable\fP\fC [protected]\fP"
+.PP
+Definition at line 52 of file SmppNwIf.h.
+.SS "\fBLoggerPtr\fP \fBmt::smpp::SmppNwIf::smppLogger\fP\fC [protected]\fP"
+.PP
+Definition at line 56 of file SmppNwIf.h.
+.SS "\fBTCPSocket\fP* \fBmt::smpp::SmppNwIf::sock\fP\fC [protected]\fP"
+.PP
+Definition at line 50 of file SmppNwIf.h.
+.SS "\fBBindType\fP \fBmt::smpp::SmppNwIf::type\fP\fC [protected]\fP"
+.PP
+Definition at line 54 of file SmppNwIf.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

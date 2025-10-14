@@ -1,0 +1,132 @@
+<html>
+<header>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+<title>Выписка (Report)</title>
+
+<style>
+table.a1{border:1px solid black}
+table.a1 td {border:1px solid black}
+table.a1 th {border:1px solid black;background-color:#dddddd;}
+</style>
+
+</header>
+
+<body>
+<div align="center"><b>Выписка (Report)</b> </div><br>
+<div align="center"><b>за период с (from) <#ДатаНачОтч#> по (to) <#ДатаКонОтч#> </b></div><br>
+
+
+<table class=a1 width="100%" border="1" cellspacing="0" cellpadding="0" >
+ <tr>
+   <th align=center WIDTH=150>Организация</th>
+   <td>АКБ "СЕВЕРО-ЗАПАДНЫЙ 1 АЛЬЯНС БАНК" ОАО</td>
+ </tr>
+</table>
+<br>
+
+<table class=a1 width="100%" border="1" cellspacing="0" cellpadding="0" >
+ <tr>
+   <th align=center WIDTH=150 rowspan=2>Ф.И.О.<br>Client name</th>
+   <td rowspan=2><#Фамилия#><br><#ФамилияЛат1#></td>
+   <th WIDTH=150 align=center>Дата выписки<br>Report date</th>
+   <td WIDTH=300><#ДатаВыписки#></td>
+ </tr>
+ <tr>
+   <th align=center>Тип карты<br>Card type</th>
+   <td><#ТипКарты#></td>
+ </tr>
+ <tr>
+   <th align=center>Адрес<br>Address</th>
+   <td><#Адрес#></td>
+   <th align=center>Номер Карты <br> Card number</th>
+   <td><#НомерКарты#></td>
+ </tr>
+</table>
+<br>
+
+<table class=a1 width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+   <th WIDTH=200 rowspan=2>Дата операции<br>Operation date</th>
+   <th WIDTH=150 rowspan=2>Дата расчета<br>Value date</th>
+   <th rowspan=2>Содержание операции<br>Operation details</th>
+   <th WIDTH=150 rowspan=2>Код<br>авторизации<br>Operation code</th>
+   <th WIDTH=300 colspan=2>Сумма<br>Amount</th>
+   <th WIDTH=150 rowspan=2>Комиссия<br>fee</th>
+   <th WIDTH=150 rowspan=2>Итого<br>Total</th>
+ </tr>
+ 
+ <tr>
+   <th WIDTH=150>В валюте операции<br>Operation</th>
+   <th WIDTH=150>В валюте счета<br>Account</th>
+ </tr>
+
+<#Блок-оп.Старт#>
+
+ <tr><td><#Блок-оп.ДатаОп#></td>
+   <td><#Блок-оп.ДатаРасч#></td>
+   <td><#Блок-оп.Детали#></td>
+   <td><#Блок-оп.Код#></td>
+   <td><#Блок-оп.СумВалОп#></td>
+   <td><#Блок-оп.СумВалСч#></td>
+   <td><#Блок-оп.Комиссия#></td>
+   <td><#Блок-оп.Итого#></td></tr>
+
+<#Блок-оп.Конец#>
+
+</table>
+<br>
+
+<table width="100%" border="1" cellspacing="0" cellpadding="0" >
+ <tr>
+   <td>ОСТАТОК НА НАЧАЛО ПЕРИОДА (Initial balance):</td>
+   <td><#ОстНачПериод#></td>
+ </tr>
+ <tr>
+   <td>ОБОРОТ ПО ПРИХОДУ ЗА ПЕРИОД (Credit turnover):</td>
+   <td><#ОборотПриход#></td>
+ </tr>
+ <tr>
+   <td>ОБОРОТ ПО РАСХОДУ ЗА ПЕРИОД (Debit turnover):</td>
+   <td><#ОборотРасход#></td>
+ </tr>
+ <tr>
+   <td>ОСТАТОК НА КОНЕЦ ПЕРИОДА (Total balance):</td>
+   <td><#ОстатокКонец#></td>
+ </tr>
+ <tr>
+   <td>БЛОКИРОВАННАЯ СУММА (НЕОПЛАЧЕННЫЕ ОПЕРАЦИИ) (Blocked amount):</td>
+   <td><#БлокСумма#></td>
+ </tr>
+ <tr>
+   <td>ДОПУСТИМЫЙ ПЕРЕРАСХОД (КРЕДИТНЫЙ ЛИМИТ) (Acceptable overdarft):</td>
+   <td><#РазрешПерерасход#></td>
+ </tr>
+ <tr>
+   <td>ТЕКУЩИЙ РАСХОДНЫЙ ЛИМИТ (opento-buy):</td>
+   <td><#ТекЛимит#></td>
+ </tr>
+ <tr>
+   <td>Сумма овердрафта:</td>
+   <td><#СуммаОвер#></td>
+ </tr>
+ <tr>
+   <td>НеснижОст</td>
+   <td><#НеснижОст#></td>
+ </tr>
+ <tr>
+   <td>ДостЛимит</td>
+   <td><#ДостЛимит#></td>
+ </tr>
+ <tr>
+   <td>СуммаНеисОвер</td>
+   <td><#СуммаНеисОвер#></td>
+ </tr>
+   <tr>
+   <td>СуммаЛимитОвер</td>
+   <td><#СуммаЛимитОвер#></td>
+ </tr>
+</table>
+<br>
+
+</body>
+</html>

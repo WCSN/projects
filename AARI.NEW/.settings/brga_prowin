@@ -1,0 +1,3 @@
+    PREFIXPATHINC = /usr/local/include
+    LIBS += -L/usr/local/lib/qt5 -lqwt6
+    INCLUDEPATH += $${PREFIXPATHINC}/qt5/qwt6 \

@@ -1,0 +1,198 @@
+#!/bin/bash
+################################################################
+##
+## ASPD changer
+##
+## wocson (c)
+##
+## Requaired: mc mcedit mcview rar 7z ncat awk(gawk) sed zsh lftp enca mutt
+##
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+
+WORKTYPE=debug
+
+if [ $WORKTYPE == debug ]; then CONF="aspd_debug.conf"
+else CONF="aspd.conf"
+fi
+
+if [ -f /usr/local/etc/aspd/$CONF ] ; then source /usr/local/etc/aspd/$CONF
+elif [ -f /etc/aspd/$CONF ] ; then source /etc/aspd/$CONF
+else  echo "Файл настроек: $CONF в /usr/local/etc/aspd/ или /etc/aspd/ не найден";  exit 1
+fi
+
+source $LIB/aspd_inc.sh
+
+BUFFIO=""
+
+io2()
+{
+  local BUFF=""; len=0; ch="" STARTLINE="$1" 
+
+  len=$(strlen "$STARTLINE");
+  getxy; Y0=$gY;
+
+  outtextxy 2 $(($Y0-2)) "$len"	  
+  outtextxy 1  $Y0 "$STARTLINE"	
+  
+  while true; do
+
+	read -s -n1 ch
+
+	BUFFIO+="$ch"; let len++ 
+
+	outtextxy 2 $(($Y0-2)) "$len"	
+	outtextxy $len $Y0 "$ch"	
+	if [[ $ch == "=" ]]; then break; fi
+  done
+  outtextxy 1 $(($Y0+1)) "\n"
+}
+
+
+#backspace
+io3()
+{
+  local BUFF=""; len=0; ch="" STARTLINE="$1" 
+
+  len=$(strlen "$STARTLINE");
+  getxy; Y0=$gY;
+
+  outtextxy 2 $(($Y0-2)) "$len"	  
+  outtextxy 1  $Y0 "$STARTLINE"	
+  
+  while true; do
+	read -s -n1 ch
+		  
+	BUFFIO+="$ch"; 
+	if (( $ch == 32 )) ; then let len--;
+	else let len++; fi 
+
+	outtextxy 2 $(($Y0-2)) "$len"	
+	outtextxy $len $Y0 "$ch"	
+	if [[ $ch == "=" ]]; then break; fi
+  done
+  outtextxy 1 $(($Y0+1)) "\n"
+}
+
+
+rita()
+{
+  a=0
+}
+	lttype="avos"
+
+  if [ $lttype == avos ]; then
+	FNAME="avos.txt"
+	TMPFILE=./tmp/$FNAME
+	SIG01="}|sm\`"
+	SIGNATURE="$SIG01 $METEOSIGNATURE "
+  elif [ $lttype == climat ]; then
+	FNAME="avosclimat.txt"
+	TMPFILE=./tmp/$FNAME
+	SIGNATURE="}|klb $METEOSIGNATURE 111 "
+  fi
+
+	echo -en "$SIGNATURE" > "$TMPFILE"
+
+#=====================================================================================
+
+	settextcolor $LGREEN
+    lnm=`printf "─%.s" $(seq $WSLZ)`; 
+    outt -s "$lnm";
+	outt -s "Введите данные. Перевод строки при вводе происходит автоматически."
+	outt -s "Ввод завершить '=' - сохранение и окончание ввода данных"
+	outt -s "$lnm";
+  	setdefcolors
+
+	scale=`printf " %.s" $(seq $WSLZ)`;
+    scale=${scale:0:9}'1'${scale:0:9}'2'${scale:0:9}'3'${scale:0:9}'4'${scale:0:9}'5'${scale:0:9}'6'${scale:0:9}'7'${scale:0:9}'8'${scale:0:9}'9'${scale:0:7}'x10'
+	VL=$FLSCOLOR$BGSCOLOR$MINFSIZE$GRAY$BBCOLOR
+	MRU=$LYELLOW$BBCOLOR▼$GRAY$BBCOLOR
+	MRD=$LYELLOW$BBCOLOR▲$GRAY$BBCOLOR
+    scale=${scale:0:$MINFSIZE-1}"$VL"${scale:$MINFSIZE+1}
+
+	while true; do
+	  outt -s "$scale";
+	  lnm1=${lnm:0:4}'┴'${lnm:0:4}'┴'${lnm:0:4}'┴'${lnm:0:4}'┴'${lnm:0:4}'┴'${lnm:0:4}'┴'${lnm:0:4}'┴'${lnm:0:4}'┴'${lnm:0:4}'┴'${lnm:0:4}'┴'
+	  lnm1+=$lnm1
+	  lnm1=${lnm1:0:$MINFSIZE-1}"$MRU"${lnm1:$MINFSIZE}
+	  outt -s "$lnm1" #------------------------------------------
+
+	  echo -en "$BICYAN"; 
+#	  read -p "$SIGNATURE" -e TLG
+	  io3 "$SIGNATURE"; TLG="$BUFFIO"
+
+	  if [ $lttype == avos ]; then outt -l "}|sm"'\`' "$METEOSIGNATURE $TLG"
+	  else outt -l "$SIGNATURE $TLG";	fi
+
+	  lnm2=${lnm:0:$MINFSIZE-1}"$MRD"${lnm:$MINFSIZE}
+
+	  outt -s "$lnm2" #------------------------------------------
+	  setdefcolors
+	  nSZ="$(strlen "$SIGNATURE$TLG")"; sz=`echo "$nSZ" | wc -m`
+	  ffw=13; lz=$(($WSLZ-$ffw-$sz-1));
+	  format="$TBCOLOR$BBCOLOR%-${ffw}s$SZSCOLOR$BBCOLOR %-${sz}s$TBCOLOR$BBCOLOR%-${lz}s"
+	  tsz=`echo -en "printf \"$format\" \"Размер файла:\" \"$nSZ\" \"b\"" | zsh`
+	  outt -s "$tsz";
+
+      if (( $MINFSIZE > $nSZ ));then 
+		settextcolor "$LYELLOW"; setbgcolor $BGRED
+		outt -s "Недопустимый размер! Повторите ввод!"
+		outt -l "Повторный ввод"
+		setdefcolors
+		continue
+	  fi	  
+	  outt -l "$tsz";
+	  psecho "Данные введены верно?(y/n/a):"; read sn
+	  case $sn in
+	  y|Y) 	settextcolor $LGREEN
+			outt -s "Данные для отправки:"
+			outt -s "$lnm" #------------------------------------------
+
+			lenT=$(strlen "$TLG"); LASTLITER=${TLG:lenT-1:1};
+			if [[ $LASTLITER != "=" ]]; then TLG+='='; fi
+
+			if [ $lttype == avos ]; then outt -s "}|sm"'\`' "$METEOSIGNATURE $TLG"
+			else outt -s "$SIGNATURE $TLG";	fi
+
+			outt -s "$lnm" #------------------------------------------
+            setdefcolors
+		    echo -en "$TLG" >> "$TMPFILE"
+		    sudo chown $USER:aspd "$TMPFILE"
+		    break; 
+	  ;;
+	  a|A) if [ -f "$TMPFILE" ]; then rm "$TMPFILE"; fi
+		   outt "Отмена."  
+		   return
+	  ;;
+	  *)
+      ;;
+	  esac
+	done
+
+SIN0="00:00-00:20 UTC / 07:00-07:20"		# СИН1
+SIN1="06:00-06:20 UTC / 13:00-13:20"		# СИН2
+SIN2="12:00-12:20 UTC / 19:00-19:20"		# СИН3
+SIN3="18:00-18:20 UTC / 01:00-01:20"		# СИН4
+
+# 00:20             			06:00
+INT0020=$SINTMAX;				INT0600=$((6*60));
+# 06:20             			12:00
+INT0620=$(( 6*60+$SINTMAX));	INT1200=$((12*60));
+# 12:20             			18:00
+INT1220=$((12*60+$SINTMAX));	INT1800=$((18*60));
+# 18:20             			00:00
+INT1820=$((18*60+$SINTMAX));	INT2400=$((24*60));
+
+  TMHM=$(($1*60+$2));
+  echo "TMHM=$TMHM"
+
+    if (( (( $TMHM>$INT0020 )) && (( $TMHM<$INT0600 )) )); then txt="$SIN1 $STATION"
+  elif (( (( $TMHM>$INT0620 )) && (( $TMHM<$INT1200 )) )); then txt="$SIN2 $STATION"
+  elif (( (( $TMHM>$INT1220 )) && (( $TMHM<$INT1800 )) )); then txt="$SIN3 $STATION"
+  elif (( (( $TMHM>$INT1820 )) && (( $TMHM<$INT2400 )) )); then txt="$SIN0 $STATION"; fi
+
+  outt ""
+  outt " СИН-срок отправки данных: $txt"
+  outt ""
+

@@ -1,0 +1,528 @@
+.TH "mt::DbColumn" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::DbColumn \- 
+.PP
+\fBDbColumn\fP contain data from the DB data's column.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <DbColumn.h>\fP
+.SS "Public Member Functions"
+
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBDbColumn\fP ()"
+.br
+.ti -1c
+.RI "\fBDbColumn\fP (const \fBDB_COLUMN\fP &column)"
+.br
+.ti -1c
+.RI "virtual \fB~DbColumn\fP ()"
+.br
+.in -1c
+.in -1c 
+.in +1c
+.ti -1c
+.RI "long \fBgetLong\fP (int32_t row) const "
+.br
+.RI "\fIGet value as long. \fP"
+.ti -1c
+.RI "int32_t \fBgetInt\fP (int32_t row) const "
+.br
+.RI "\fIGet value as int. \fP"
+.ti -1c
+.RI "unsigned long \fBgetUnsignedLong\fP (int32_t row) const "
+.br
+.RI "\fIGet value as unsigned long. \fP"
+.ti -1c
+.RI "uint32_t \fBgetUnsignedInt\fP (int32_t row) const "
+.br
+.RI "\fIGet value as unsigned int. \fP"
+.ti -1c
+.RI "double \fBgetUnsignedDouble\fP (int32_t row) const "
+.br
+.RI "\fIGet value as double. \fP"
+.ti -1c
+.RI "double \fBgetDouble\fP (int32_t row) const "
+.br
+.RI "\fIGet value as double. \fP"
+.ti -1c
+.RI "float \fBgetUnsignedFloat\fP (int32_t row) const "
+.br
+.RI "\fIGet value as float. \fP"
+.ti -1c
+.RI "float \fBgetFloat\fP (int32_t row) const "
+.br
+.RI "\fIGet value as float. \fP"
+.ti -1c
+.RI "const char * \fBgetCharString\fP (int32_t row) const "
+.br
+.RI "\fIGet value as char string. \fP"
+.ti -1c
+.RI "std::string \fBgetString\fP (int32_t row) const "
+.br
+.RI "\fIGet value as std::string. \fP"
+.ti -1c
+.RI "time_t \fBgetTime\fP (int32_t row) const "
+.br
+.RI "\fIGet value as time_t. \fP"
+.ti -1c
+.RI "long \fBgetIdentity\fP (int32_t row) const "
+.br
+.RI "\fIGet value as long. \fP"
+.ti -1c
+.RI "bool \fBgetBool\fP (int32_t row) const "
+.br
+.RI "\fIGet value as bool. \fP"
+.ti -1c
+.RI "\fBmt::ByteBuffer\fP \fBgetBinary\fP (int32_t row) const "
+.br
+.RI "\fIGet binary value. \fP"
+.ti -1c
+.RI "bool \fBisNull\fP (int32_t row) const "
+.br
+.RI "\fICheck for NULL. \fP"
+.ti -1c
+.RI "int32_t \fBappend\fP (const std::string &value)"
+.br
+.RI "\fIAppend new value to the column. \fP"
+.ti -1c
+.RI "static std::string \fBidentity\fP (int32_t id)"
+.br
+.RI "\fIConvert value to string at MYSQL format. \fP"
+.ti -1c
+.RI "static std::string \fBbinary\fP (char *buf, int32_t len)"
+.br
+.RI "\fIConvert value to string at MYSQL format. \fP"
+.ti -1c
+.RI "static std::string \fBstringFromDate\fP (time_t t, bool quoted=true)"
+.br
+.RI "\fIConvert value to string at MYSQL format. \fP"
+.ti -1c
+.RI "static std::string \fBunsignedFloat\fP (float f)"
+.br
+.RI "\fIConvert value to string at MYSQL format. \fP"
+.ti -1c
+.RI "static std::string \fBunsignedDouble\fP (double d)"
+.br
+.RI "\fIConvert value to string at MYSQL format. \fP"
+.ti -1c
+.RI "static std::string \fBunsignedLong\fP (long l)"
+.br
+.RI "\fIConvert value to string at MYSQL format. \fP"
+.ti -1c
+.RI "static std::string \fBunsignedInt\fP (uint32_t i)"
+.br
+.RI "\fIConvert value to string at MYSQL format. \fP"
+.ti -1c
+.RI "static std::string \fBmysqlString\fP (const std::string &str)"
+.br
+.RI "\fIConvert value to string at MYSQL format. \fP"
+.ti -1c
+.RI "static std::string \fBescapeString\fP (const std::string &in)"
+.br
+.RI "\fIIf string 'in' include symbol '\\' than it will be escaped. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBDbColumn\fP contain data from the DB data's column. 
+.PP
+Definition at line 18 of file DbColumn.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::DbColumn::DbColumn ()"
+.PP
+Definition at line 6 of file DbColumn.cpp.
+.SS "mt::DbColumn::DbColumn (const \fBDB_COLUMN\fP & column)"
+.PP
+Definition at line 9 of file DbColumn.cpp.
+.SS "mt::DbColumn::~DbColumn ()\fC [virtual]\fP"
+.PP
+Definition at line 12 of file DbColumn.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "int32_t mt::DbColumn::append (const std::string & value)\fC [inline]\fP"
+.PP
+Append new value to the column. \fBParameters:\fP
+.RS 4
+\fIvalue\fP appended value.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+new size of column. 
+.RE
+.PP
+
+.PP
+Definition at line 310 of file DbColumn.h.
+.SS "std::string mt::DbColumn::binary (char * buf, int32_t len)\fC [static]\fP"
+.PP
+Convert value to string at MYSQL format. \fBParameters:\fP
+.RS 4
+\fIbuf\fP Value to convert. 
+.br
+\fIlen\fP length of buf.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBString\fP at MYSQL format. 
+.RE
+.PP
+
+.PP
+Definition at line 28 of file DbColumn.cpp.
+.SS "std::string mt::DbColumn::escapeString (const std::string & in)\fC [static]\fP"
+.PP
+If string 'in' include symbol '\\' than it will be escaped. 
+.PP
+Definition at line 69 of file DbColumn.cpp.
+.SS "\fBmt::ByteBuffer\fP mt::DbColumn::getBinary (int32_t row) const"
+.PP
+Get binary value. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 15 of file DbColumn.cpp.
+.SS "bool mt::DbColumn::getBool (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as bool. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 302 of file DbColumn.h.
+.SS "const char * mt::DbColumn::getCharString (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as char string. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 284 of file DbColumn.h.
+.SS "double mt::DbColumn::getDouble (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as double. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 272 of file DbColumn.h.
+.SS "float mt::DbColumn::getFloat (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as float. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 280 of file DbColumn.h.
+.SS "long mt::DbColumn::getIdentity (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as long. If value is 'NULL' than will returned -1.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 297 of file DbColumn.h.
+.SS "int32_t mt::DbColumn::getInt (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as int. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 256 of file DbColumn.h.
+.SS "long mt::DbColumn::getLong (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as long. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 252 of file DbColumn.h.
+.SS "std::string mt::DbColumn::getString (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as std::string. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 288 of file DbColumn.h.
+.SS "time_t mt::DbColumn::getTime (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as time_t. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 293 of file DbColumn.h.
+.SS "double mt::DbColumn::getUnsignedDouble (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as double. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 268 of file DbColumn.h.
+.SS "float mt::DbColumn::getUnsignedFloat (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as float. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 276 of file DbColumn.h.
+.SS "uint32_t mt::DbColumn::getUnsignedInt (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as unsigned int. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 264 of file DbColumn.h.
+.SS "unsigned long mt::DbColumn::getUnsignedLong (int32_t row) const\fC [inline]\fP"
+.PP
+Get value as unsigned long. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Cell's value. 
+.RE
+.PP
+
+.PP
+Definition at line 260 of file DbColumn.h.
+.SS "std::string mt::DbColumn::identity (int32_t id)\fC [static]\fP"
+.PP
+Convert value to string at MYSQL format. \fBParameters:\fP
+.RS 4
+\fIid\fP Value to convert.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBString\fP at MYSQL format. 
+.RE
+.PP
+
+.PP
+Definition at line 22 of file DbColumn.cpp.
+.SS "bool mt::DbColumn::isNull (int32_t row) const\fC [inline]\fP"
+.PP
+Check for NULL. \fBParameters:\fP
+.RS 4
+\fIrow\fP Row's number.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+TRUE if value is 'NULL' or 'null'. Otherwise, will return FALSE. 
+.RE
+.PP
+
+.PP
+Definition at line 306 of file DbColumn.h.
+.SS "std::string mt::DbColumn::mysqlString (const std::string & str)\fC [static]\fP"
+.PP
+Convert value to string at MYSQL format. \fBParameters:\fP
+.RS 4
+\fIstr\fP Value to convert.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBString\fP at MYSQL format. 
+.RE
+.PP
+
+.PP
+Definition at line 63 of file DbColumn.cpp.
+.SS "std::string mt::DbColumn::stringFromDate (time_t t, bool quoted = \fCtrue\fP)\fC [static]\fP"
+.PP
+Convert value to string at MYSQL format. \fBParameters:\fP
+.RS 4
+\fIt\fP Value to convert. 
+.br
+\fIquoted\fP if TRUE than string will be quoted.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBString\fP at MYSQL format. 
+.RE
+.PP
+
+.PP
+Definition at line 84 of file DbColumn.cpp.
+.SS "std::string mt::DbColumn::unsignedDouble (double d)\fC [static]\fP"
+.PP
+Convert value to string at MYSQL format. \fBParameters:\fP
+.RS 4
+\fId\fP Value to convert.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBString\fP at MYSQL format. 
+.RE
+.PP
+
+.PP
+Definition at line 45 of file DbColumn.cpp.
+.SS "std::string mt::DbColumn::unsignedFloat (float f)\fC [static]\fP"
+.PP
+Convert value to string at MYSQL format. \fBParameters:\fP
+.RS 4
+\fIf\fP Value to convert.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBString\fP at MYSQL format. 
+.RE
+.PP
+
+.PP
+Definition at line 41 of file DbColumn.cpp.
+.SS "std::string mt::DbColumn::unsignedInt (uint32_t i)\fC [static]\fP"
+.PP
+Convert value to string at MYSQL format. \fBParameters:\fP
+.RS 4
+\fIi\fP Value to convert.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBString\fP at MYSQL format. 
+.RE
+.PP
+
+.PP
+Definition at line 59 of file DbColumn.cpp.
+.SS "std::string mt::DbColumn::unsignedLong (long l)\fC [static]\fP"
+.PP
+Convert value to string at MYSQL format. \fBParameters:\fP
+.RS 4
+\fIl\fP Value to convert.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBString\fP at MYSQL format. 
+.RE
+.PP
+
+.PP
+Definition at line 52 of file DbColumn.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

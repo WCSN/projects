@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<header>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+<title>Выписка / Statement</title>
+
+<style type="text/css">
+body { font-family: Tahoma, Arial, Sans-serif; font-size: 1.0em; }
+
+table.top01 {font-size: 0.80em; background-color: #E4EEFF; border-style:solid; border-width:0px; border-collapse:collapse;}
+
+table.hdtable {border:0px solid black; font-size: 1.1em;border-style:solid;border-width:0px;}
+
+table.a1 {border: 1px solid black; font-size: 0.80em; border-style: solid black; border-width:1px; border-collapse:collapse;}
+table.a1 td {border:1px solid black; padding:2px;}
+table.a1 th {border:1px solid black; background-color:#E4EEFF;}
+
+</style>
+</header>
+
+<body>
+<div align=center>
+<TABLE class=top01 WIDTH=99%> 
+    <TR VALIGN=TOP>   
+        <TD WIDTH=2%>
+		&nbsp;
+		</td> 
+        <TD WIDTH=49%>
+		  <table class=top01> <!--width=100-->
+		  <tr>
+			<td WIDTH=100%>По вопросам обслуживания банковских карт обращайтесь:</td>
+		  </tr>
+		  </table>
+		  <table class=top01> <!--width=100-->
+		  <tr>
+			<td>Санкт-Петербург:</td><td>+7 (812) 458-89-47</td>
+		  </tr>
+		  <tr>
+			<td>Мурманск:</td><td> +7 (8152) 45-47-21</td>
+		  </tr>
+		  <tr>
+			<td>Горячая линия:</td><td> +7 (812) 240-08-70</td>
+		  </tr>
+		  </table>
+        </TD>                                                                                                                                                                                                                                    
+        <TD WIDTH=49% style="vertical-align: middle; text-align: right;">                                                 
+  		  <IMG SRC="http://www.akbank.ru/images/nw1ab_rus_sm.png">
+        </TD>                                                                                                                       
+    </TR>                                                                                                                           
+</TABLE>   
+<br>
+<table class=hdtable width="100%">
+  <tr>
+   <td align="right"><b>Выписка / Statement&nbsp;&nbsp;</b></td>
+   <td align="left">&nbsp;&nbsp;<#ДатаНачОтч#> - <#ДатаКонОтч#></td>
+ </tr>
+</table>
+
+<table class=a1 width="99%">
+ <tr>
+   <th align=center WIDTH=150>Организация<br>Organization</th>
+   <td>&nbsp;АКБ "СЕВЕРО-ЗАПАДНЫЙ 1 АЛЬЯНС БАНК" ОАО</td>
+ </tr>
+</table>
+
+<br>
+
+<table class=a1 width="99%">
+ <tr>
+   <th align=center WIDTH=150 rowspan=2>Имя клиента<br>Client name</th>
+   <td rowspan=2>&nbsp;<#Фамилия#><br>&nbsp;<#ФамилияЛат1#></td>
+   <th WIDTH=150 align=center>Дата выписки<br>Statement date</th>
+   <td WIDTH=300>&nbsp;<#ДатаВыписки#></td>
+ </tr>
+ <tr>
+   <th align=center>Тип карты<br>Card type</th>
+   <td>&nbsp;<#ТипКарты#></td>
+ </tr>
+ <tr>
+   <th align=center>Адрес<br>Address</th>
+   <td>&nbsp;<#Адрес#></td>
+   <th align=center>Номер Карты <br> Card number</th>
+   <td>&nbsp;<#НомерКарты#></td>
+ </tr>
+</table>
+
+<br>
+
+<table class=a1 width="99%">
+  <tr>
+   <th WIDTH=6% rowspan=2>Дата операции<br>Transaction date</th>
+   <th WIDTH=6% rowspan=2>Дата расчета<br>Settlement date</th>
+   <th WIDTH=38% rowspan=2>Содержание операции<br>Operation details</th>
+   <th WIDTH=4% rowspan=2>Код авторизации<br>Validation code</th>
+   <th WIDTH=0% colspan=2>Сумма<br>Amount</th>
+   <th WIDTH=4% rowspan=2>Комиссия<br>Fee</th>
+   <th WIDTH=14% rowspan=2>Итого<br>Total</th>
+ </tr>
+ <tr>
+   <th WIDTH=14%>В валюте операции<br>Transaction currency</th>
+   <th WIDTH=14%>В валюте счета<br>Account currency</th>
+ </tr>
+
+<#Блок-оп.Старт#>
+
+ <tr>
+   <td align=center><#Блок-оп.ДатаОп#></td>
+   <td align=center><#Блок-оп.ДатаРасч#></td>
+   <td align=left><#Блок-оп.Детали#></td>
+   <td align=center><#Блок-оп.Код#></td>
+   <td align=right><#Блок-оп.СумВалОп#></td>
+   <td align=right><#Блок-оп.СумВалСч#></td>
+   <td align=right><#Блок-оп.Комиссия#></td>
+   <td align=right><#Блок-оп.Итого#></td>
+ </tr>
+
+<#Блок-оп.Конец#>
+
+</table>
+</div>
+
+<br>
+
+<div align=center>
+<table width=99%><tr><td>
+<table class=a1>
+ <tr>
+   <td>Остаток на начало периода / Opening balance</td>
+   <td align=right>&nbsp;&nbsp;<#ОстНачПериод#></td>
+ </tr>
+ <tr>
+   <td>Оборот по приходу за период / Credit turnover</td>
+   <td align=right>&nbsp;&nbsp;<#ОборотПриход#></td>
+ </tr>
+ <tr>
+   <td>Оборот по расходу за период / Debit turnover</td>
+   <td align=right>&nbsp;&nbsp;<#ОборотРасход#></td>
+ </tr>
+ <tr>
+   <td>Остаток на конец периода / Closing balance</td>
+   <td align=right>&nbsp;&nbsp;<#ОстатокКонец#></td>
+ </tr>
+ <tr>
+   <td>Блокированная сумма (неоплаченные операции) / Blocked amount</td>
+   <td align=right>&nbsp;&nbsp;<#БлокСумма#></td>
+ </tr>
+ <tr>
+   <td>Допустимый перерасход (кредитный лимит) / Allowed overdraft (Credit limit)</td>
+   <td align=right>&nbsp;&nbsp;<#РазрешПерерасход#></td>
+ </tr>
+ <tr>
+   <td>Текущий расходный лимит / Current account balance</td>
+   <td align=right>&nbsp;&nbsp;<#ТекЛимит#></td>
+ </tr>
+ <tr>
+   <td>Сумма овердрафта / Overdraft amount</td>
+   <td align=right>&nbsp;&nbsp;<#СуммаОвер#></td>
+ </tr>
+ <tr>
+   <td>Неснижаемый остаток / Security deposit</td>
+   <td align=right>&nbsp;&nbsp;<#НеснижОст#></td>
+ </tr>
+ <tr>
+   <td>Доступный лимит / Available amount</td>
+   <td align=right>&nbsp;&nbsp;<#ДостЛимит#></td>
+ </tr>
+ <tr>
+   <td>Сумма неиспользованного овердрафта / Unutilized overdraft amount</td>
+   <td align=right>&nbsp;&nbsp;<#СуммаНеисОвер#></td>
+ </tr>
+   <tr>
+   <td>Сумма лимита овердрафта / Overdraft limit amount</td>
+   <td align=right>&nbsp;&nbsp;<#СуммаЛимитОвер#></td>
+ </tr>
+</table>
+</td></tr></table>
+</div>
+</body>
+</html>
+<!--0.0.2 (c) Wocson 12C4F59-->

@@ -1,0 +1,51 @@
+.TH "mt::FileError" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::FileError \- 
+.PP
+Processing different file system errors.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <FileError.h>\fP
+.SS "Static Public Member Functions"
+
+.PP
+.RI "\fBFunctions\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "static void \fBhandleLastError\fP (const std::string &path)"
+.br
+.RI "\fIHandles last system error. \fP"
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+Processing different file system errors. 
+.PP
+Definition at line 20 of file FileError.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "void mt::FileError::handleLastError (const std::string & path)\fC [static]\fP"
+.PP
+Handles last system error. Throws appropriate exception. 
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP (or one of derived from it) according last system error. 
+.RE
+.PP
+
+.PP
+Definition at line 16 of file FileError.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

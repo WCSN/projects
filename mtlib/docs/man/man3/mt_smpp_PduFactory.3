@@ -1,0 +1,51 @@
+.TH "mt::smpp::PduFactory" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::PduFactory \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <PduFactory.h>\fP
+.PP
+Inherits \fBmt::Logable\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBsetServiceType\fP (const std::string &str)"
+.br
+.ti -1c
+.RI "\fBPduFactory\fP ()"
+.br
+.ti -1c
+.RI "Smpp::SubmitSm * \fBcreateSubmitSm\fP (const std::string &to, const std::string &from, \fBMessagePart\fP part, \fBCodingScheme\fP cs, uint8_t registeredDelivery, uint8_t)"
+.br
+.ti -1c
+.RI "Smpp::DeliverSm * \fBcreateDeliverSm\fP (const std::string &to, const std::string &from, const std::string &body, uint8_t)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 19 of file PduFactory.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::smpp::PduFactory::PduFactory ()"
+.PP
+Definition at line 17 of file PduFactory.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "Smpp::DeliverSm * mt::smpp::PduFactory::createDeliverSm (const std::string & to, const std::string & from, const std::string & body, uint8_t esm_class)"
+.PP
+Definition at line 62 of file PduFactory.cpp.
+.SS "Smpp::SubmitSm * mt::smpp::PduFactory::createSubmitSm (const std::string & to, const std::string & from, \fBMessagePart\fP part, \fBCodingScheme\fP cs = \fCUCS2\fP, uint8_t registeredDelivery = \fC0x00\fP, uint8_t esmClass = \fC0x00\fP)"
+.PP
+Definition at line 26 of file PduFactory.cpp.
+.SS "void mt::smpp::PduFactory::setServiceType (const std::string & str)\fC [inline]\fP"
+.PP
+Definition at line 24 of file PduFactory.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

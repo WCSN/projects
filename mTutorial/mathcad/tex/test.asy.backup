@@ -1,0 +1,3 @@
+unitsize(10cm);
+draw((1,0)--(0,1)--(-1,0)--(0,-1)--cycle);
+pair O=(0,0); pair A=(20,20); draw(O--A);

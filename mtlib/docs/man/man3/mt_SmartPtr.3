@@ -1,0 +1,286 @@
+.TH "mt::SmartPtr" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::SmartPtr \- 
+.PP
+Pointer with references counting.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <SmartPtr.h>\fP
+.PP
+Inherited by \fBmt::PolymorphSmartPtr< T, Y >\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBoperator bool\fP () const "
+.br
+.ti -1c
+.RI "\fBoperator int\fP () const "
+.br
+.ti -1c
+.RI "T * \fBdata\fP () const "
+.br
+.ti -1c
+.RI "const T * \fBconst_data\fP () const "
+.br
+.ti -1c
+.RI "\fBRefCounter\fP * \fBcounter\fP () const "
+.br
+.ti -1c
+.RI "uint32_t \fBcount\fP () const "
+.br
+.ti -1c
+.RI "template<class Y > \fBSmartPtr\fP< Y > \fBcast\fP ()"
+.br
+.RI "\fICasting type T to type Y. \fP"
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcheckPtr\fP () const "
+.br
+.ti -1c
+.RI "void \fBdeletePtr\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "T * \fBm_ptr\fP"
+.br
+.RI "\fIPointer to data. \fP"
+.ti -1c
+.RI "\fBRefCounter\fP * \fBm_refCount\fP"
+.br
+.RI "\fIPointer to references counter. \fP"
+.in -1c
+.SS "Constructors & Destructor."
+ 
+.in +1c
+.ti -1c
+.RI "\fBSmartPtr\fP ()"
+.br
+.ti -1c
+.RI "\fBSmartPtr\fP (const int value)"
+.br
+.ti -1c
+.RI "\fBSmartPtr\fP (T *_ptr)"
+.br
+.ti -1c
+.RI "\fBSmartPtr\fP (const T *_ptr)"
+.br
+.ti -1c
+.RI "\fBSmartPtr\fP (const \fBSmartPtr\fP &_smart_ptr)"
+.br
+.ti -1c
+.RI "\fBSmartPtr\fP (T *ptr, \fBRefCounter\fP *ref_counter)"
+.br
+.ti -1c
+.RI "\fB~SmartPtr\fP ()"
+.br
+.ti -1c
+.RI "\fBSmartPtr\fP< T > & \fBoperator=\fP (\fBSmartPtr\fP< T > &src)"
+.br
+.ti -1c
+.RI "\fBSmartPtr\fP< T > & \fBoperator=\fP (\fBSmartPtr\fP< T > const &src)"
+.br
+.ti -1c
+.RI "T & \fBoperator*\fP () const "
+.br
+.ti -1c
+.RI "bool \fBoperator!\fP () const "
+.br
+.ti -1c
+.RI "T * \fBoperator->\fP () const "
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (const int i) const "
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (const int i) const "
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (const T *_ptr) const "
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (const T *_ptr) const "
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBSmartPtr\fP< T > &src) const "
+.br
+.ti -1c
+.RI "bool \fBoperator==\fP (\fBSmartPtr\fP< T > const &src) const "
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (\fBSmartPtr\fP< T > &src) const "
+.br
+.ti -1c
+.RI "bool \fBoperator!=\fP (\fBSmartPtr\fP< T > const &src) const "
+.br
+.ti -1c
+.RI "bool \fBoperator<\fP (\fBSmartPtr\fP< T > const &a, \fBSmartPtr\fP< T > const &b)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class T> class mt::SmartPtr< T >"
+Pointer with references counting. 
+.PP
+Definition at line 16 of file SmartPtr.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class T > \fBmt::SmartPtr\fP< T >::\fBSmartPtr\fP ()"
+.PP
+Definition at line 95 of file SmartPtr.h.
+.SS "template<class T > \fBmt::SmartPtr\fP< T >::\fBSmartPtr\fP (const int value)"
+.PP
+Definition at line 100 of file SmartPtr.h.
+.SS "template<class T> \fBmt::SmartPtr\fP< T >::\fBSmartPtr\fP (T * _ptr)"
+.PP
+Definition at line 105 of file SmartPtr.h.
+.SS "template<class T> \fBmt::SmartPtr\fP< T >::\fBSmartPtr\fP (const T * _ptr)"
+.PP
+Definition at line 111 of file SmartPtr.h.
+.SS "template<class T> \fBmt::SmartPtr\fP< T >::\fBSmartPtr\fP (const \fBSmartPtr\fP< T > & _smart_ptr)"
+.PP
+Definition at line 117 of file SmartPtr.h.
+.SS "template<class T> \fBmt::SmartPtr\fP< T >::\fBSmartPtr\fP (T * ptr, \fBRefCounter\fP * ref_counter)"
+.PP
+Definition at line 125 of file SmartPtr.h.
+.SS "template<class T > \fBmt::SmartPtr\fP< T >::~\fBSmartPtr\fP ()"
+.PP
+Definition at line 132 of file SmartPtr.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class T > template<class Y > \fBSmartPtr\fP< Y > \fBmt::SmartPtr\fP< T >::cast ()"
+.PP
+Casting type T to type Y. \fBReturns:\fP
+.RS 4
+Smart pointer with Y type. If casting is fail, will returned null smart pointer. 
+.RE
+.PP
+
+.PP
+Definition at line 252 of file SmartPtr.h.
+.SS "template<class T > void \fBmt::SmartPtr\fP< T >::checkPtr () const\fC [protected]\fP"
+.PP
+Definition at line 239 of file SmartPtr.h.
+.SS "template<class T> const T* \fBmt::SmartPtr\fP< T >::const_data () const\fC [inline]\fP"
+.PP
+Definition at line 65 of file SmartPtr.h.
+.SS "template<class T> uint32_t \fBmt::SmartPtr\fP< T >::count () const\fC [inline]\fP"\fBReturns:\fP
+.RS 4
+Current count of references. 
+.RE
+.PP
+
+.PP
+Definition at line 75 of file SmartPtr.h.
+.SS "template<class T> \fBRefCounter\fP* \fBmt::SmartPtr\fP< T >::counter () const\fC [inline]\fP"\fBSee also:\fP
+.RS 4
+\fBRefCounter\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Pointer to references counter. 
+.RE
+.PP
+
+.PP
+Definition at line 70 of file SmartPtr.h.
+.SS "template<class T> T* \fBmt::SmartPtr\fP< T >::data () const\fC [inline]\fP"
+.PP
+Definition at line 64 of file SmartPtr.h.
+.SS "template<class T > void \fBmt::SmartPtr\fP< T >::deletePtr ()\fC [protected]\fP"
+.PP
+Definition at line 261 of file SmartPtr.h.
+.SS "template<class T > \fBmt::SmartPtr\fP< T >::operator bool () const"
+.PP
+Definition at line 229 of file SmartPtr.h.
+.SS "template<class T > \fBmt::SmartPtr\fP< T >::operator int () const"
+.PP
+Definition at line 234 of file SmartPtr.h.
+.SS "template<class T > bool \fBmt::SmartPtr\fP< T >::operator! () const"
+.PP
+Definition at line 177 of file SmartPtr.h.
+.SS "template<class T> bool \fBmt::SmartPtr\fP< T >::operator!= (const T * _ptr) const"
+.PP
+Definition at line 204 of file SmartPtr.h.
+.SS "template<class T> bool \fBmt::SmartPtr\fP< T >::operator!= (\fBSmartPtr\fP< T > & src) const"
+.PP
+Definition at line 219 of file SmartPtr.h.
+.SS "template<class T> bool \fBmt::SmartPtr\fP< T >::operator!= (\fBSmartPtr\fP< T > const & src) const"
+.PP
+Definition at line 224 of file SmartPtr.h.
+.SS "template<class T > bool \fBmt::SmartPtr\fP< T >::operator!= (const int i) const"
+.PP
+Definition at line 194 of file SmartPtr.h.
+.SS "template<class T > T & \fBmt::SmartPtr\fP< T >::operator* () const"\fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if empty pointer m_ptr. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Pointed data. 
+.RE
+.PP
+
+.PP
+Definition at line 171 of file SmartPtr.h.
+.SS "template<class T > T * \fBmt::SmartPtr\fP< T >::operator-> () const"\fBReturns:\fP
+.RS 4
+Pointer to data. 
+.RE
+.PP
+
+.PP
+Definition at line 182 of file SmartPtr.h.
+.SS "template<class T> \fBSmartPtr\fP< T > & \fBmt::SmartPtr\fP< T >::operator= (\fBSmartPtr\fP< T > & src)"
+.PP
+Definition at line 141 of file SmartPtr.h.
+.SS "template<class T> \fBSmartPtr\fP< T > & \fBmt::SmartPtr\fP< T >::operator= (\fBSmartPtr\fP< T > const & src)"
+.PP
+Definition at line 156 of file SmartPtr.h.
+.SS "template<class T> bool \fBmt::SmartPtr\fP< T >::operator== (\fBSmartPtr\fP< T > const & src) const"
+.PP
+Definition at line 214 of file SmartPtr.h.
+.SS "template<class T> bool \fBmt::SmartPtr\fP< T >::operator== (const T * _ptr) const"
+.PP
+Definition at line 199 of file SmartPtr.h.
+.SS "template<class T> bool \fBmt::SmartPtr\fP< T >::operator== (\fBSmartPtr\fP< T > & src) const"
+.PP
+Definition at line 209 of file SmartPtr.h.
+.SS "template<class T > bool \fBmt::SmartPtr\fP< T >::operator== (const int i) const"
+.PP
+Definition at line 188 of file SmartPtr.h.
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "template<class T> bool operator< (\fBSmartPtr\fP< T > const & a, \fBSmartPtr\fP< T > const & b)\fC [friend]\fP"
+.PP
+Definition at line 58 of file SmartPtr.h.
+.SH "Member Data Documentation"
+.PP 
+.SS "template<class T> T* \fBmt::SmartPtr\fP< T >::\fBm_ptr\fP\fC [protected]\fP"
+.PP
+Pointer to data. 
+.PP
+Definition at line 86 of file SmartPtr.h.
+.SS "template<class T> \fBRefCounter\fP* \fBmt::SmartPtr\fP< T >::\fBm_refCount\fP\fC [protected]\fP"
+.PP
+Pointer to references counter. 
+.PP
+Definition at line 87 of file SmartPtr.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

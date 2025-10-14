@@ -1,0 +1,33 @@
+#################################################
+# Shells
+# Linux 
+#
+# wocson (c) 2008
+#
+#################################################
+PROJECT_NAME=Shells
+SHELL=/bin/sh
+BINDIR="./.settings"
+
+ifneq ($(strip $(PROJECT_NAME)),)
+all: build
+user:
+	@${BINDIR}/setup user
+users:
+	@${BINDIR}/setup users
+root:
+	@${BINDIR}/setup root
+system:
+	@${BINDIR}/setup system
+pull:
+	@${BINDIR}/setup pull
+commit:
+	@${BINDIR}/setup commit
+build:
+	@${BINDIR}/setup build
+	@echo " Not installed"
+else
+all: default
+default:
+	@echo " Value PROJECT_NAME on Makefile not set"
+endif

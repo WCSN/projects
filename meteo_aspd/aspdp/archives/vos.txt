@@ -1,0 +1,21 @@
+#!VOS RADIO !
+ATTACH:./src/examples/vos_fatt01.bz2      
+ATTACH:./src/examples/vos_fatt02.bz2
+@БЕЛЛИНСГАУЗЕН
+@ПРОГРЕСС
+@E-MAIL:admin_vostok@aari.ru;SUBJ:ТЕСТОВОЕ ПИСЬМО;TMAIL:Текст письма о разном;ATTACH:01-Name file on english.docx,01-Название файла на русском.docx;
+
+!''' # Letter compiling 
+!        Letter tag: E-MAIL: TMAIL: SUBJ: - only for e-mail adress
+!        CHEEF:  only body mail
+!        ATTACH: must be place in first string before @adress string
+!                attaches send for all adress and ASPD and e-mail
+!                if tag plase e-mail string attachs will be sen only for this e-mail
+!'''  
+
+!СООБЩЕНИЕ ТОЛЬКО ДЛЯ Белл и прогресс и строка как есть.
+ТЕСТОВОЕ СООБЩЕНИЕ УДАЛИТЬ
+
+#Добавится подпись начальника станции эта строка нет
+
+CHEEF:

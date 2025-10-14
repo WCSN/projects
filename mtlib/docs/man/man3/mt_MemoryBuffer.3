@@ -1,0 +1,192 @@
+.TH "mt::MemoryBuffer" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::MemoryBuffer \- 
+.PP
+Dynamic buffer.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <MemoryBuffer.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "uint32_t \fBlength\fP () const "
+.br
+.RI "\fICurrent size of buffer. \fP"
+.ti -1c
+.RI "uint32_t \fBappend\fP (T *src, uint32_t size)"
+.br
+.RI "\fIAppend the buffer. \fP"
+.ti -1c
+.RI "uint32_t \fBappend\fP (const \fBMemoryBuffer\fP< T > &src)"
+.br
+.RI "\fIAppend the buffer. \fP"
+.ti -1c
+.RI "uint32_t \fBtruncate\fP (uint32_t startPos, int32_t length=-1)"
+.br
+.RI "\fITruncate the buffer. \fP"
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBMemoryBuffer\fP (unsigned int count=0)"
+.br
+.ti -1c
+.RI "\fBMemoryBuffer\fP (const \fBMemoryBuffer\fP< T > &src)"
+.br
+.RI "\fICopy constructor. \fP"
+.ti -1c
+.RI "virtual \fB~MemoryBuffer\fP ()"
+.br
+.in -1c
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBoperator const T *\fP () const "
+.br
+.ti -1c
+.RI "\fBoperator T *\fP ()"
+.br
+.ti -1c
+.RI "\fBMemoryBuffer\fP< T > & \fBoperator=\fP (const \fBMemoryBuffer\fP< T > &src)"
+.br
+.RI "\fIAssignment operator. \fP"
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class T> class mt::MemoryBuffer< T >"
+Dynamic buffer. 
+.PP
+Definition at line 17 of file MemoryBuffer.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class T> \fBmt::MemoryBuffer\fP< T >::\fBMemoryBuffer\fP (unsigned int count = \fC0\fP)"\fBParameters:\fP
+.RS 4
+\fIcount\fP Size of buffer. 
+.RE
+.PP
+
+.SS "template<class T > \fBmt::MemoryBuffer\fP< T >::\fBMemoryBuffer\fP (const \fBMemoryBuffer\fP< T > & src)"
+.PP
+Copy constructor. \fBParameters:\fP
+.RS 4
+\fIsrc\fP Copied \fBMemoryBuffer\fP 
+.RE
+.PP
+
+.PP
+Definition at line 98 of file MemoryBuffer.h.
+.SS "template<class T > \fBmt::MemoryBuffer\fP< T >::~\fBMemoryBuffer\fP< T > ()\fC [virtual]\fP"
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class T > uint32_t \fBmt::MemoryBuffer\fP< T >::append (T * src, uint32_t size)"
+.PP
+Append the buffer. \fBParameters:\fP
+.RS 4
+\fIsrc\fP Buffer for append. 
+.br
+\fIsize\fP Count of src's elements to append
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if an error occurred at memory reallocating. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Size of new buffer 
+.RE
+.PP
+
+.PP
+Definition at line 124 of file MemoryBuffer.h.
+.SS "template<class T > uint32_t \fBmt::MemoryBuffer\fP< T >::append (const \fBMemoryBuffer\fP< T > & src)"
+.PP
+Append the buffer. \fBParameters:\fP
+.RS 4
+\fIsrc\fP \fBMemoryBuffer\fP for append.
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if an error occurred at memory reallocating. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Size of new buffer 
+.RE
+.PP
+
+.PP
+Definition at line 135 of file MemoryBuffer.h.
+.SS "template<class T > uint32_t \fBmt::MemoryBuffer\fP< T >::length () const"
+.PP
+Current size of buffer. 
+.PP
+Definition at line 119 of file MemoryBuffer.h.
+.SS "template<class T > \fBmt::MemoryBuffer\fP< T >::operator const T * () const"
+.PP
+Definition at line 109 of file MemoryBuffer.h.
+.SS "template<class T > \fBmt::MemoryBuffer\fP< T >::operator T * ()"
+.PP
+Definition at line 114 of file MemoryBuffer.h.
+.SS "template<class T > \fBMemoryBuffer\fP< T > & \fBmt::MemoryBuffer\fP< T >::operator= (const \fBMemoryBuffer\fP< T > & src)"
+.PP
+Assignment operator. \fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if an error occurred at allocating memory. 
+.RE
+.PP
+
+.PP
+Definition at line 140 of file MemoryBuffer.h.
+.SS "template<class T > uint32_t \fBmt::MemoryBuffer\fP< T >::truncate (uint32_t startPos, int32_t length = \fC-1\fP)"
+.PP
+Truncate the buffer. \fBParameters:\fP
+.RS 4
+\fIstartPos\fP Start position of truncate. 
+.br
+\fIlength\fP Length of truncated buffer. By default set to '-1'. In that case the buffer truncated from startPos to end of buffer.
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if startPos is less then 0 or more that size of the buffer. 
+.br
+\fI\fBmt::Exception\fP\fP if length not set to default and startPos+length more than size of the buffer. 
+.br
+\fI\fBmt::Exception\fP\fP if an error occurred at allocating memory. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Size of new buffer 
+.RE
+.PP
+
+.PP
+Definition at line 155 of file MemoryBuffer.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

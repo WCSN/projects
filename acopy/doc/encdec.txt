@@ -1,0 +1,37 @@
+Шифрование файлов в Linux и FreeBSD
+
+OpenSSL — надёжное кроссплатформенное решение. 
+
+поддерживает различные алгоритмы шифрования, плюс он по умолчанию 
+установлен во многих операционных системах, а установка на остальные не составит труда.
+
+зашифровать одиночный файл file:
+
+# openssl enc -e -aes-256-cbc -k ПАРОЛЬ -in ./file -out ./file.encoded
+
+Или
+
+# cat ./file | openssl enc -e -aes-256-cbc -k ПАРОЛЬ > file.encoded
+
+расшифровать файл, вводим:
+
+openssl enc -d -aes-256-cbc -k ПАРОЛЬ -in ./file.encoded -out ./file
+
+шифрования каталога dir с файлами. Tar и Gzip конечно же помогут в этом деле.
+
+# tar -czf - ./dir | openssl enc -e -aes-256-cbc -k ПАРОЛЬ > archive.tar.gz.encoded
+
+Tar упаковывает и сжимает Gzip’ом и передает поток через конвеер на обработку OpenSSL. На выходе получаем зашифрованный 
+.tar.gz архив. Если Gzip не нужен — тогда просто tar -cf ……
+
+Расшифровываем в обратном порядке:
+
+# openssl enc -d -aes-256-cbc -in ./archive.tar.gz.encoded | tar -xz
+
+Утилта Pipe Viewer позволяет просматривать ход процесса, статус передачи данных 
+через конвеер. Во FreeBSD находится в портах /usr/ports/sysutils/pv .
+
+Pipe Viewer аналогична Cat  — выводит файл потоком, но при этом считает статистику.
+
+# pv ./file | openssl enc -e -aes-256-cbc -k ПАРОЛЬ > file.encoded
+5GB 0:00:04 [78.7MB/s] [==>                       ] 10% ETA 0:00:05

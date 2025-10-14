@@ -1,0 +1,312 @@
+#!/bin/bash
+
+ARGV0=$0
+ARGV1=$1
+ARGV2=$2
+
+help()
+{
+  infotab
+}
+
+infotab()
+{
+  echo -e " Send:"
+  echo -e " [ 1]-all" 
+  echo -e " [ 2]-avos          [ 3]-climat\n"
+  echo -e " [ 4]-svc           [ 5]-svc_all\n"
+  echo -e " [ 6]-vos           [ 7]-vos_att   [ 8]-vos_email"
+  echo -e " [ 9]-vos_att_email [10]-vos_all\n"                                       
+  echo -e " [11]-vrs           [12]-vrs_big   [13]-vrs_email\n"
+  echo -e " [14]-letter"
+
+  echo -e " Recv:"
+  echo -e " [15]-recv"
+
+  echo -e " Other:"
+  echo -e " [99]-clean"
+}
+
+clean_dir()
+{
+  echo "== Clean =="
+  echo "$1 $2 Clean Send and Outbox directory:"
+  sudo rm -R ./store02/aspd_debug/*_Archive
+  sudo rm -R ./store02/aspd_debug/outbox/*
+  sudo rm -R ./store02/aspd_debug/Send/*
+  echo "$1 $2 Copy test files:"
+}
+
+views()
+{
+  echo "==== MSG $1 ==========================================="
+  cat  "$1"
+  echo "==== MSG $1 ==========================================="
+}
+
+genbfz()
+{
+  echo "Generate bfz"
+  dd if=/dev/random of=./tmp/file_512K.dat bs=512 count=1024
+  for (( i=0; i<4; i++ )); do
+	cat ./tmp/file_512K.dat >> ./src/examples/file_2M.bfz
+  done
+}
+
+runsend()
+{
+    echo "=== TEST BEGIN ============================================================="
+    touch ./store02/aspd_debug/infobox/send
+    if [ -z $ARGV2 ]; then ruby ./aspdr.rb send; fi
+    echo "=== TEST END ==============================================================="
+}
+
+menu()
+{
+  echo "=== Выбор теста ================================="
+  infotab
+  echo "================================================="
+}
+
+test_vos()
+{
+    echo "VOS"   
+    cp ./src/examples/vos.txt ./store02/aspd_debug/outbox/
+    views ./src/examples/vos.txt
+    runsend
+}
+
+test_vrs()
+{
+    cp ./src/examples/vrs.txt ./store02/aspd_debug/outbox/
+    cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/
+    ls -1 ./store02/aspd_debug/outbox/
+    views ./src/examples/vrs.txt
+    runsend
+}
+
+test_vrs_big()
+{
+    mkdir -p ./store02/aspd_debug/outbox/TESTDIR01
+    mkdir -p ./store02/aspd_debug/outbox/TESTDIR02
+    cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/TESTDIR01/
+    cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/TESTDIR02/
+    cp ./src/examples/vrs.txt ./store02/aspd_debug/outbox/
+    cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/
+    genbfz
+    cp ./src/examples/file_2M.bfz ./store02/aspd_debug/outbox/
+    ls -1 ./store02/aspd_debug/outbox/
+    views ./src/examples/vrs.txt
+    runsend
+    rm ./tmp/file_512K.dat
+    rm ./src/examples/file_2M.bfz
+}
+
+test_vrs_email()
+{
+    cp ./src/examples/vrs_email.txt ./store02/aspd_debug/outbox/vrs.txt
+    cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/
+    ls -1 ./store02/aspd_debug/outbox/
+    views ./store02/aspd_debug/outbox/vrs.txt
+    runsend
+}
+
+test_vos_att()
+{
+    cp ./src/examples/vos_att.txt ./store02/aspd_debug/outbox/  
+    cp ./src/examples/vos_fatt02.bz2 ./store02/aspd_debug/outbox/  
+    views ./src/examples/vos_att.txt
+    runsend
+}
+
+test_vos_email()
+{
+    cp ./src/examples/vos_email.txt ./store02/aspd_debug/outbox/
+    views ./src/examples/vos_email.txt
+    runsend
+}
+
+test_vos_att_email()
+{
+    cp ./src/examples/vos_att_email.txt ./store02/aspd_debug/outbox/
+    views ./src/examples/vos_att_email.txt
+    runsend
+}
+
+test_vos_all()
+{
+    cp ./src/examples/vos*.txt ./store02/aspd_debug/outbox/
+    runsend
+}
+
+test_avos()
+{
+    cp ./src/examples/avos.txt ./store02/aspd_debug/outbox/
+    views ./src/examples/avos.txt
+    runsend
+}
+
+test_climat()
+{
+    cp ./src/examples/avosclimat.txt ./store02/aspd_debug/outbox/
+    views ./src/examples/avosclimat.txt
+    runsend
+}
+
+test_svc()
+{
+    cp ./src/examples/svc.txt ./store02/aspd_debug/outbox/
+    views ./src/examples/svc.txt
+    runsend
+}
+
+test_svc_all()
+{
+    cp ./src/examples/svc*.txt ./store02/aspd_debug/outbox/
+    views ./src/examples/svc*.txt
+    runsend
+}
+
+test_letter()
+{
+        views ./src/examples/letter.txt
+        aspd m admin_vostok@aari.ru -s "Test e-mail" -f ./src/examples/letter.txt -a ./testaspd -t "1. Добавиться текст из файла: ./src/examples/letter.txt\n 2. добавится аттач: ./testaspd\3. Добавится текст из -t\n"
+}
+
+test_recv()
+{
+        test_vos
+        runsend
+        if [ -z $2 ]; then ./aspd.py recv; fi
+}
+
+#==========================================================================
+test_all()
+{
+    mkdir -p ./store02/aspd_debug/outbox/TESTDIR01
+    mkdir -p ./store02/aspd_debug/outbox/TESTDIR02
+    genbfz
+    cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/TESTDIR01/
+    cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/TESTDIR02/
+    cp ./src/examples/avos*.txt ./store02/aspd_debug/outbox/
+    cp ./src/examples/svc*.txt ./store02/aspd_debug/outbox/
+    cp ./src/examples/vos*.txt ./store02/aspd_debug/outbox/
+    cp ./src/examples/vrs*.txt ./store02/aspd_debug/outbox/
+    cp ./src/examples/*.doc* ./store02/aspd_debug/outbox/
+    cp ./src/examples/file_2M.bfz ./store02/aspd_debug/outbox/
+    runsend
+}
+###########################################################################
+declare -a TYPETEST
+
+if [ -z $1 ]; then
+    menu
+    read -p "Run test: (#/h/a)==> " TYPETEST
+    echo "Выполняется #: $TYPETEST"
+else 
+    TYPETEST="$1"
+fi
+
+for TTEST in $TYPETEST; do
+    echo "Выполняется #: $TTEST"
+    clean_dir $0 "$TYPETEST"
+
+    case "$TTEST" in
+    # all
+    1|all)
+        echo "ALL" 
+        test_all
+    ;;
+    # avos
+    2|avos)
+        echo "AVOS"  
+        test_avos
+    ;;
+    # climat
+    3|climat)
+        echo "CLIMAT"   
+        test_climat
+    ;;
+    # svc
+    4|svc)
+        echo "SVC"      
+        test_svc    
+    ;;
+    # svc_all
+    5|svc_all) 
+        echo "SVC_ALL"   
+        test_svc_all
+    ;;
+    #vos
+    6|vos) 
+        echo "VOS"   
+        test_vos
+    ;;
+    #vos_att
+    7|vos_att) 
+        echo "VOS_ATT"   
+        test_vos_att
+    ;;
+    #vos_email
+    8|vos_email)
+        echo "VOS_EMAIL"      
+        test_vos_email
+    ;;
+    #vos_att_email
+    9|vos_att_email)
+        echo "VOS_ATT_EMAIL"      
+        test_vos_att_email
+    ;;
+    #vos_all
+    10|vos_all) 
+        echo "VOS_ALL"     
+        test_vos_all
+    ;;
+    #vrs
+    11|vrs) 
+        echo "VRS"   
+        test_vrs
+    ;;
+    #vrs_big
+    12|vrs_big) 
+        echo "VRS_BIG"     
+        test_vrs_big
+    ;;
+    # vrs_email
+    13|vrs_email) 
+        echo "VRS_EMAIL"     
+        test_vrs_email
+    ;;
+    # letter
+    14|letter)
+        echo "E-MAIL SEND admin_vostok@aari.ru"     
+        test_letter
+    ;;
+    # recv
+    15|recv) 
+        echo "RECV"     
+        test_recv
+    ;;
+    # clean
+    99|clean) 
+        echo "CLEAN ALL TEST DIR"     
+        clean_dir $0 "CLEAN"
+    ;;
+    # help
+    h|H|help) 
+        echo "HELP"     
+        echo "=== help ================================="
+        help;
+        echo "=== help ================================="
+    ;;
+    # Exit
+    a|A|e|E|q|Q)
+        a=0
+    ;;
+    *) echo "Test \"$TYPETEST\" unknown type!"
+    ;;
+    esac
+done
+
+echo "ALL END"
+

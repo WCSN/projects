@@ -1,0 +1,32 @@
+#!VRS RADIO !
+#===================================================================================
+# Letter TAGs:
+#   Letter tag:
+#       only for e-mail adress:
+#          E-MAIL: tag for string email tags
+#          TMAIL: text for e-mail place to letter
+#
+#   SUBJ:   for email SUBJ E-MAIL. TLG @adress place after adress
+#   ATTACH: attaches send for all adress and ASPD and e-mail
+#           if tag plase e-mail string attachs will be sen only for this e-mail (now blocked)
+#           if tag place in body letter send for all place before tag @adress
+#
+#   CHEEF:  add cheef sign
+#   GRECV: or GCONF:
+#           add string confirmed of recv
+#   SHRM:   add ship radio master sign
+#   [DATE] [WEEK] [YEAR] [MONTH] [MONTH-1] - add it for value
+#================== Letter =========================================================
+@АСПД НС
+@БУХГАЛТЕРИЯ
+
+ТЕСТОВОЕ СООБЩЕНИЕ УДАЛИТЬ!
+
+МАГАОТЧЁТ за [MONTH] НЕДЕЛЯ ГОДА № [WEEK] ГОД: [YEAR] 
+DATE: [DATE]
+
+СООБЩЕНИЕ ТОЛЬКО на АСПД
+! СтРОка ОСТанетСЯ КаК ЕстЬ С полным БарДакОм 34567890
+
+#добавится подпись начальника станции - эта строка не добавится
+CHEEF:

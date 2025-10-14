@@ -1,0 +1,62 @@
+#!/bin/bash
+
+VER=13
+LLVMDIR="/usr/local/llvm$VER" 
+
+if [[ -d "$LLVMDIR" ]]; then
+
+    if ! [[ -f "/etc/make.conf" ]]; then
+        echo "##################################################" >> /etc/make.conf
+        echo "##" >> /etc/make.conf
+        echo "## make.conf LLVM $VER" >> /etc/make.conf
+        echo "##" >> /etc/make.conf
+        echo "## wocson(c)" >> /etc/make.conf
+        echo "##" >> /etc/make.conf
+        echo "##################################################"  >> /etc/make.conf
+        echo ""
+        echo "CC=/usr/local/bin/clang" >> /etc/make.conf
+        echo "CXX=/usr/local/bin/clang++" >> /etc/make.conf
+        echo "CPP=/usr/local/bin/clang-cpp" >> /etc/make.conf
+    fi
+
+    mv /usr/bin/lldb            ./tmp/
+    mv /usr/bin/llvm-addr2line  ./tmp/
+    mv /usr/bin/llvm-ar         ./tmp/
+    mv /usr/bin/llvm-cov        ./tmp/
+    mv /usr/bin/llvm-cxxfilt    ./tmp/
+    mv /usr/bin/llvm-nm         ./tmp/
+    mv /usr/bin/llvm-objdump    ./tmp/
+    mv /usr/bin/llvm-profdata   ./tmp/
+    mv /usr/bin/llvm-ranlib     ./tmp/
+    mv /usr/bin/llvm-symbolizer ./tmp/
+    mv /usr/bin/llvm-tblgen     ./tmp/
+    mv /usr/bin/c++             ./tmp/
+    mv /usr/bin/c++filt         ./tmp/
+    mv /usr/bin/cc              ./tmp/
+    mv /usr/bin/cpp             ./tmp/
+
+    ln -sf $LLVMDIR/bin/clang             /usr/bin/clang
+    ln -sf /usr/bin/clang                 /usr/bin/clang++
+
+    ln -sf /usr/bin/clang                 /usr/bin/c++
+    ln -sf /usr/local/bin/c++filt         /usr/bin/c++filt
+    ln -sf /usr/bin/clang                 /usr/bin/cc
+    ln -sf /usr/bin/clang                 /usr/bin/cpp
+
+    ln -sf $LLVMDIR/bin/lldb              /usr/bin/lldb              
+    ln -sf $LLVMDIR/bin/llvm-addr2line    /usr/bin/llvm-addr2line
+    ln -sf $LLVMDIR/bin/llvm-ar           /usr/bin/llvm-ar
+    ln -sf $LLVMDIR/bin/llvm-cov          /usr/bin/llvm-cov
+    ln -sf $LLVMDIR/bin/llvm-cxxfilt      /usr/bin/llvm-cxxfilt
+    ln -sf $LLVMDIR/bin/llvm-nm           /usr/bin/llvm-nm
+    ln -sf $LLVMDIR/bin/llvm-objdump      /usr/bin/llvm-objdump
+    ln -sf $LLVMDIR/bin/llvm-profdata     /usr/bin/llvm-profdata
+    ln -sf $LLVMDIR/bin/llvm-ranlib       /usr/bin/llvm-ranlib
+    ln -sf $LLVMDIR/bin/llvm-symbolizer   /usr/bin/llvm-symbolizer
+    ln -sf $LLVMDIR/bin/llvm-tblgen       /usr/bin/llvm-tblgen
+    
+else
+    
+    echo "llvm version $VER not find."
+    
+fi

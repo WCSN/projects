@@ -1,0 +1,82 @@
+.TH "mt::RefCounter" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::RefCounter \- 
+.PP
+References Counter.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <RefCounter.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRefCounter\fP (const unsigned int _count)"
+.br
+.ti -1c
+.RI "\fB~RefCounter\fP ()"
+.br
+.ti -1c
+.RI "void \fBincrement\fP ()"
+.br
+.RI "\fIIncrement references count. \fP"
+.ti -1c
+.RI "bool \fBdecrement\fP ()"
+.br
+.RI "\fIDecrement references count. \fP"
+.ti -1c
+.RI "int \fBcurrent_count\fP ()"
+.br
+.ti -1c
+.RI "bool \fBnull\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+References Counter. 
+.PP
+Definition at line 12 of file RefCounter.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::RefCounter::RefCounter (const unsigned int _count)"
+.PP
+Definition at line 6 of file RefCounter.cpp.
+.SS "mt::RefCounter::~RefCounter ()\fC [inline]\fP"
+.PP
+Definition at line 20 of file RefCounter.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "int mt::RefCounter::current_count ()"\fBReturns:\fP
+.RS 4
+Current count of references 
+.RE
+.PP
+
+.PP
+Definition at line 20 of file RefCounter.cpp.
+.SS "bool mt::RefCounter::decrement ()"
+.PP
+Decrement references count. \fBReturns:\fP
+.RS 4
+TRUE if need delete pointer. 
+.RE
+.PP
+
+.PP
+Definition at line 14 of file RefCounter.cpp.
+.SS "void mt::RefCounter::increment ()"
+.PP
+Increment references count. 
+.PP
+Definition at line 9 of file RefCounter.cpp.
+.SS "bool mt::RefCounter::null ()"
+.PP
+Definition at line 24 of file RefCounter.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

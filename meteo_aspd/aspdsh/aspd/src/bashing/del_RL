@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rm -rv ./store02/aspd_debug/L*
+rm -rv ./store02/aspd_debug/R*
+
+ls -l ./store02/aspd_debug

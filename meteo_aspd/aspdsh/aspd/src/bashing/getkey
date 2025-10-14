@@ -1,0 +1,52 @@
+#!/bin/bash
+################################################################################
+##
+## ASPD changer
+##
+## wocson (c) v. 0.97
+##
+## Requare: zsh, lftp, mc
+##
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+
+WHO=`echo $0 | rev | cut -d "/" -f1 | rev`
+LIB=/root/lib
+RMT_FS="./test"
+LCL_FS="./"
+
+#source $LIB/aspd_inc.sh
+#source $LIB/tcolor_inc.sh
+#source $LIB/winlib_inc.sh
+
+
+declare -A KEY
+
+function getkey() {
+	
+    read -n1 KK
+    [ $KK ]
+}
+
+STTY=$(stty -g)
+
+stty -icanon min 0 time 0 -echo
+
+while true; do
+	KEY=""
+    if getkey; then
+	  i=0;
+	  for k in $KK; do
+		  KEY[$i]=$k
+	  done
+	fi
+
+    echo "KEY=${KEY[*]}"
+
+    if [[ $KEY = "q" ]]; then
+            break;
+    fi
+    
+done
+
+stty $STTY

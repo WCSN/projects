@@ -1,0 +1,31 @@
+#!/bin/bash
+##############################################################################
+##
+## Phonograph. Configure
+##
+## wocson (c)
+##
+##############################################################################
+
+OSTYPE="$(uname)"
+
+cp -f ./configure ./src/srv/configure
+
+## For find compratible on Linux
+if [[ "${OSTYPE^^}" =~ "BSD" ]]; then
+    cp -f ./src/srv/Makefile.BSD ./Makefile
+    echo "BSD type"
+elif [[ "${OSTYPE^^}" == "LINUX" ]]; then
+    cp -f ./src/srv/Makefile.Lnx ./Makefile
+    echo "Linux type"
+else
+    echo -en "\nUnknowmn OS. Close.\n\n"
+fi
+
+cp -f ./src/srv/mc.menu ./.mc.menu
+
+exit 0
+
+
+
+

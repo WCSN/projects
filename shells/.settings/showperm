@@ -1,0 +1,14 @@
+#!/bin/bash
+###########################
+##
+## copy shells for users
+## (c) wocson
+##
+. ../.settings/shells.conf
+
+echo $WINDOMAIN
+echo $DIRECTORY
+
+ls -l $DIRECTORY/$WINDOMAIN/
+
+exit 0

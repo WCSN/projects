@@ -1,0 +1,93 @@
+.TH "mt::OrderSafeProcessor" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::OrderSafeProcessor \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <OrderSafeProcessor.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBOrderSafeProcessor\fP (uint32_t c=1)"
+.br
+.ti -1c
+.RI "\fBOrderSafeProcessor\fP (\fBmt::SmartPtr\fP< \fBOrderSafeProcessorInterface\fP< DataIn, DataOut > > procInterface, uint32_t c=1)"
+.br
+.ti -1c
+.RI "virtual \fB~OrderSafeProcessor\fP ()"
+.br
+.ti -1c
+.RI "void \fBstart\fP ()"
+.br
+.ti -1c
+.RI "void \fBenlargeOutputQueue\fP (size_t sz)"
+.br
+.ti -1c
+.RI "void \fBpush\fP (DataIn data)"
+.br
+.ti -1c
+.RI "DataOut \fBpop\fP ()"
+.br
+.ti -1c
+.RI "void \fBregisterOverflowWatchdog\fP (void(*callback)())"
+.br
+.ti -1c
+.RI "void \fBsetOutpuQueueSize\fP (size_t sz)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fBmt::SmartPtr\fP< \fBOrderSafeProcessorInterface\fP< DataIn, DataOut > > \fBgetInterface\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class DataIn, class DataOut> class mt::OrderSafeProcessor< DataIn, DataOut >"
+
+.PP
+Definition at line 18 of file OrderSafeProcessor.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class DataIn , class DataOut > \fBmt::OrderSafeProcessor\fP< DataIn, DataOut >::\fBOrderSafeProcessor\fP (uint32_t c = \fC1\fP)\fC [inline]\fP"
+.PP
+Definition at line 45 of file OrderSafeProcessor.h.
+.SS "template<class DataIn , class DataOut > \fBmt::OrderSafeProcessor\fP< DataIn, DataOut >::\fBOrderSafeProcessor\fP (\fBmt::SmartPtr\fP< \fBOrderSafeProcessorInterface\fP< DataIn, DataOut > > procInterface, uint32_t c = \fC1\fP)\fC [inline]\fP"
+.PP
+Definition at line 52 of file OrderSafeProcessor.h.
+.SS "template<class DataIn , class DataOut > virtual \fBmt::OrderSafeProcessor\fP< DataIn, DataOut >::~\fBOrderSafeProcessor\fP ()\fC [inline, virtual]\fP"
+.PP
+Definition at line 60 of file OrderSafeProcessor.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class DataIn , class DataOut > void \fBmt::OrderSafeProcessor\fP< DataIn, DataOut >::enlargeOutputQueue (size_t sz)\fC [inline]\fP"
+.PP
+Definition at line 76 of file OrderSafeProcessor.h.
+.SS "template<class DataIn , class DataOut > virtual \fBmt::SmartPtr\fP<\fBOrderSafeProcessorInterface\fP<DataIn, DataOut> > \fBmt::OrderSafeProcessor\fP< DataIn, DataOut >::getInterface ()\fC [inline, protected, virtual]\fP"
+.PP
+Definition at line 39 of file OrderSafeProcessor.h.
+.SS "template<class DataIn , class DataOut > DataOut \fBmt::OrderSafeProcessor\fP< DataIn, DataOut >::pop ()\fC [inline]\fP"
+.PP
+Definition at line 84 of file OrderSafeProcessor.h.
+.SS "template<class DataIn , class DataOut > void \fBmt::OrderSafeProcessor\fP< DataIn, DataOut >::push (DataIn data)\fC [inline]\fP"
+.PP
+Definition at line 80 of file OrderSafeProcessor.h.
+.SS "template<class DataIn , class DataOut > void \fBmt::OrderSafeProcessor\fP< DataIn, DataOut >::registerOverflowWatchdog (void(*)() callback)\fC [inline]\fP"
+.PP
+Definition at line 92 of file OrderSafeProcessor.h.
+.SS "template<class DataIn , class DataOut > void \fBmt::OrderSafeProcessor\fP< DataIn, DataOut >::setOutpuQueueSize (size_t sz)\fC [inline]\fP"
+.PP
+Definition at line 96 of file OrderSafeProcessor.h.
+.SS "template<class DataIn , class DataOut > void \fBmt::OrderSafeProcessor\fP< DataIn, DataOut >::start ()\fC [inline]\fP"
+.PP
+Definition at line 63 of file OrderSafeProcessor.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

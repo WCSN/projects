@@ -1,0 +1,13 @@
+
+#======= WCSN add ===================================
+
+BINDIR="./.settings"
+
+commit:
+	@${BINDIR}/make.sh commit
+cleanall:
+	@${BINDIR}/make.sh cleanall
+svnupdate:
+	@${BINDIR}/make.sh svnupdate
+gitupdate:
+	@${BINDIR}/make.sh gitupdate

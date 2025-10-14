@@ -1,0 +1,21 @@
+#!/bin/bash
+
+source ./wlib/tcolor_inc.sh
+
+setcolor $GRAY
+setbackcolor $BGBLUE
+
+echo " FFFF--------______-----AAAA"
+
+echo -e " FFFF--------______-----AAAA"
+
+
+setcolor $GRAY
+setbackcolor $BLUE
+
+setcolor $STDCL
+
+echo -e " FFFF--------______-----AAAA"
+
+
+

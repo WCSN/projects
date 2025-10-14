@@ -1,0 +1,167 @@
+.TH "mt::TCPSocket" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::TCPSocket \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <TCPSocket.h>\fP
+.PP
+Inherits \fBmt::Logable\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTCPSocket\fP ()"
+.br
+.ti -1c
+.RI "\fBTCPSocket\fP (int s, struct sockaddr_in rmt)"
+.br
+.ti -1c
+.RI "int \fBGetSocket\fP ()"
+.br
+.ti -1c
+.RI "\fBTCPSocket\fP * \fBAccept\fP ()  throw (TcpSocketException)"
+.br
+.ti -1c
+.RI "void \fBConnect\fP (char *addr, int port)  throw (TcpSocketException)"
+.br
+.ti -1c
+.RI "int32_t \fBconnect\fP (const std::string &host, uint16_t port)"
+.br
+.ti -1c
+.RI "void \fBListen\fP (char *addr, int port)  throw (TcpSocketException)"
+.br
+.ti -1c
+.RI "void \fBListen\fP ()  throw (TcpSocketException)"
+.br
+.ti -1c
+.RI "void \fBBind\fP (char *addr, int port)  throw (TcpSocketException)"
+.br
+.ti -1c
+.RI "int \fBRecv\fP (char *buf, unsigned int len)"
+.br
+.ti -1c
+.RI "int \fBSend\fP (char *buf, unsigned int len)"
+.br
+.ti -1c
+.RI "int \fBSendTo\fP (char *addr, int port, char *buf, unsigned int len)  throw (std::exception)"
+.br
+.ti -1c
+.RI "void \fBClose\fP ()"
+.br
+.ti -1c
+.RI "\fB~TCPSocket\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "struct sockaddr_in \fBremote\fP"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSockState\fP \fBGetState\fP ()"
+.br
+.ti -1c
+.RI "void \fBSetState\fP (\fBSockState\fP st)"
+.br
+.ti -1c
+.RI "struct sockaddr_in \fBCreateSockAddr_In\fP (char *addr, int port)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBsd\fP"
+.br
+.ti -1c
+.RI "\fBSockState\fP \fBstate\fP"
+.br
+.ti -1c
+.RI "struct sockaddr_in \fBlocal\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 27 of file TCPSocket.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::TCPSocket::TCPSocket ()"
+.PP
+Definition at line 5 of file TCPSocket.cpp.
+.SS "mt::TCPSocket::TCPSocket (int s, struct sockaddr_in rmt)"
+.PP
+Definition at line 21 of file TCPSocket.cpp.
+.SS "mt::TCPSocket::~TCPSocket ()\fC [inline]\fP"
+.PP
+Definition at line 101 of file TCPSocket.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBTCPSocket\fP * mt::TCPSocket::Accept ()  throw (\fBTcpSocketException\fP)"
+.PP
+Definition at line 29 of file TCPSocket.cpp.
+.SS "void mt::TCPSocket::Bind (char * addr, int port)  throw (\fBTcpSocketException\fP)"
+.PP
+Definition at line 71 of file TCPSocket.cpp.
+.SS "void mt::TCPSocket::Close ()\fC [inline]\fP"
+.PP
+Definition at line 92 of file TCPSocket.h.
+.SS "int32_t mt::TCPSocket::connect (const std::string & host, uint16_t port)\fC [inline]\fP"
+.PP
+Definition at line 77 of file TCPSocket.h.
+.SS "void mt::TCPSocket::Connect (char * addr, int port)  throw (\fBTcpSocketException\fP)"
+.PP
+Definition at line 43 of file TCPSocket.cpp.
+.SS "struct sockaddr_in mt::TCPSocket::CreateSockAddr_In (char * addr, int port)\fC [inline, read, protected]\fP"
+.PP
+Definition at line 43 of file TCPSocket.h.
+.SS "int mt::TCPSocket::GetSocket ()\fC [inline]\fP"
+.PP
+Definition at line 66 of file TCPSocket.h.
+.SS "\fBSockState\fP mt::TCPSocket::GetState ()\fC [inline, protected]\fP"
+.PP
+Definition at line 34 of file TCPSocket.h.
+.SS "void mt::TCPSocket::Listen ()  throw (\fBTcpSocketException\fP)"
+.PP
+Definition at line 63 of file TCPSocket.cpp.
+.SS "void mt::TCPSocket::Listen (char * addr, int port)  throw (\fBTcpSocketException\fP)"
+.PP
+Definition at line 56 of file TCPSocket.cpp.
+.SS "int mt::TCPSocket::Recv (char * buf, unsigned int len)"
+.PP
+Definition at line 83 of file TCPSocket.cpp.
+.SS "int mt::TCPSocket::Send (char * buf, unsigned int len)"
+.PP
+Definition at line 100 of file TCPSocket.cpp.
+.SS "int mt::TCPSocket::SendTo (char * addr, int port, char * buf, unsigned int len)  throw (std::exception)"
+.PP
+Definition at line 113 of file TCPSocket.cpp.
+.SS "void mt::TCPSocket::SetState (\fBSockState\fP st)\fC [inline, protected]\fP"
+.PP
+Definition at line 38 of file TCPSocket.h.
+.SH "Member Data Documentation"
+.PP 
+.SS "struct sockaddr_in \fBmt::TCPSocket::local\fP\fC [protected]\fP"
+.PP
+Definition at line 33 of file TCPSocket.h.
+.SS "struct sockaddr_in \fBmt::TCPSocket::remote\fP"
+.PP
+Definition at line 60 of file TCPSocket.h.
+.SS "int \fBmt::TCPSocket::sd\fP\fC [protected]\fP"
+.PP
+Definition at line 31 of file TCPSocket.h.
+.SS "\fBSockState\fP \fBmt::TCPSocket::state\fP\fC [protected]\fP"
+.PP
+Definition at line 32 of file TCPSocket.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

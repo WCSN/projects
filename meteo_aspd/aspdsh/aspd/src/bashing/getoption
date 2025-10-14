@@ -1,0 +1,60 @@
+#!/bin/bash
+################################################################################
+##
+## ASPD changer
+##
+## wocson (c) v. 0.97
+##
+## Requare: zsh, lftp, mc
+##
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+
+WHO=`echo $0 | rev | cut -d "/" -f1 | rev`
+LIB=/root/lib
+RMT_FS="./test"
+LCL_FS="./"
+
+NO_ARGS=0
+
+if [ $# -eq "$NO_ARGS" ]  # Сценарий вызван без аргументов?
+then
+  echo "No args"          # Если запущен без аргументов — вывести справку
+  exit $E_OPTERROR        # и выйти с кодом ошибки
+fi
+
+Command="$1"
+ARDS="$2"
+SUBJ=""
+TXTM=""
+ATCH=""
+
+NO_ARGS=0
+
+if [ $# -eq "$NO_ARGS" ]  # Сценарий вызван без аргументов?
+then
+  exit $E_OPTERROR        # и выйти с кодом ошибки
+fi
+
+echo "Commands: $1"
+echo "Adress: $2"
+
+shift 2
+
+while getopts "s:t:a:" Option; do
+  case $Option in
+    s) SUBJ="$OPTARG";;
+    t) TXTM="$OPTARG";;
+    a) ATCH="$OPTARG";;
+    *) echo "Выбран недопустимый ключ."
+       exit $E_OPTERROR;;   # ПО-УМОЛЧАНИЮ
+  esac
+done
+shift $(($OPTIND - 1))
+
+
+echo "Command=$Command"
+echo "ARDS=$ARDS"
+echo "SUBJ=$SUBJ"
+echo "TXTM=$TXTM"
+echo "ATCH=$ATCH"

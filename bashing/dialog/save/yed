@@ -1,0 +1,40 @@
+#!/bin/bash
+
+
+DIALOG=${DIALOG=dialog}
+
+$DIALOG --title " Мой первый диалог" --clear \
+        --yesno "Привет! Перед вами пример программы,\nиспользующей (X)dialog" 10 40
+
+case $? in
+    0)
+        echo "Выбрано 'Да'.";;
+    1)
+        echo "Выбрано 'Нет'.";;
+    255)
+        echo "Нажата клавиша ESC.";;
+esac
+
+
+kdialog --yesno "Вы хотите продолжить?"
+rc=$?
+if [ "${rc}" == "0" ]; then
+    echo "Нажали yes"
+else
+    echo "Нажали no"
+fi
+
+gdialog --yesno "Вы хотите продолжить?"
+rc=$?
+if [ "${rc}" == "0" ]; then
+    echo "Нажали yes"
+else
+    echo "Нажали no"
+fi
+
+
+name=$(kdialog --title "Ввод данных" --inputbox "Введите ваше имя:" 50 60 2>&1)
+echo "Ваше имя: $name"
+
+name=$(gdialog --title "Ввод данных" --inputbox "Введите ваше имя:" 50 60 2>&1)
+echo "Ваше имя: $name"

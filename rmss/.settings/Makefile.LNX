@@ -1,0 +1,39 @@
+#################################################
+# Created by: wocson
+# Linux 
+#
+# wocson (c) 2012 BSD
+#
+#################################################
+##PROJECT_NAME
+SHELL=/bin/sh
+CONFIGDIR=./.settings
+
+ifneq ($(strip $(PROJECT_NAME)),)
+
+PREFIXDIR=/usr
+BINDIR=/bin
+LIBDIR=/lib
+SHARE=/share/${PROJECT_NAME}
+
+all: release
+release:
+	@${CONFIGDIR}/imake.sh ${PROJECT_NAME} release
+debug: 
+	@${CONFIGDIR}/imake.sh ${PROJECT_NAME} debug
+reinstall: install
+	  
+install:
+	@${CONFIGDIR}/imake.sh ${PROJECT_NAME} install ${PREFIXDIR} ${BINDIR}
+deinstall:
+	@${CONFIGDIR}/imake.sh ${PROJECT_NAME} deinstall ${PREFIXDIR} ${BINDIR}
+clean:
+	@${CONFIGDIR}/imake.sh ${PROJECT_NAME} clean
+help:
+	@${CONFIGDIR}/imake.sh ${PROJECT_NAME} help
+else
+all: default
+default:
+	@echo " ERROR: Value PROJECT_NAME on Makefile not defined"
+	@echo "    Ex. PROJECT_NAME=name"	
+endif

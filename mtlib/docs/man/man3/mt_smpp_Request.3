@@ -1,0 +1,103 @@
+.TH "mt::smpp::Request" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::Request \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <DataTypes.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBsetDeliverResp\fP (bool b)"
+.br
+.ti -1c
+.RI "bool \fBneedDeliverResp\fP ()"
+.br
+.ti -1c
+.RI "void \fBSetTotalParts\fP (unsigned int i)"
+.br
+.ti -1c
+.RI "unsigned int \fBGetTotalParts\fP ()"
+.br
+.ti -1c
+.RI "int \fBHasResp\fP (unsigned int s)"
+.br
+.ti -1c
+.RI "\fBRequest\fP (int i=0, int c=1)"
+.br
+.ti -1c
+.RI "\fB~Request\fP ()"
+.br
+.ti -1c
+.RI "unsigned int \fBGetStatus\fP ()"
+.br
+.ti -1c
+.RI "void \fBSetStatus\fP (unsigned int i)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< \fBPartStatus\fP > * \fBparts\fP"
+.br
+.ti -1c
+.RI "int \fBid\fP"
+.br
+.ti -1c
+.RI "\fBMessage\fP * \fBmsg\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 83 of file DataTypes.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::smpp::Request::Request (int i = \fC0\fP, int c = \fC1\fP)\fC [inline]\fP"
+.PP
+Definition at line 120 of file DataTypes.h.
+.SS "mt::smpp::Request::~Request ()\fC [inline]\fP"
+.PP
+Definition at line 130 of file DataTypes.h.
+.SH "Member Function Documentation"
+.PP 
+.SS "unsigned int mt::smpp::Request::GetStatus ()\fC [inline]\fP"
+.PP
+Definition at line 136 of file DataTypes.h.
+.SS "unsigned int mt::smpp::Request::GetTotalParts ()\fC [inline]\fP"
+.PP
+Definition at line 103 of file DataTypes.h.
+.SS "int mt::smpp::Request::HasResp (unsigned int s)\fC [inline]\fP"
+.PP
+Definition at line 107 of file DataTypes.h.
+.SS "bool mt::smpp::Request::needDeliverResp ()\fC [inline]\fP"
+.PP
+Definition at line 95 of file DataTypes.h.
+.SS "void mt::smpp::Request::setDeliverResp (bool b)\fC [inline]\fP"
+.PP
+Definition at line 92 of file DataTypes.h.
+.SS "void mt::smpp::Request::SetStatus (unsigned int i)\fC [inline]\fP"
+.PP
+Definition at line 140 of file DataTypes.h.
+.SS "void mt::smpp::Request::SetTotalParts (unsigned int i)\fC [inline]\fP"
+.PP
+Definition at line 99 of file DataTypes.h.
+.SH "Member Data Documentation"
+.PP 
+.SS "int \fBmt::smpp::Request::id\fP"
+.PP
+Definition at line 117 of file DataTypes.h.
+.SS "\fBMessage\fP* \fBmt::smpp::Request::msg\fP"
+.PP
+Definition at line 118 of file DataTypes.h.
+.SS "std::vector<\fBPartStatus\fP>* \fBmt::smpp::Request::parts\fP"
+.PP
+Definition at line 116 of file DataTypes.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+
+source ./share/bash.inc
+
+clear
+
+for (( yt=0 ; ; yt+=10 ))
+do
+
+    message 5 $(( $yt+2 )) $LGREEN "hours= "
+    read H
+    message 5 $(( $yt+3 )) $LGREEN "  min= "
+    read M
+    message 5 $(( $yt+4 )) $LGREEN "  sec= "
+    read S
+
+    message 10 $(( $yt+6 )) $LRED "sec= $(echo "$H*60*60+$M*60+$S" | bc)"
+    setcolor $LTCYAN
+
+    echo -e "\nContinue?"
+
+    select yn in "Yes" "No"; do
+	case $yn in
+    	    Yes )  break;;
+    	    No )  exit;;
+	esac
+    done
+done
+
+setcolor $CLSTD

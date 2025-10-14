@@ -1,0 +1,25 @@
+1	Make Release
+	make
+
+2	Make Debug
+	make debug
+
+3	Clean
+	make clean
+
+4	Install
+	make install
+
+5	Reinstall
+	make reinstall
+
+6	Deinstall
+	make deinstall
+
+7	svn commit
+        svn commit -m "correct"
+
+8	svn update
+        svn update
+
+

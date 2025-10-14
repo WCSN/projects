@@ -1,0 +1,298 @@
+.TH "mt::UdpSocket" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::UdpSocket \- 
+.PP
+UDP socket implementation.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <UdpSocket.h>\fP
+.PP
+Inherits \fBmt::Logable\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBsetSocket\fP (int32_t newSock)"
+.br
+.RI "\fIThe method set new socket. \fP"
+.ti -1c
+.RI "void \fBopen\fP (const std::string &host, const std::string &port)"
+.br
+.RI "\fICreate and bind socket. \fP"
+.ti -1c
+.RI "void \fBopen\fP (const std::string &host, int32_t port)"
+.br
+.RI "\fICreate and bind socket. \fP"
+.ti -1c
+.RI "void \fBclose\fP ()"
+.br
+.RI "\fIClose the socket. \fP"
+.ti -1c
+.RI "int32_t \fBsendTo\fP (const char *strz, const std::string &dstHost, int32_t dstPort)"
+.br
+.RI "\fISend data to host. \fP"
+.ti -1c
+.RI "int32_t \fBsendTo\fP (const uint8_t *buf, uint32_t size, const std::string &dstHost, int32_t dstPort) const "
+.br
+.RI "\fISend data to host. \fP"
+.ti -1c
+.RI "int32_t \fBsendTo\fP (const std::string &buffer, const std::string &dstHost, int32_t dstPort)"
+.br
+.RI "\fISend data to host. \fP"
+.ti -1c
+.RI "bool \fBrecv\fP (\fBDataPacketPtr\fP *pack, int32_t timeout=0)"
+.br
+.RI "\fIReceive data. \fP"
+.ti -1c
+.RI "bool \fBrecvFrom\fP (\fBDataPacketPtr\fP *pack, int32_t timeout=0)"
+.br
+.RI "\fIReceive data. \fP"
+.ti -1c
+.RI "int32_t \fBgetSocket\fP ()"
+.br
+.ti -1c
+.RI "bool \fBisTimeOut\fP ()"
+.br
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBUdpSocket\fP ()"
+.br
+.RI "\fIDefault constructor. \fP"
+.ti -1c
+.RI "\fBUdpSocket\fP (const std::string &_host, const std::string &_port)"
+.br
+.ti -1c
+.RI "virtual \fB~UdpSocket\fP ()"
+.br
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+UDP socket implementation. 
+.PP
+Definition at line 13 of file UdpSocket.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::UdpSocket::UdpSocket ()"
+.PP
+Default constructor. 
+.PP
+Definition at line 13 of file UdpSocket.cpp.
+.SS "mt::UdpSocket::UdpSocket (const std::string & _host, const std::string & _port)"\fBParameters:\fP
+.RS 4
+\fI_host\fP IP address at string format. Socket will be binded on this host. 
+.br
+\fI_port\fP Socket will be binded on this port. 
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if an error occurred at creation socket. 
+.br
+\fI\fBmt::Exception\fP\fP if an error occurred at setting socket's options. 
+.br
+\fI\fBmt::Exception\fP\fP if an error occurred at binding socket. 
+.RE
+.PP
+
+.PP
+Definition at line 19 of file UdpSocket.cpp.
+.SS "mt::UdpSocket::~UdpSocket ()\fC [virtual]\fP"
+.PP
+Definition at line 25 of file UdpSocket.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "void mt::UdpSocket::close (void)"
+.PP
+Close the socket. 
+.PP
+Definition at line 61 of file UdpSocket.cpp.
+.SS "int32_t mt::UdpSocket::getSocket ()\fC [inline]\fP"
+.PP
+Definition at line 122 of file UdpSocket.h.
+.SS "bool mt::UdpSocket::isTimeOut ()\fC [inline]\fP"\fBReturns:\fP
+.RS 4
+TRUE if last packet was timeouted. Otherwise, will return FALSE. 
+.RE
+.PP
+
+.PP
+Definition at line 129 of file UdpSocket.h.
+.SS "void mt::UdpSocket::open (const std::string & host, const std::string & port)"
+.PP
+Create and bind socket. Option SO_REUSEADDR set to the socket.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhost\fP IP address as string format. Socket will be binded on this host. 
+.br
+\fIport\fP Socket will be binded on this port. 
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if an error occurred at creation socket. 
+.br
+\fI\fBmt::Exception\fP\fP if an error occurred at setting socket's options. 
+.br
+\fI\fBmt::Exception\fP\fP if an error occurred at binding socket. 
+.RE
+.PP
+
+.PP
+Definition at line 38 of file UdpSocket.cpp.
+.SS "void mt::UdpSocket::open (const std::string & host, int32_t port)"
+.PP
+Create and bind socket. Option SO_REUSEADDR set to the socket.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhost\fP IP address as string format. Socket will be binded on this host. 
+.br
+\fIport\fP Socket will be binded on this port. 
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if an error occurred at creation socket. 
+.br
+\fI\fBmt::Exception\fP\fP if an error occurred at setting socket's options. 
+.br
+\fI\fBmt::Exception\fP\fP if an error occurred at binding socket. 
+.RE
+.PP
+
+.PP
+Definition at line 42 of file UdpSocket.cpp.
+.SS "bool mt::UdpSocket::recv (\fBDataPacketPtr\fP * pack, int32_t timeout = \fC0\fP)"
+.PP
+Receive data. \fBParameters:\fP
+.RS 4
+\fIpack\fP Pointer to pointer to data packet. The method will create \fBDataPacket\fP with received data. 
+.br
+\fItimeout\fP Timeout for receive packet at milliseconds.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+TRUE if packet was received. Otherwise, will return FALSE. 
+.RE
+.PP
+
+.PP
+Definition at line 86 of file UdpSocket.cpp.
+.SS "bool mt::UdpSocket::recvFrom (\fBDataPacketPtr\fP * pack, int32_t timeout = \fC0\fP)"
+.PP
+Receive data. \fBParameters:\fP
+.RS 4
+\fIpack\fP Pointer to pointer to data packet. The method will create \fBDataPacket\fP with received data. 
+.br
+\fItimeout\fP Timeout for receive packet at milliseconds.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+TRUE if packet was received. Otherwise, will return FALSE. 
+.RE
+.PP
+
+.SS "int32_t mt::UdpSocket::sendTo (const char * strz, const std::string & dstHost, int32_t dstPort)"
+.PP
+Send data to host. \fBParameters:\fP
+.RS 4
+\fIstrz\fP Data to send. 
+.br
+\fIdstHost\fP Destination host. 
+.br
+\fIdstPort\fP Destination port. 
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if the socket wasn't opened.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Upon successful completion, shall return the number of bytes sent. Otherwise, -1 shall be returned. 
+.RE
+.PP
+
+.SS "int mt::UdpSocket::sendTo (const std::string & buffer, const std::string & dstHost, int32_t dstPort)"
+.PP
+Send data to host. \fBParameters:\fP
+.RS 4
+\fIbuffer\fP Data to send. 
+.br
+\fIdstHost\fP Destination host. 
+.br
+\fIdstPort\fP Destination port. 
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if the socket wasn't opened.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Upon successful completion, shall return the number of bytes sent. Otherwise, -1 shall be returned. 
+.RE
+.PP
+
+.PP
+Definition at line 69 of file UdpSocket.cpp.
+.SS "int mt::UdpSocket::sendTo (const uint8_t * buf, uint32_t size, const std::string & dstHost, int32_t dstPort) const"
+.PP
+Send data to host. \fBParameters:\fP
+.RS 4
+\fIbuf\fP Data to send. 
+.br
+\fIsize\fP Size of data. 
+.br
+\fIdstHost\fP Destination host. 
+.br
+\fIdstPort\fP Destination port. 
+.RE
+.PP
+\fBExceptions:\fP
+.RS 4
+\fI\fBmt::Exception\fP\fP if the socket wasn't opened.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Upon successful completion, shall return the number of bytes sent. Otherwise, -1 shall be returned. 
+.RE
+.PP
+
+.PP
+Definition at line 73 of file UdpSocket.cpp.
+.SS "void mt::UdpSocket::setSocket (int32_t newSock)"
+.PP
+The method set new socket. If old socket was opened than it will be closed.
+.PP
+\fBParameters:\fP
+.RS 4
+\fInewSock\fP New socket's descriptor. 
+.RE
+.PP
+
+.PP
+Definition at line 30 of file UdpSocket.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

@@ -1,0 +1,33 @@
+#!/bin/bash
+################################################################################
+##
+## ASPD changer
+##
+## wocson (c) v. 0.97
+##
+## Requare: zsh, lftp, mc
+##
+
+
+ff()
+{
+	mnth=`date +%m`
+
+	  if [ "$mnth" == "01" ]; then echo -en "январь"; 
+	elif [ "$mnth" == "02" ]; then echo -en "февраль"; 
+	elif [ "$mnth" == "03" ]; then echo -en "март"; 
+	elif [ "$mnth" == "04" ]; then echo -en "апрель"; 
+	elif [ "$mnth" == "05" ]; then echo -en "май"; 
+	elif [ "$mnth" == "06" ]; then echo -en "июнь"; 
+	elif [ "$mnth" == "07" ]; then echo -en "июль"; 
+	elif [ "$mnth" == "08" ]; then echo -en "август"; 
+	elif [ "$mnth" == "09" ]; then echo -en "сентябрь"; 
+	elif [ "$mnth" == "10" ]; then echo -en "октябрь"; 
+	elif [ "$mnth" == "11" ]; then echo -en "ноябрь"; 
+	elif [ "$mnth" == "12" ]; then echo -en "декабрь"; 
+	  fi
+}
+
+
+
+ echo " привет сегодня `ff`"

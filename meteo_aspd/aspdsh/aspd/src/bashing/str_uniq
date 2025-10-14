@@ -1,0 +1,40 @@
+#!/bin/bash
+##
+## ASPD changer
+## Requare: zsh, lftp, mc
+## wocson (c)
+################################################################
+WRFNPTH[0]="литий"
+WRFNPTH[1]="литий"
+WRFNPTH[2]="литий"
+WRFNPTH[3]="литий"
+WRFNPTH[4]="литий"
+WRFNPTH[5]="натрий"
+WRFNPTH[6]="натрий"
+WRFNPTH[7]="натрий"
+WRFNPTH[8]="натрий"
+WRFNPTH[9]="натрий"
+WRFNPTH[10]="калий"
+WRFNPTH[11]="калий"
+WRFNPTH[12]="калий"
+WRFNPTH[13]="калий"
+WRFNPTH[14]="калий"
+
+  echo ${WRFNPTH[0]} > asdf
+  for (( i=1; i<${#WRFNPTH[@]}; i++ ));do
+	echo ${WRFNPTH[$i]} >> asdf
+  done
+
+  for asdf in `sort -u asdf`; do
+	echo $asdf
+  done
+
+  strlet="@мелкий текст"
+  echo "$strlet"
+
+  strlet="${strlet#"@"}"
+  echo "$strlet"
+
+  strlet="${strlet^^}"
+  echo "$strlet"
+

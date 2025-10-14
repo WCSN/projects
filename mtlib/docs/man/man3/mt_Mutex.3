@@ -1,0 +1,61 @@
+.TH "mt::Mutex" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::Mutex \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Mutex.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMutex\fP ()"
+.br
+.ti -1c
+.RI "\fBMutex\fP (const \fBMutex\fP &m)"
+.br
+.ti -1c
+.RI "\fB~Mutex\fP ()"
+.br
+.ti -1c
+.RI "void \fBlock\fP ()"
+.br
+.ti -1c
+.RI "bool \fBtrylock\fP ()"
+.br
+.ti -1c
+.RI "void \fBunlock\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 8 of file Mutex.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::Mutex::Mutex ()"
+.PP
+Definition at line 6 of file Mutex.cpp.
+.SS "mt::Mutex::Mutex (const \fBMutex\fP & m)"
+.PP
+Definition at line 11 of file Mutex.cpp.
+.SS "mt::Mutex::~Mutex ()"
+.PP
+Definition at line 16 of file Mutex.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "void mt::Mutex::lock ()"
+.PP
+Definition at line 20 of file Mutex.cpp.
+.SS "bool mt::Mutex::trylock ()"
+.PP
+Definition at line 24 of file Mutex.cpp.
+.SS "void mt::Mutex::unlock ()"
+.PP
+Definition at line 28 of file Mutex.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

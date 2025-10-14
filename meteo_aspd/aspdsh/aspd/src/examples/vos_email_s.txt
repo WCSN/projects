@@ -1,0 +1,27 @@
+#!VOS RADIO !
+#===================================================================================
+# Letter TAGs:
+#   Letter tag:
+#       only for e-mail adress:
+#          E-MAIL: tag for string email tags
+#          TMAIL: text for e-mail place to letter
+#
+#   SUBJ:   for email SUBJ E-MAIL. TLG @adress place after adress
+#   ATTACH: attaches send for all adress and ASPD and e-mail
+#           if tag plase e-mail string attachs will be sen only for this e-mail (now blocked)
+#           if tag place in body letter send for all place before tag @adress
+#
+#   CHEEF:  add cheef sign
+#   GRECV: or GCONF:
+#           add string confirmed of recv
+#   SHRM:   add ship radio master sign
+#   [DATE] [WEEK] [YEAR] [MONTH] [MONTH-1] - add it for value
+#================== Letter =========================================================
+ATTACH:./src/examples/vos fa tt01.bz2
+@E-MAIL:admin_vostok@aari.ru;SUBJ:TEST vos_email;TMAIL:Тестовый текст
+
+ТЕСТОВОЕ СООБЩЕНИЕ УДАЛИТЬ
+
+СООБЩЕНИЕ НА емайл АДМИН_Восток
+ТЕКСТ ЗАГЛАВНЫМИ на UTF-8
+Текст прописными на UTF-8 (был :) стал заглавными)

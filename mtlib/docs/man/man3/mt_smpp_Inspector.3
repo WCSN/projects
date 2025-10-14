@@ -1,0 +1,201 @@
+.TH "mt::smpp::Inspector" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::Inspector \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Inspector.h>\fP
+.PP
+Inherits \fBmt::smpp::SmppNwIf\fP, and \fBmt::InfiniteThread\fP.
+.PP
+Inherited by \fBmt::smpp::ClientInspector\fP, and \fBmt::smpp::ServerInspector\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBSetTon\fP (unsigned char c)"
+.br
+.ti -1c
+.RI "void \fBSetNpi\fP (unsigned char n)"
+.br
+.ti -1c
+.RI "std::string \fBgetSystemId\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~Inspector\fP ()"
+.br
+.ti -1c
+.RI "\fBInspector\fP (\fBProcessor\fP *p=NULL)"
+.br
+.ti -1c
+.RI "virtual void \fBNetworkError\fP (\fBSmppNwIf\fP *)=0"
+.br
+.ti -1c
+.RI "void \fBSetSender\fP (\fBSender\fP *s)"
+.br
+.ti -1c
+.RI "void \fBSetReciver\fP (\fBReciver\fP *s)"
+.br
+.ti -1c
+.RI "void \fBSetProcessor\fP (\fBProcessor\fP *s)"
+.br
+.ti -1c
+.RI "\fBProcessor\fP * \fBGetProcessor\fP ()"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBSendBind\fP (\fBTCPSocket\fP *\fBsock\fP)  throw (std::exception)"
+.br
+.ti -1c
+.RI "\fBBindParams\fP \fBRecvBind\fP (\fBTCPSocket\fP *\fBsock\fP)  throw (std::exception)"
+.br
+.ti -1c
+.RI "void \fBSendBindResp\fP (\fBTCPSocket\fP *\fBsock\fP, \fBBindType\fP t)  throw (std::exception)"
+.br
+.ti -1c
+.RI "int \fBRecvBindResp\fP (\fBTCPSocket\fP *\fBsock\fP)  throw (std::exception)"
+.br
+.ti -1c
+.RI "void \fBSendUnbind\fP (\fBTCPSocket\fP *\fBsock\fP)  throw (std::exception)"
+.br
+.ti -1c
+.RI "int \fBRecvUnbindResp\fP (\fBTCPSocket\fP *\fBsock\fP)  throw (std::exception)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned char \fBton\fP"
+.br
+.ti -1c
+.RI "unsigned char \fBnpi\fP"
+.br
+.ti -1c
+.RI "\fBBindType\fP \fBtype\fP"
+.br
+.ti -1c
+.RI "\fBSender\fP * \fBsndr\fP"
+.br
+.ti -1c
+.RI "\fBReciver\fP * \fBrcvr\fP"
+.br
+.ti -1c
+.RI "\fBProcessor\fP * \fBproc\fP"
+.br
+.ti -1c
+.RI "char * \fBrecvBuf\fP"
+.br
+.ti -1c
+.RI "std::string \fBaddr\fP"
+.br
+.ti -1c
+.RI "std::string \fBpassword\fP"
+.br
+.ti -1c
+.RI "std::string \fBsystype\fP"
+.br
+.ti -1c
+.RI "unsigned short \fBport\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 29 of file Inspector.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::smpp::Inspector::~Inspector ()\fC [virtual]\fP"
+.PP
+Definition at line 15 of file Inspector.cpp.
+.SS "mt::smpp::Inspector::Inspector (\fBProcessor\fP * p = \fCNULL\fP)"
+.PP
+Definition at line 20 of file Inspector.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBProcessor\fP* mt::smpp::Inspector::GetProcessor ()\fC [inline]\fP"
+.PP
+Definition at line 64 of file Inspector.h.
+.SS "std::string mt::smpp::Inspector::getSystemId ()\fC [inline]\fP"
+.PP
+Definition at line 56 of file Inspector.h.
+.SS "virtual void mt::smpp::Inspector::NetworkError (\fBSmppNwIf\fP *)\fC [pure virtual]\fP"
+.PP
+Implemented in \fBmt::smpp::ClientInspector\fP, and \fBmt::smpp::ServerInspector\fP.
+.SS "\fBBindParams\fP mt::smpp::Inspector::RecvBind (\fBTCPSocket\fP * sock)  throw (std::exception)\fC [protected]\fP"
+.PP
+Definition at line 148 of file Inspector.cpp.
+.SS "int mt::smpp::Inspector::RecvBindResp (\fBTCPSocket\fP * sock)  throw (std::exception)\fC [protected]\fP"
+.PP
+Definition at line 212 of file Inspector.cpp.
+.SS "int mt::smpp::Inspector::RecvUnbindResp (\fBTCPSocket\fP * sock)  throw (std::exception)\fC [protected]\fP"
+.PP
+Definition at line 45 of file Inspector.cpp.
+.SS "void mt::smpp::Inspector::SendBind (\fBTCPSocket\fP * sock)  throw (std::exception)\fC [protected]\fP"
+.PP
+Definition at line 54 of file Inspector.cpp.
+.SS "void mt::smpp::Inspector::SendBindResp (\fBTCPSocket\fP * sock, \fBBindType\fP t)  throw (std::exception)\fC [protected]\fP"
+.PP
+Definition at line 105 of file Inspector.cpp.
+.SS "void mt::smpp::Inspector::SendUnbind (\fBTCPSocket\fP * sock)  throw (std::exception)\fC [protected]\fP"
+.PP
+Definition at line 34 of file Inspector.cpp.
+.SS "void mt::smpp::Inspector::SetNpi (unsigned char n)\fC [inline]\fP"
+.PP
+Definition at line 54 of file Inspector.h.
+.SS "void mt::smpp::Inspector::SetProcessor (\fBProcessor\fP * s)\fC [inline]\fP"
+.PP
+Definition at line 63 of file Inspector.h.
+.SS "void mt::smpp::Inspector::SetReciver (\fBReciver\fP * s)\fC [inline]\fP"
+.PP
+Definition at line 62 of file Inspector.h.
+.SS "void mt::smpp::Inspector::SetSender (\fBSender\fP * s)\fC [inline]\fP"
+.PP
+Definition at line 61 of file Inspector.h.
+.SS "void mt::smpp::Inspector::SetTon (unsigned char c)\fC [inline]\fP"
+.PP
+Definition at line 53 of file Inspector.h.
+.SH "Member Data Documentation"
+.PP 
+.SS "std::string \fBmt::smpp::Inspector::addr\fP\fC [protected]\fP"
+.PP
+Definition at line 39 of file Inspector.h.
+.SS "unsigned char \fBmt::smpp::Inspector::npi\fP\fC [protected]\fP"
+.PP
+Definition at line 33 of file Inspector.h.
+.SS "std::string \fBmt::smpp::Inspector::password\fP\fC [protected]\fP"
+.PP
+Definition at line 40 of file Inspector.h.
+.SS "unsigned short \fBmt::smpp::Inspector::port\fP\fC [protected]\fP"
+.PP
+Definition at line 42 of file Inspector.h.
+.SS "\fBProcessor\fP* \fBmt::smpp::Inspector::proc\fP\fC [protected]\fP"
+.PP
+Definition at line 37 of file Inspector.h.
+.SS "\fBReciver\fP* \fBmt::smpp::Inspector::rcvr\fP\fC [protected]\fP"
+.PP
+Definition at line 36 of file Inspector.h.
+.SS "char* \fBmt::smpp::Inspector::recvBuf\fP\fC [protected]\fP"
+.PP
+Definition at line 38 of file Inspector.h.
+.SS "\fBSender\fP* \fBmt::smpp::Inspector::sndr\fP\fC [protected]\fP"
+.PP
+Definition at line 35 of file Inspector.h.
+.SS "std::string \fBmt::smpp::Inspector::systype\fP\fC [protected]\fP"
+.PP
+Definition at line 41 of file Inspector.h.
+.SS "unsigned char \fBmt::smpp::Inspector::ton\fP\fC [protected]\fP"
+.PP
+Definition at line 32 of file Inspector.h.
+.SS "\fBBindType\fP \fBmt::smpp::Inspector::type\fP\fC [protected]\fP"
+.PP
+Definition at line 34 of file Inspector.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

@@ -1,0 +1,63 @@
+#################
+##
+## rc.local
+##
+
+##
+## Manager - recv command ASPD from remote host
+##
+
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+
+echo ""
+
+DIG="/usr/local/bin/dig"
+PING="/sbin/ping"
+CUT="/usr/bin/cut" 
+GREP="/usr/bin/grep"
+SLEEPTIME=3
+
+# Manager !!!
+/usr/bin/manager 172.31.83.16 17775
+
+##
+## SMB Share mount ASPD archive directory
+##
+keyword="icmp_seq"
+CONNECT=false
+host_sh=10.31.83.14
+host_nm=$($DIG -x $host_sh | $GREP -v ';' | $GREP ' '| $CUT -f4 | $CUT -d'.' -f1)
+while ! $CONNECT ; do
+    PNG=`$PING -c 1 -s 1 $host_sh | $GREP "$keyword"`
+    if [ -z "$PNG" ]; then
+       echo "No connection with $host_sh ($host_nm). Shares do not mount!"
+       sleep $SLEEPTIME
+    else
+       echo "Хост $host_sh ($host_nm) доступен"
+       echo "Mount network shares from $host_sh ($host_nm)"
+       /usr/sbin/mount_smbfs -N -o rw -f 666 -d 777 //radioman@radioman/RAE$ /usr/storages/store02/aspd/R_Archive
+       CONNECT=true
+    fi
+done
+
+##
+## SMB Share mount for meteo informer
+##
+CONNECT=false
+host_sh=172.31.83.58
+host_nm=$($DIG -x $host_sh | $GREP -v ';' | $GREP ' '| $CUT -f4 | $CUT -d'.' -f1)
+while ! $CONNECT ; do
+    PNG=`$PING -c 1 -s 1 $host_sh | $GREP "$keyword"`
+    if [ -z "$PNG" ]; then
+       echo "No connection with $host_sh ($host_nm). Shares do not mount!"
+       sleep $SLEEPTIME
+    else
+       echo "Хост $host_sh ($host_nm) доступен"
+       echo "Mount network shares from $host_sh ($host_nm)"
+       /usr/sbin/mount_smbfs -N -o rw -f 666 -d 777 //guest@meteo-maws/mawslogs$ /mnt/Vostok/mawslogs
+       /usr/sbin/mount_smbfs -N -o rw -f 666 -d 777 //guest@meteo-maws/meteo$ /mnt/Vostok/meteo
+       CONNECT=true
+    fi
+done

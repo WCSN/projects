@@ -1,0 +1,18 @@
+#!/bin/bash
+
+exec vlc -vvv /urs/TV_House/playlists/movies.m3u  --sout 'rtp{mux=ts,dst=224.0.0.1:1234,sdp=sap,name="{TV1;"Художественный"}'
+exec vlc -vvv /urs/TV_House/playlists/docs.m3u    --sout 'rtp{mux=ts,dst=224.0.0.1:1235,sdp=sap,name="{TV2;"Документальный"}'
+exec vlc -vvv /urs/TV_House/playlists/humors.m3u  --sout 'rtp{mux=ts,dst=224.0.0.1:1236,sdp=sap,name="{TV3;"HumorTV"}'
+exec vlc -vvv /urs/TV_House/playlists/verestv.m3u --sout 'rtp{mux=ts,dst=224.0.0.1:1237,sdp=sap,name="{TV4;"VERES_TV"}'
+exec vlc -vvv /urs/TV_House/playlists/wtv.m3u     --sout 'rtp{mux=ts,dst=224.0.0.1:1238,sdp=sap,name="{TV5;"WTV"}'
+
+##EXTM3U
+#/home/virus/reclamma.avi
+#/home/virus/video.avi
+#/home/virus/reclamma.avi
+#/media/sdb1/VIDEO/Новинки/Просто_Джо.avi
+#/home/virus/reclamma.avi
+#/home/virus/video.avi
+#/home/virus/reclamma.avi
+#/media/sdb1/VIDEO/Новинки/Просто_Джо.avi
+#/home/virus/reclamma.avi

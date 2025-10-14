@@ -1,0 +1,34 @@
+#!/bin/bash
+################################################################
+##
+## ASPD changer
+##
+## wocson (c)
+##
+## Requare: zsh, lftp, mc
+##
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+
+echo -e "Time now:"
+echo "VOSTOK: `date -u -v+7H \"+%H:%M\"`"
+echo " MIRNY: `date -u -v+7H \"+%H:%M\"`"
+echo " PROGR: `date -u -v+5H \"+%H:%M\"`"
+echo "  NOVO: `date -u -v+0H \"+%H:%M\"`"
+echo "  BELL: `date -u -v-3H \"+%H:%M\"`"
+
+TM="$1" #local time
+
+H=`echo "$TM" | cut -d":" -f1`
+M=`echo "$TM" | cut -d":" -f2`
+S=`echo "$TM" | cut -d":" -f3`
+
+HS=$((H*60*60)); MS=$((M*60)); SS=$S
+DAY=$((24*60*60)); SS=$(($HS+$MS+$SS+$DAY))
+
+echo -e "\nTime $TM station is:"
+echo " VOSTOK: `date -r $SS -u -v+0H \"+%H:%M\"`"
+echo "  MIRNY: `date -r $SS -u -v+0H \"+%H:%M\"`"
+echo "PROGRES: `date -r $SS -u -v-2H \"+%H:%M\"`"
+echo "   NOVO: `date -r $SS -u -v-7H \"+%H:%M\"`"
+echo "   BELL: `date -r $SS -u -v-10H \"+%H:%M\"`"

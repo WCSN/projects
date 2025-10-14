@@ -1,0 +1,17 @@
+#!/bin/bash
+
+
+echo -en "#!/bin/bash\n\n" > asdf
+
+
+for D in *; do 
+
+    if [ "$D" == "renfl" ]; then continue; fi
+    if [ "$D" == "asdf" ]; then continue; fi
+
+    CMD="mv \"$D\"  1`echo $D | rev | cut -c -6 | rev`"
+    echo $CMD >> asdf
+
+done
+
+#bash asdf

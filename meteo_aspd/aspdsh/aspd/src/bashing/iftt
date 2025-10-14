@@ -1,0 +1,60 @@
+#!/bin/zsh
+####################################
+##
+## .zshrc
+## (c) wocson
+##
+
+source $HOME/.config/zshrc.inc
+source /usr/share/wlib/tcolor_inc.sh
+
+MN=0; MX=20; M=$MX;
+
+TMH=$((10#`date -u +%H`))  ## for convert 08 to 8 remove leader 0 UTC
+TMM=$((10#`date -u +%M`))  ## ... too UTC
+TZ="(UTC)"
+spline="$(printf "%-${TC}s" " ")"
+
+# TMH=0; TMM=15;
+
+# 00:00-00:20 06:00-06:20 12:00-12:20 18:00-18:20 UTC
+if (( (( $TMH==0 || $TMH==6 || $TMH==12 || $TMH==18 )) && (( $TMM>=$MN && $TMM<=$MX )) )); then
+
+  format="$BGREEN$BGBLUE%-${TC}s$STDCL"; 
+  DT="$(date -u "+%H:%M") $TZ"
+  txt="$(printf "$format" "$slline")"
+  txt+="$(printf "$format" "     Время: $DT Отправка СИН")"
+  txt+="$(printf "$format" "$spline ")"
+  echo -e "$txt"
+  speep 3
+  aspd lt avos
+  tail -n $TL /usr/storages/store02/aspd/infobox/log/aspd.log
+
+else
+
+  format="$BYELLOW$BGRED%-${TC}s$STDCL"; 
+  DT="$(date -u "+%H:%M") $TZ"
+  txt="$(printf "$format" "$spline")"
+  txt+="$(printf "$format" "     Время: $DT. СИН не может быть отправлен.")"
+  txt+="$(printf "$format" "$spline")"
+  txt+="$(printf "$format" "     Периодичность отправки СИН:")"
+  txt+="$(printf "$format" "     00:00-00:$M $TZ")"
+  txt+="$(printf "$format" "     06:00-06:$M $TZ")"
+  txt+="$(printf "$format" "     12:00-12:$M $TZ")"
+  txt+="$(printf "$format" "     18:00-18:$M $TZ")"
+  txt+="$(printf "$format" "$spline")"
+  txt+="$(printf "$format" "     Запустите отправку позже.")"
+  txt+="$(printf "$format" "$spline")"
+  echo -e "$txt"
+
+fi
+
+  DT=20;  gX="$(tput col)";  gY="$(tput line)";
+
+  while true; do
+	sleep 1; 
+	outtextxy 0 $gY "Завершение работы: $DT  ";  let DT--
+	if (( $DT <= 0 )); then break; fi
+  done
+  echo ""
+

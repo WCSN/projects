@@ -1,0 +1,43 @@
+################################################################
+# BR*
+# Copyright (C) 2019   Vladimir Noskov
+# Using QWT
+# Copyright (C) 2019   Josef Wilgen
+# Copyright (C) 2002   Uwe Rathmann
+################################################################
+
+TEMPLATE = app
+TARGET = brvs 
+DEPENDPATH += . src
+INCLUDEPATH += . src
+
+QT += widgets printsupport
+
+HEADERS += src/addons.h \
+           src/archive.h \
+           src/attitude_indicator.h \
+           src/axistag.h \
+           src/clock.h \
+           src/cockpit.h \
+           src/lcdind.h \
+           src/mainwindow.h \
+           src/qcustomplot.h \
+           src/speedo_meter.h \
+           src/volum_meter.h \
+           src/wsettings.h \
+           src/carbox.h 
+
+SOURCES += src/addons.cpp \
+           src/archive.cpp \
+           src/attitude_indicator.cpp \
+           src/axistag.cpp \
+           src/clock.cpp \
+           src/cockpit.cpp \
+           src/lcdind.cpp \
+           src/main.cpp \
+           src/mainwindow.cpp \
+           src/qcustomplot.cpp \
+           src/speedo_meter.cpp \
+           src/volum_meter.cpp \
+           src/wsettings.cpp \
+           src/carbox.cpp

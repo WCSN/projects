@@ -1,0 +1,27 @@
+#!/bin/bash
+
+
+DEBUGG="on"
+
+function DEBUG()
+{
+  set -x
+  [ "$DEBUGG" == "on" ] && $@ || :
+}
+
+function DEBUGOFF()
+{
+  set +x
+  DEBUG="off"
+}
+
+
+FF=12
+GG=12
+
+a=2
+b=3
+c=$(( $a + $b ))
+
+DEBUG echo "$a + $b = $c"
+DEBUGOFF

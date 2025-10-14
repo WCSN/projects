@@ -1,0 +1,1648 @@
+##############################################################################
+##
+## Include for Phonograph
+##
+## wocson (c)
+##
+##############################################################################
+[[ -f "./Makefile" ]] && DEBUG="YES" || DEBUG="NO"; [[ "${DEBUG^^}" == "YES" ]] && PRFXDIR="$PWD/src" || PRFXDIR="$HOME" # $PRFXDIR
+
+OLDDIR=$(pwd)
+
+LLANG="$LANG"; LLC_ALL="$LC_ALL";
+export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8;
+PATH=$PATH:$PRFXDIR/.local/share/Phonograph/bin
+
+ARGV[0]="$0"; let i=1; for arg in "$@"; do ARGV[$i]="$arg"; let i++; done
+ARGC=${#ARGV[@]}
+
+SHAREDIR="$PRFXDIR/.local/share/Phonograph"
+CONFDIR="$PRFXDIR/.config/Phonograph"
+LIBDIR="$SHAREDIR/lib"
+SRCDIR="$PRFXDIR"
+SAVENAMETRACK=""; RECVINFO=""; SHASIS=""; SHOWSEC="";
+CUR_FRQDIS=""; CUR_BTCODE="";
+CORRECTFQBC="YES"
+
+source "$LIBDIR/phonograph.dir"
+source "$LIBDIR/required.lib"
+
+if [[ "${DEBUG^^}" == "YES" ]]; then
+   [[ ! -f "$CONFDIR/phonograph.conf" ]] && genconfdef
+fi
+
+source "$CONFDIR/phonograph.conf"
+source "$LIBDIR/tcolor_inc.lib"
+
+function TRACE()
+{
+    local let i=1
+    if [[ "${DEBUG^^}" == "YES" ]]; then
+        printf "${BRED}TRACE"
+
+        for arg in "$@"; do
+            if [[ $i == 1 ]]; then
+                echo -en " ${LCYAN}$arg"
+            elif [[ $i == 2 ]]; then
+                echo -en " ${LYELLOW}$arg"
+            else
+                echo -en " ${WHITE}$arg"
+            fi
+            let i++
+        done
+        printf "${NORMAL}\n"
+   fi
+}
+
+## For find compratible on Linux
+if [[ "$OSTYPE" == "Linux" ]]; then
+    DIRDEPTHVIEW="-maxdepth 1"
+    SNDDEVNOTHAVE=""
+else
+    DIRDEPTHVIEW="-depth 1"
+    SNDDEVNOTHAVE=$(cat /dev/sndstat | grep -iw "installed.")
+fi
+
+function trim() 
+{
+    local var="$*"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"   
+    echo -n "$var"
+}
+
+function Error()
+{
+    printf "${ERR} Error: %s ${STDCL}\n" "$1"
+}
+
+function Info()
+{
+    printf "${INFO} Note: %s ${STDCL}\n" "$1"
+}
+
+##
+## Name Work Directories
+##
+## all paths relative on $HOME
+##
+
+declare -a LISTTRACKS
+declare -a LISTDIRS
+declare -a ARGV
+
+MSGAUTO=""
+MainCMD=${ARGV[1]}
+NTRACKS=0; NDIRS=1; ROPT="";
+
+FCHANNELS=2
+CODEFMT="flac"      # internal work format
+REMOVEVIDEO="YES"   # Remove video stream for recode
+INIT="NO"
+SORTLIST="sort -n"  # for numeric sort (-g -h)
+
+maskfind=""; div=""; typecode=""; div2="";
+
+for mf in ${tracktype[@]}; do maskfind+="$div$mf"; div="|"; typecode+="$div2$mf"; div2=" "; done
+
+DATCDCODE="YES"
+
+function msgsourceempty()
+{
+    local pathfile="$1"
+    Error "Files not find in $pathfile"
+}
+
+SOURCEPATHF="$SOURCEDIR"
+
+##
+## Colors
+##
+TLL=${BLACK}${BGGRAY};  TL1=${BLACK}${BGGRAY};   TL2=${BIYELLOW}${BGBLACK}; 
+TL3=${LCYAN}${BGBLACK}; INFOC=${WHITE}${BGBLUE}; INFOC2=${BLACK}${BGGRAY};
+function msg()
+{
+    local let i=1 opt="\n" lgt0="" lgt1="" lgt2="" all="" textout=""
+
+    if [[ "$1" == "-n" ]]; then
+        opt=""; lgt0="$2"; all="$3";
+    else
+        lgt0="$1"; all="$2";
+    fi
+
+    lgt1=$(cut -f1 -d':' <<< "$lgt0"); lgt2="$(cut -f2- -d':' <<< "$lgt0")"
+
+    if [[ "$lgt1" == "$lgt2" ]]; then
+        textout="${TL2} $lgt1${NORMAL}"
+    else
+        textout="${TL2} $lgt1:${TL3}$lgt2${NORMAL}"
+    fi
+
+    printf "%b$opt" "$(date "+%Y%m%d %H:%M:%S") $textout" >> "$LOGDIR/$LOGFILE"
+
+    if [[ "$all" != "LOG" ]]; then printf "%b$opt" "$textout"; fi
+    if [[ "$all" == "LOG" ]] && [[ "$TYPEWORK" == "debug" ]]; then printf "%b$opt" "$textout"; fi
+}
+
+reqcheck
+source "$DOCDIR"/help.src
+
+function correctoptions()
+{
+    case "$RCODEFMT" in
+    mp3|ape|ogg)
+        RBITCODE="s16p";
+    ;;
+    opus)
+        [[ "$RFRQDIS"  != "48000" ]] && RFRQDIS="48000"
+        [[ "$RBITCODE" != "s16" ]] && RBITCODE="s16"
+    ;;
+    *)
+    ;;
+    esac
+
+    if ! [[ "$TYPECODE" == "AUTO" ]]; then
+
+        [[ "$FRQDIS" == "48000" && "$BITCODE" == "s16" ]] && TYPECODE="DAT"
+        [[ "$FRQDIS" == "44100" && "$BITCODE" == "s16" ]] && TYPECODE="CD"
+        [[ "$FRQDIS" == "32000" && "$BITCODE" == "s16" ]] && TYPECODE="LONG"
+        
+    fi
+}
+
+SAVE_TRACK=""
+fSAVE_TRACK="$SAVESETDIR/fsave_track.sv"
+fSAVE_SECTION="$SAVESETDIR/fsave_section.sv"
+fSAVE_TRACKINFO="$SAVESETDIR/fsave_trackinfo.sv"
+
+function gettrackparam()
+{
+    local track="$1" parameter="$2" SECTIONS="STREAM|FORMAT" ASIS="$3" lninfo=""
+    local INDFPAR="NO" INDAUDIO="NO" OPENSEARCH="NO" GETPAR="" SHOW="" LIFS="|"
+
+    local OLDIFS="$IFS"; IFS="$LIFS";
+    for SECTION in $SECTIONS; do
+    
+        IFS="$OLDIFS"    
+        [[ "$SECTION" == "STREAM" ]] && SHOW="show_streams" || SHOW="show_format"
+
+        local SAVE_SECTION=""
+
+        [[ -f "$fSAVE_SECTION" ]] && SAVE_SECTION="$(cat "$fSAVE_SECTION")";
+        [[ -f "$fSAVE_TRACK"   ]] && SAVE_TRACK="$(cat "$fSAVE_TRACK")";
+
+        if ! [[ "$SAVE_TRACK" == "$track" && "$SAVE_SECTION" == "$SECTION" ]]; then
+            SAVE_TRACK="$track"
+            ffprobe -hide_banner -v error -${SHOW} "${track}" &> "${fSAVE_TRACKINFO}"
+            echo "$track" > "$fSAVE_TRACK"
+            echo "$SECTION" > "$fSAVE_SECTION"
+        else
+            SAVE_TRACK=""
+            SAVE_SECTION=""
+        fi
+        
+        while read -r lninfo; do
+        
+            [[ "${lninfo^^}" ==  "[${SECTION}]" ]] && OPENSEARCH="YES"
+            [[ "${lninfo^^}" == "[/${SECTION}]" ]] && OPENSEARCH="NO"
+
+            if [[ "$OPENSEARCH" == "YES" ]]; then
+
+                if echo "$lninfo" | egrep "$parameter" > /dev/null; then
+
+                    if [[ "$(echo "$lninfo" | egrep "$parameter" | cut -f1 -d"=")" == "$parameter" ]]; then
+
+                        GETPAR="$(echo "$lninfo" | egrep "$parameter" | cut -f2 -d'=')"
+                        
+                        [[ "$GETPAR" == "fltp" && "$ASIS" != "ASIS" ]] && GETPAR="s16"
+                        [[ "$GETPAR" == "s32p" && "$ASIS" != "ASIS" ]] && GETPAR="s32"
+
+                        INDFPAR="YES"
+                    else
+                        continue    
+                    fi
+                fi
+
+                if [[ "$SECTION" == "STREAM" ]]; then
+                    if [[ "$lninfo" =~ "codec_type=video" ]]; then OPENSEARCH="NO"; continue; fi
+                    if [[ "$lninfo" =~ "codec_type=audio" && "${INDAUDIO^^}" == "NO" ]]; then INDAUDIO="YES"; fi
+                    if [[ "$INDAUDIO" == "YES" && "$INDFPAR" == "YES" ]]; then echo "$GETPAR"; break; fi
+                else
+                    if [[ "$INDFPAR" == "YES" ]]; then echo "$GETPAR"; break; fi
+                fi
+            fi
+
+        done < "${fSAVE_TRACKINFO}"
+        
+        [[ -n "$GETPAR" ]] && break
+        IFS="$LIFS"    
+        
+    done
+    IFS="$OLDIFS"
+}
+
+function choice()
+{
+    local QUEST="$1" SARG="$2" AFRQ="$3"
+    text="$(msg -n "$QUEST [$SARG]")" text2="$(msg "\b$AFRQ")"
+    read -p "$text($text2):" CHVAL; CHVAL=${CHVAL:-$AFRQ};
+    echo -en "$CHVAL"
+}
+
+function autosetcode()
+{
+    local CHVAL="" track="$1"
+
+    [[ "$TYPECODE" != "AUTO" ]] && return
+    [[ -z "$track" ]] && return
+
+    FRQDIS="$(gettrackparam "$track" "sample_rate")"
+    BITCODE="$(gettrackparam "$track" "sample_fmt")"
+    RFRQDIS="$FRQDIS"; RBITCODE="$BITCODE";
+    
+    if [[ "$CORRECTFQBC" == "YES" ]]; then       
+    
+        if (( FRQDIS > 48000 )) || [[ ! "$BITCODE" =~ "16" ]]; then
+
+            [[ -z "$LASTFQ_SV" ]] && LASTFQ_SV="48000"
+            [[ -z "$LASTBC_SV" ]] && LASTBC_SV="s16"
+        
+            if [[ "$CHECKONETYPE" == "YES" ]]; then
+                msg "Note: 'Enter' - Use the previous value or input other"
+         
+                (( FRQDIS > 48000 )) && CHVAL=$(choice "The frequencies are different. Select" "DAT, CD, LONG" "$LASTFQ_SV")
+         
+                if [[ "$CHVAL" == "DAT"  ]]; then 
+                    FRQDIS=48000 
+                elif [[ "$CHVAL" == "CD"   ]]; then 
+                    FRQDIS=44100
+                elif [[ "$CHVAL" == "LONG" ]]; then 
+                    FRQDIS=32000                
+                else
+                    FRQDIS="$CHVAL"
+                fi
+   
+                [[ ! "$BITCODE" =~ "16" ]] && BITCODE=$(choice "The bitcode are different. Select" "s16" "$LASTBC_SV")         
+   
+            elif [[ "$CHECKONETYPE" == "AUTO" ]] ; then 
+                Info "Correct auto FQ and bitcode"     
+                FRQDIS="$LASTFQ_SV"
+                BITCODE="$LASTBC_SV"
+            else
+                Info "The frequency value is different from the previous."     
+            fi
+        fi
+        CORRECTFQBC="NO"                
+    else
+        FRQDIS="$LASTFQ_SV"
+        BITCODE="$LASTBC_SV"
+    fi
+    
+    LASTFQ_SV="$FRQDIS"  
+    LASTBC_SV="$BITCODE"  
+    
+    echo "CORRECTFQBC=$CORRECTFQBC" > "$LASTFBC"     
+    echo "LASTFQ_SV=$LASTFQ_SV" >> "$LASTFBC"     
+    echo "LASTBC_SV=$LASTBC_SV" >> "$LASTFBC" 
+}
+
+function setoptions()
+{
+    local codeset="$1" track="$2"
+    CUECREATE="NO"
+
+    if [[ -z "$1" || "$codeset" == "AUTO" ]]; then 
+        codeset="$TYPECODE" # from conf
+        TYPESET="CONF"
+    else 
+        TYPESET="CMD"; 
+    fi
+    
+    [[ -n "$2" ]] && track="$2"
+
+    case "$codeset" in
+    AUTO)
+        TYPECODE="AUTO"
+
+        if [[ -f "$track" ]]; then 
+
+            autosetcode "$track"            
+            [[ "$FRQDIS" == "44100" && "$BITCODE" =~ "16" ]] && CUECREATE="YES"
+            
+        fi
+    ;;
+    CD) 
+        TYPECODE="CD";
+        BITRATE="320k";  FRQDIS="44100";  BITCODE="s16"
+        RBITRATE="320k"; RFRQDIS="44100"; RBITCODE="s16"; RCODEFMT="opus";
+        CUECREATE="YES"
+    ;;
+    DAT)
+        TYPECODE="DAT";
+        BITRATE="320k";  FRQDIS="48000";  BITCODE="s16"
+        RBITRATE="320k"; RFRQDIS="48000"; RBITCODE="s16"; RCODEFMT="opus";
+    ;;
+    LONG)
+        TYPECODE="LONG";
+        BITRATE="320k";  FRQDIS="32000";  BITCODE="s16"
+        RBITRATE="320k"; RFRQDIS="32000"; RBITCODE="s16"; RCODEFMT="opus";
+    ;;
+    CONF)
+    ;&
+    *)
+        source $CONFDIR/phonograph.conf
+        RCODEFMT="$codeset"
+    ;;
+    esac
+
+    correctoptions
+
+    if [[ -z "$FRQDIS" || -z "$BITCODE" ]]; then
+        Error "Frequency or Bitcode not defined"
+        QUIT -3
+    fi
+
+    FOPTIONS="-ac $FCHANNELS -ab $BITRATE -ar $FRQDIS -sample_fmt $BITCODE -vn"
+    IFOPTIONS="$FCHANNELS $BITRATE $FRQDIS $BITCODE $CODEFMT [$TYPESET]"
+    ROPTIONS="-ac $FCHANNELS -ab $RBITRATE -ar $RFRQDIS -sample_fmt $RBITCODE -vn"
+    IROPTIONS="$FCHANNELS $RBITRATE $RFRQDIS $RBITCODE $RCODEFMT [$TYPESET]"
+
+    [[ "${INIT^^}" == "NO" ]] && INIT="YES"
+}
+
+setoptions
+SAVETAG="NO"
+
+function getntrk()
+{
+    local NVOL="" nvol="$1" prec="$2"
+    local a1="" a2="" a3=""
+
+    if [[ -z $prec ]]; then prec="2"; fi
+
+    if [[ "$prec" == "1" ]]; then a1="0"; a2=""; a3="";
+  elif [[ "$prec" == "2" ]]; then a1="00"; a2="0"; a3="";
+  elif [[ "$prec" == "3" ]]; then a1="000"; a2="00"; a3="0";
+    fi
+
+    if (( nvol >= 0 && nvol < 10 )); then NVOL="$a1$nvol";
+  elif (( nvol > 9 && nvol < 100 )); then NVOL="$a2$nvol";
+  elif (( nvol > 99 )); then NVOL="$a3$nvol";
+    else NVOL=$nvol
+    fi
+    echo -en "$NVOL"
+}
+
+function infodocs()
+{
+    infoline "DAT-Cassett time record sound capacity"
+    local TL=""
+
+    while read -r line; do
+        line="${line:0:$((TC-1))}"
+        ln1=$(($TC-${#line}))
+        TL+="${line}$(printf " %.s" $(seq $ln1))\n"
+    done < "$DOCDIR/$DOCSFILE"
+
+    zprintf "${INFOC}$TL${NORMAL}"
+}
+
+#
+# -h -human, -s seconds, -p lake "-s" whit dot point nanoseconds
+#
+function durationtrack()
+{
+    local opt="$1" track="$2"
+
+    if [[ -f "$track" ]]; then
+
+        case "$opt" in
+        -h)
+            DURATIONSEC="$(gettrackparam "$track" "duration" "ASIS")"
+            DRN=$(gettm "$DURATIONSEC")
+            echo -en "$DRN"
+        ;;
+        -s)
+            DURATIONSEC="$(gettrackparam "$track" "duration" "ASIS")"
+            echo -en "$(round "$DURATIONSEC" 0)"
+        ;;
+        -p)
+            DURATIONSEC="$(gettrackparam "$track" "duration" "ASIS")"
+            echo -en "$DURATIONSEC"
+        ;;
+        *)
+            echo -en "0.0000000"
+        ;;
+        esac
+    else
+        echo -en "0.0000000"
+    fi
+
+    SAVENAMETRACK="$track"
+}
+
+##
+## gettm "tmsec.xx"
+##
+function gettm()
+{
+    local tm="$1"
+    printf '%02d:%02d:%05.2f\n' $(echo -e "$tm/3600\n$tm%3600/60\n$tm%60"| bc | xargs echo)
+}
+
+# -f name.ext -n name -e extention -p path -d - last dir in path
+function getptnmtrack()
+{
+    local opt=$1 track="$2"
+
+    case "$opt" in
+    -f) # name.ext
+        echo -en "$(echo "$track" | rev | cut -f1 -d'/' | rev)"
+    ;;
+    -n) # name
+        echo -en "$(echo "$track" | rev | cut -f1 -d"/" | cut -f2- -d"." | rev)"
+    ;;
+    -e) # extention
+        echo -en "$(echo "$track" | rev | cut -f1 -d'.' | rev)"
+    ;;
+    -p) # path
+        echo -en "$(echo "$track" | rev | cut -f2- -d"/" | rev)"
+    ;;
+    -d) # last name
+        echo -en "$(echo "$track" | rev | cut -f1 -d"/" | rev)"
+    ;;
+    *)
+        echo -en "$track"
+    ;;
+    esac
+}
+
+function convert()
+{
+    local str="$1"
+
+    ENCA="$(enca -L ru <<< "$str")"
+
+    CP="UTF-8"; if [[ ${ENCA^^} =~ ${CP^^} ]]; then FCP="UTF-8"; fi
+    CP="1251";  if [[ ${ENCA^^} =~ ${CP^^} ]]; then FCP="CP1251"; fi
+    CP="866";   if [[ ${ENCA^^} =~ ${CP^^} ]]; then FCP="CP866"; fi
+    CP="KOI";   if [[ ${ENCA^^} =~ ${CP^^} ]]; then FCP="KOI8-R"; fi
+    CP="ISO";   if [[ ${ENCA^^} =~ ${CP^^} ]]; then FCP="ISO-8859-5"; fi
+
+    str="$(echo "$str" | iconv -f "$FCP" -t "UTF-8" 2>&1 | grep -v "iconv")"
+    echo -en "$str"
+}
+
+function getparam()
+{
+    local str="$1" delim="$2" filter="$3"
+    str=$(convert "$str")
+    echo "$(echo -en "$str"|cut -f2- -d"$delim"|cut -f2- -d" "|tr -d "$filter")"
+}
+
+function getinfotag()
+{
+    TITLE=""; ARTIST=""; ALBUM=""; YEAR=""; TRACKNUM=""; GENRE="";
+    COMMENTS=""; CHANNELS=""; RATE=""; MAXVOL="";
+
+    local type="$1" track="$2" ntr="$3"
+    local TRK="" GONX="" ffln="" fstr=""
+    if [[ -z $ntr ]]; then ntr=0; fi
+    if [[ -z $OUTT ]]; then OUTT="LOG"; fi
+
+    ntr=${ntr#${ntr%%[1-9]*}}
+
+    while read -r ffln; do
+
+        if [[ "$type" == "-d" || "$type" == "-a" ]]; then
+            if [[ -z $RATE$typecode && $ffln =~ "Stream" ]]; then
+                RATE="$(echo "$ffln"|cut -f2 -d','|cut -f2 -d" "|tr -d '\n')";
+                CHANNELS="$(echo "$ffln"|cut -f3 -d","|tr -d "[:space:]'\n'")"
+                continue;
+            fi
+        fi
+
+        if [[ "$type" == "-a" ]]; then
+
+            fstr="Title "
+            if [[ ${ffln^^} =~ ${fstr^^} && -z $TITLE ]]; then TITLE="$(getparam "$ffln" ":" "\n")"; continue; fi
+            fstr="Artist "
+            if [[ ${ffln^^} =~ ${fstr^^} && -z $ARTIST ]]; then ARTIST="$(getparam "$ffln" ":" "\n")"; continue; fi
+            fstr="Album "
+            if [[ ${ffln^^} =~ ${fstr^^} && -z $ALBUM ]]; then ALBUM="$(getparam "$ffln" ":" "\n")"; continue; fi
+            fstr="Genre "
+            if [[ ${ffln^^} =~ ${fstr^^} && -z $GENRE ]]; then GENRE="$(getparam "$ffln" ":" "\n")"; continue; fi
+            fstr="Year "
+            if [[ ${ffln^^} =~ ${fstr^^} && -z $YEAR ]]; then YEAR="$(getparam "$ffln" ":" "[:space:]\n")"; continue; fi
+            fstr="Date "
+            if [[ ${ffln^^} =~ ${fstr^^} && -z $YEAR ]]; then YEAR="$(getparam "$ffln" ":" "[:space:]\n")"; continue; fi
+            fstr="max_volume:"
+            if [[ ${ffln^^} =~ ${fstr^^} && -z $MAXVOL ]]; then MAXVOL="$(echo -en $(getparam "$ffln" ':' '\n') | cut -f1 -d' ')"; continue; fi
+
+            COMMENTS="Record $(date "+%Y %m %d") (c) WCSN"
+        fi
+
+    done < <(ffmpeg -hide_banner -i "$track" -af volumedetect -y -f null /dev/null 2>&1)
+
+    if [[ -z "$TITLE" ]]; then
+        TITLE="$(echo "$track" | rev | cut -f1 -d"/" | rev | cut -f1 -d'.')"
+    fi
+
+    TRACKNUM=$ntr
+    DURATION=$(durationtrack -h "$track")
+    DURATIONSEC=$(durationtrack -s "$track")
+    SAVETAG="YES";
+}
+
+function add2m3u()
+{
+    local NAMEFILE="$1" NTR="$2"
+    local DRNSEC=$(durationtrack -s "$NAMEFILE")
+
+    echo "#EXTINF:$DRNSEC, $ARTIST - $TITLE" >> "$M3UFILE"
+    if [[ "${ADDFPATH^^}" == "YES" ]];then
+        echo "file://$NAMEFILE" >> "$M3UFILE"
+    else
+        echo "./$(getptnmtrack -f "$NAMEFILE")" >> "$M3UFILE"
+    fi
+}
+
+function round()
+{
+    local rnd=$(printf "%-10.$2f" "$(echo "scale=$2;(((10^$2)*$1)+0.5)/(10^$2)" | bc -l)")
+    echo -en "$(trim "$rnd")"
+}
+
+function settags()
+{
+    local SRC="$1" DST="$2" numtrack="$3"
+    local DRN=$(durationtrack -h "$SRC")
+
+    [[ -z "$fcode" ]] && fcode="flac"
+
+    msg -n "Set tags: [$ARTIST] [$ALBUM] [$TITLE]"
+
+    ffmpeg -hide_banner -i "$SRC" -c:a copy -metadata Title="$TITLE" -metadata Artist="$ARTIST" -metadata Album="$ALBUM"\
+    -metadata Year="$YEAR" -metadata Genre="$GENRE" -metadata Lyrics="$LYRICS" -metadata Tracknum="$TRACKNUM"\
+    -metadata Comments="$COMMENTS" -metadata Duration="$DRN" -metadata Channels="$CHANNELS" -y "$DST" &> /dev/null
+
+    if [ $? -eq 0 ]; then
+        msg "${LGREEN}Sussed."
+        echo -en "$numtrack-$ARTIST | $ALBUM | $TITLE\n" >> "$LOGDIR/$LSTFILE"
+    else
+        Error "Error added tag! # $?"
+    fi
+}
+
+# Get LIST FILE
+function getlsfile()
+{
+    local pathdir="$1" nt=0 track=""
+
+    if [[ -d "$pathdir" ]]; then
+        while read -r track; do
+            LISTTRACKS[$nt]="$track"; let nt++
+        done < <(find "$pathdir" $DIRDEPTHVIEW -type f | egrep -i "$maskfind" | $SORTLIST);
+    fi
+    let NTRACKS=$nt
+}
+
+
+#Get DIRS FILE
+function getlsdirs()
+{
+    local dirpath="$1" nt=1 DIR=""
+
+    if [[ -f "$dirpath" ]]; then
+        SOURCEPATHF="$dirpath"
+        dirpath=$(getptnmtrack -p "$dirpath")
+    fi
+    
+    [[ "${dirpath:0-1}" == '/' ]] && dirpath=${dirpath:0:-1}
+
+    LISTDIRS[0]="$dirpath/"
+    findpath="$dirpath"
+
+    let nt=1
+
+    if [[ "$ROPT" == "-r" ]]; then
+        while read -r DIR; do
+            if [[ "$DIR" != "$dirpath" ]]; then
+                LISTDIRS[$nt]="$DIR/";
+                let nt++
+            fi
+        done < <(find "$findpath" $DIRDEPTHVIEW -type d | $SORTLIST);
+    fi
+    let NDIRS=$nt
+}
+
+function droplsfile()
+{
+  for (( i=0; i < ${#LISTTRACKS[@]}; i++ )); do LISTTRACKS[$i]=""; done;
+}
+
+function droplsdirs()
+{
+  for (( i=0; i < ${#LISTDIRS[@]}; i++ )); do LISTDIRS[$i]=""; done;
+}
+
+##
+## Tracks Table Out
+##
+function CodeInfo()
+{
+  msg "Code: ${LMAGENTA}$TYPECODE ${LCYAN}|${NORMAL} ${LGREEN}$3"
+  msg "From: $1"
+  msg "Name: $2"
+}
+
+tmsep=""; tmsec=""; tmswd=""; tms2p=""; Bt=""; Fq=""; album=""; artist=""; ddate=""; NameF="";
+
+function viewgetinfo()
+{
+    local track="$1"
+    
+    tmsep="$(durationtrack -h "$track" | cut -f1 -d".")"
+
+    tmsec="$(durationtrack -s "$track")";
+    tmswd="$(durationtrack -p "$track")";
+    tms2p="$(round "$tmswd" 2)"
+
+    Bt="$(gettrackparam "$track" "sample_fmt" "$SHASIS")";
+    Fq="$(gettrackparam "$track" "sample_rate" "$SHASIS")";
+
+    album="$(gettrackparam "$track" "TAG:album" "$SHASIS")";
+    [[ -z "$album" ]] && album="$(gettrackparam "$track" "TAG:Album" "$SHASIS")";
+    [[ -z "$album" ]] && album="$(gettrackparam "$track" "TAG:ALBUM" "$SHASIS")";
+
+    artist="$(gettrackparam "$track" "TAG:artist" "$SHASIS")";
+    [[ -z "$artist" ]] && artist="$(gettrackparam "$track" "TAG:Artist" "$SHASIS")";
+    [[ -z "$artist" ]] && artist="$(gettrackparam "$track" "TAG:ARTIST" "$SHASIS")";
+
+    ddate="$(gettrackparam "$track" "TAG:date" "$SHASIS")";
+    [[ -z "$ddate" ]] && ddate="$(gettrackparam "$track" "TAG:Date" "$SHASIS")";
+    [[ -z "$ddate" ]] && ddate="$(gettrackparam "$track" "TAG:DATE" "$SHASIS")";
+    
+    NameF="$(getptnmtrack -f "$track")"
+}
+
+function calctableview()
+{
+    local sh=9
+
+    # light table columns
+    C1=8
+    if [[ "$SHOWSEC" == "YES" ]]; then C2=5; C3=8; sh=11; else C2=0; C3=0;  fi
+    C4=8; C5=2; C61=4; C62=6; C6=$((C61+C62+1));
+    C7=9; C8=13; C9=4; C10=$((TC-C1-C2-C3-C4-C5-C6-C7-C8-C9-sh));
+
+    # Colors:
+    CTB=${WHITE}${BGBLUE};      # table
+    CTL=${BICYAN}${BGBLUE};     # Name table copy
+
+    CCT=${LGREEN}${BGBLUE};     # 1 time
+    CSC=${LMAGENTA}${BGBLUE};   # 2 time seconds
+    CSM=${LMAGENTA}${BGBLUE};   # 3 time seconds.msec
+    CTP=${BMAGENTA}${BGBLUE};   # 4 time+
+    CCI=${LYELLOW}${BGBLUE};    # 5 ID
+    CCB=${LGREEN}${BGBLUE};     # 6 Bitrate
+    CCF=${LGREEN}${BGBLUE};     # 7 Frequiency
+    CCA=${LCYAN}${BGBLUE};      # 8 Artist Album
+    CCD=${LGREEN}${BGBLUE};      # 9 Date
+    CCN=${LCYAN}${BGBLUE};      # 10 Name file
+
+    CCP=${BYELLOW}${BGBLUE}     # path
+    CCR=${BRED}${BGBLUE}        # Recurce
+}
+
+function viewline()
+{
+    local ttime="$1" sec="$2" secss="$3" ttimep="$4" ID="$5" Bit="$6" Frq="$7" artist="$8" album="$9" ddate="${10}" name="${11}"
+    local LC10=$(($C10))
+
+    artist=${artist:0:C7}; album=${album:0:C8}; name=${name:0:LC10}
+
+    if [[ "$SHOWSEC" == "YES" ]]; then
+        zprintf "${CTB}│${CCT}%-${C1}s${CTB}│${CSC}%${C2}s${CTB}│${CSM}%${C3}s${CTB}│${CTP}%-${C4}s${CTB}│${CCI}%${C5}s${CTB}│${CCB}%${C61}s ${CCF}%${C62}s${CTB}│${CCA}%${C7}s${CTB}│${CCA}%${C8}s${CTB}│${CCD}%-${C9}s${CTB}│${CCN}%-${LC10}s${CTB}│\n" "$ttime" "$sec" "$secss" "$ttimep" "$ID" "$Bit" "$Frq" "$artist" "$album" "$ddate" "$name"
+    else
+        zprintf "${CTB}│${CCT}%-${C1}s${CTB}│${CTP}%-${C4}s${CTB}│${CCI}%${C5}s${CTB}│${CCB}%${C61}s ${CCF}%${C62}s${CTB}│${CCA}%${C7}s${CTB}│${CCA}%${C8}s${CTB}│${CCD}%-${C9}s${CTB}│${CCN}%-${LC10}s${CTB}│\n" "$ttime" "$ttimep" "$ID" "$Bit" "$Frq" "$artist" "$album" "$ddate" "$name"
+    fi
+}
+
+function viewbreak()
+{
+    local TOPM=""
+    TOPM="├"; TOPM+=$(zprintf "─%.s" $(seq $C1));
+
+    if [[ "$SHOWSEC" == "YES" ]]; then
+        TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C2)); TOPM+="┴";
+        TOPM+=$(zprintf "─%.s" $(seq $C3));
+    fi
+
+    TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C4)); TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C5));
+    TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C6)); TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C7)); TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C8));
+    TOPM+="┼"; TOPM+=$(zprintf "─%.s" $(seq $C9)); TOPM+="┼"; TOPM+=$(zprintf "─%.s" $(seq $C10)); TOPM+="┤";
+
+    zprintf "${CTB}${TOPM}${STDCL}\n"
+    
+}
+
+function viewbreak2()
+{
+    local TOPM=""
+    TOPM="├"; TOPM+=$(zprintf "─%.s" $(seq $C1));
+    if [[ "$SHOWSEC" == "YES" ]]; then
+        TOPM+="┼"; TOPM+=$(zprintf "─%.s" $(seq $C2)); TOPM+="┼";
+        TOPM+=$(zprintf "─%.s" $(seq $C3));
+    fi
+    TOPM+="┼"; TOPM+=$(zprintf "─%.s" $(seq $C4)); TOPM+="┼"; TOPM+=$(zprintf "─%.s" $(seq $C5));
+    TOPM+="┼"; TOPM+=$(zprintf "─%.s" $(seq $C6)); TOPM+="┼"; TOPM+=$(zprintf "─%.s" $(seq $C7)); TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C8));
+    TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C9)); TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C10)); TOPM+="┤";
+
+    zprintf "${CTB}${TOPM}${STDCL}\n"
+}
+
+function viewpath()
+{
+    local nmdir=" $1 " MSGADD="$2" TOPB="" TOPN="" TOPE=""
+    local BC=1 sb="─" se=" "
+
+    TOPB="$(zprintf "$sb%.s" $(seq $BC))"; TOPN="$nmdir";
+    TOPN=${TOPN:0:$((TC-BC-2))}
+
+    local LE=$((TC-(BC+${#nmdir}+${#MSGADD}+2)));
+    (( LE > 0 )) && TOPE="$(zprintf "$se%.s" $(seq $LE))"
+    zprintf "${CTB}│$TOPB${CCP}$TOPN${CCN}$MSGADD${CTB}$TOPE│${NORMAL}\n"
+}
+
+function viewtitle()
+{
+    local NameView="$1" mark="" TOPL="" RECURCE="$2"
+
+    fl1=10; ptz=5;
+
+    TOPL=""; TOPL+=$(zprintf "─%.s" $(seq $((C1-7))));
+    if [[ "$SHOWSEC" == "YES" ]]; then
+        TOPL+="┬"; TOPL+=$(zprintf "─%.s" $(seq $C2)); TOPL+="┬"; TOPL+=$(zprintf "─%.s" $(seq $C3));
+    fi
+    TOPL+="┬"; TOPL+=$(zprintf "─%.s" $(seq $C4)); TOPL+="┬"; TOPL+=$(zprintf "─%.s" $(seq $C5));
+    TOPL+="┬"; TOPL+=$(zprintf "─%.s" $(seq $C6)); TOPL+="┬"; TOPL+=$(zprintf "─%.s" $(seq $C7)); TOPL+="┬"; TOPL+=$(zprintf "─%.s" $(seq $C8));
+    TOPL+="┬"; TOPL+=$(zprintf "─%.s" $(seq $C9)); TOPL+="┬"; TOPL+=$(zprintf "─%.s" $(seq $((C10-${#RECURCE}))));
+
+    zprintf "${CTB}┌─${CTL} %4s ${CTB}%s${CCR}%s${CTB}┐${NORMAL}\n" "$NameView" "$TOPL" "$RECURCE"
+
+    [[ "$opt" == "-c" ]] && mark="[Copy]"
+
+    viewline "  Time" "sec" "sec.ss" " Time+" "ID" "Bit" "Frq." "Artist" "Album" "Date" " Name $mark"
+    viewbreak
+}
+
+function viewsummary()
+{
+    local ttime="$1" sec="$2" secss="$3" ttimep="$4" ID="$5" Bit="$6" Frq="$7" name="$8"
+    local LC7=$(((C7+C8+C9+C10+3)));
+
+    name=${name:0:LC7}
+    if [[ "$SHOWSEC" == "YES" ]]; then
+        zprintf "${CTB}│${CCP}%-${C1}s${CTB}│${CSC}%${C2}s${CTB}│${CSM}%${C3}s${CTB}│${CTP}%-${C4}s${CTB}│${CCI}%${C5}s${CTB}│${CCP}%${C61}s %${C62}s${CTB}│${CCN}%-${LC7}s${CTB}│\n" "$ttime" "$sec" "$secss" "$ttimep" "$ID" "$Bit" "$Frq" "$name"
+    else
+        zprintf "${CTB}│${CCP}%-${C1}s${CTB}│${CTP}%-${C4}s${CTB}│${CCI}%${C5}s${CTB}│${CCP}%${C61}s %${C62}s${CTB}│${CCN}%-${LC7}s${CTB}│\n" "$ttime" "$ttimep" "$ID" "$Bit" "$Frq" "$name"
+    fi
+}
+
+function viewend()
+{
+    local TOPM=""
+    TOPM="└"; TOPM+=$(zprintf "─%.s" $(seq $C1));
+    if [[ "$SHOWSEC" == "YES" ]]; then
+        TOPM+="┴";TOPM+=$(zprintf "─%.s" $(seq $C2)); TOPM+="┴";
+        TOPM+=$(zprintf "─%.s" $(seq $C3));
+    fi
+    TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C4)); TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C5));
+    TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C6)); TOPM+="┴"; TOPM+=$(zprintf "─%.s" $(seq $C7)); TOPM+="─"; TOPM+=$(zprintf "─%.s" $(seq $C8));
+    TOPM+="─"; TOPM+=$(zprintf "─%.s" $(seq $C9)); TOPM+="─"; TOPM+=$(zprintf "─%.s" $(seq $C10)); TOPM+="┘";
+
+    zprintf "${CTB}$TOPM${NORMAL}${BGDEF}\n"
+}
+
+# -v show -c - copy
+function viewtracks()
+{
+    local opt="$1" phtfso="$2" DataInfo="" idr=0 ext=""
+    local tmSumSep="" tmSumSec=0 tmSumSecw=0 tmsump=0 typeview="" savetmsump="00:00:00"
+    local L_ALBUM="" L_ARTIST="" track="" recurse=""
+    local mark="" mark2="" nntr=0
+    local LISTDO="YES"
+
+    if [[ -f "$phtfso" || -d "$phtfso" ]]; then
+    
+        calctableview
+
+        [[ $SHASIS == "ASIS" ]] && CCB=${LMAGENTA}${BGBLUE};
+        if [[ "$opt" == "-c" ]]; then typeview="Copy"; CTL=${LYELLOW}${BGBLUE}; else typeview="View"; fi
+
+        if [[ -d "$phtfso" ]]; then        
+            getlsdirs "$phtfso"
+        else
+            LISTTRACKS[0]="$phtfso"
+            LISTDIRS[0]=$(getptnmtrack -p "$phtfso")
+            NTRACKS=1
+            NDIRS=1
+            LISTDO="NO"
+        fi    
+        
+        (( "$NDIRS" > 1 )) && recurse=" Recurse "
+        viewtitle "$typeview" "$recurse"
+
+        for (( j=0; j < $NDIRS; j++ )); do
+
+            [[ $LISTDO == "YES" ]] && getlsfile "${LISTDIRS[$j]}"
+            
+            if (( NTRACKS == 0 )); then
+                viewpath "${LISTDIRS[$j]}" "<NO TRACKS> "                           
+                continue
+            else
+                viewpath "${LISTDIRS[$j]}"                            
+            fi    
+
+            for (( i=0; i < $NTRACKS; i++ )); do
+
+                track="${LISTTRACKS[$i]}"
+                ext=$(getptnmtrack -e "$track")
+                                    
+                eval '
+                case "$ext" in
+                '$maskfind')
+                    viewgetinfo "$track"
+                    
+                    tmsump=$(gettm "$tmSumSecw" | cut -f1 -d".")
+                    savetmsump="$tmsump"
+                    tmSumSecw=$(echo "$tmSumSecw+$tmswd" | bc)                        
+                    
+                    saveID="$ID"
+                    let idr++;
+
+                    if (( $idr > 99 )); then ID="--"; else ID="$idr"; fi
+                    if [[ "$opt" == "-c" ]]; then
+                        namecp="$(getntrk $nntr)-$(getptnmtrack -f "$track")";
+                        $(cp -f "$track" "$SOURCEDIR"/"$namecp" &> /dev/null);
+                    fi
+                    viewline "$tmsep" "$tmsec" "$tms2p" "$tmsump" "$ID" "$Bt" "$Fq" "$artist" "$album" "$ddate" "$mark$NameF"
+                ;;
+                *)
+                    [[ ${SHOWALLFILES^^} == "YES" ]] && viewline "" "" "" "" "" "" "" "" "" "" "$(getptnmtrack -f "$track")"
+                ;;
+                esac'
+
+            let nntr++
+            done
+
+        done
+
+        tmSumSep=$(gettm "$tmSumSecw" | cut -f1 -d".")
+        tmSumSec=$(round "$tmSumSecw" 0)
+        tmSumS2p=$(round "$tmSumSecw" 2)
+
+        viewbreak2
+        viewsummary "TAPE END" "$tmSumSec" "$tmSumS2p" "$tmSumSep" "$ID" "" "$TYPECODE " "$phtfso"
+        viewend
+
+    else
+
+        Error "$phtfso: unknown object"
+        SHOWCASSETINFO="NO"
+
+    fi
+
+    if [[ -n "$NAMEPHONOGRAM" ]]; then infoline -S "Phonogram: $NAMEPHONOGRAM"; fi
+
+    [[ -f "$fSAVE_TRACK" ]] && rm -f "$fSAVE_TRACK"
+    [[ -f "$fSAVE_SECTION" ]] &&  rm -f "$fSAVE_SECTION"
+    [[ -f "$fSAVE_TRACKINFO" ]] && rm -f "$fSAVE_TRACKINFO"
+}
+
+function infoline()
+{
+    local strtext="$1" TCOLOR="$2" C1="" TL="${TLL}"  BL="────" FL="─"
+
+    if [[ "$1" == "-R" ]]; then opt="$1"; strtext="$2"; TCOLOR="$3"; fi
+    if [[ "$1" == "-S" ]]; then strtext="$2"; BL=" "; FL=" "; TCOLOR="$3"; fi
+
+    if [[ -n "$strtext" ]]; then
+        if [[ "$opt" == "-R" ]]; then
+            C1=$(($TC-${#strtext}-${#BL}-2)); TL=${TLL}$(printf "${FL}%.s" $(seq $C1)); TL+="${TL1} $strtext ${TLL}"; TL+=${BL};
+        else
+            TL="${TLL}${BL}${TL1} $strtext ${TLL}"; C1=$(($TC-${#strtext}-${#BL}-2)); TL+=$(printf "${FL}%.s" $(seq $C1));
+        fi
+    else
+        TL+=$(printf "─%.s" $(seq $TC));
+    fi
+    printf "$TL${NORMAL}\n"
+}
+
+function getprjname()
+{
+    local PRJDIR="$1"
+    PRJDIR="$(trim "$PRJDIR")"
+    [[ "${PRJDIR:0-1}" == '/' ]] && PRJDIR=${PRJDIR:0:-1}
+    echo -en "$(getptnmtrack -d "$PRJDIR")"
+}
+
+function listsetprj()
+{
+    local path="$1" sign="" PRJDIR="" PRJNAME=""
+    
+    if [[ -d "$path" ]]; then
+        PRJDIR="$(getprjname "$path")"
+    else 
+        ROPT="-r"
+        getlsdirs "$STORESDIR"
+        
+        (( NDIRS > 2 )) && msg "Select a project: (number, ${BRED}<${TL3} select current [Enter]):"
+         
+        for (( j=1; j < $NDIRS; j++ )); do
+            nameprj="$(getprjname "${LISTDIRS[$j]}")"
+            if [[ "$PHONOGRAMPRJ" == "$nameprj" ]]; then NI=$j; sign="${BRED}<${STDCL}"; fi
+            msg "$j: $(echo "$nameprj" | cut -f2 -d'-') $sign"
+            sign=""
+        done
+        
+        if (( NDIRS > 2 )); then 
+            msg "q: Quit"
+            read -p "$(msg "Project [$NI]: ")" CHVAL; CHVAL=${CHVAL:-$NI};
+        else
+           CHVAL=1 
+        fi
+
+        [[ "${CHVAL^^}" == "Q" ]] && QUIT -3 || PRJDIR="$(getprjname "${LISTDIRS[$CHVAL]}")"
+    fi
+    
+    PRJNAME=$(echo "$PRJDIR" | cut -f2 -d'-')
+    [[ -n "$PRJNAME" ]] && phonogramprj "$PRJNAME" "$PRJDIR" 
+
+    msg "Select: $PHONOGRAMPRJ"
+}
+
+function listprj()
+{
+    local path="$1" sign="" PRJDIR="" PRJNAME=""
+    
+    if [[ -d "$path" ]]; then
+        PRJDIR="$(getprjname "$path")"
+    else 
+        ROPT="-r"
+        getlsdirs "$STORESDIR"
+        
+        msg "Projects:"
+         
+        for (( j=1; j < $NDIRS; j++ )); do
+            nameprj="$(getprjname "${LISTDIRS[$j]}")"
+            if [[ "$PHONOGRAMPRJ" == "$nameprj" ]]; then NI=$j; sign="${BRED}<${STDCL}"; fi
+            msg "$j: $(echo "$nameprj" | cut -f2 -d'-') $sign"
+            sign=""
+        done
+        
+    fi
+}
+
+function merge()
+{
+    local fl="" LIST="" div="" ntrk="" tmsum=0 TRK="" SAVETMINDEX="00:00:00"
+    local track="" CUECREATE="NO"
+    declare -a FSLIST
+
+    [[ -n "$1" ]] && TYPECODE="$1"
+    
+    listsetprj "$2"
+    
+    SOURCEPATHF="$PHONOGRAMDIR"
+    msgmerge="Completion of the work."
+
+    msg "Merge media files" LOG
+    infoline "Merge media files"
+    
+    if [[ -d "$PHONOGRAMDIR" ]]; then
+        local FFCCLIST=""
+        let i=0
+
+        while read -r track; do
+            FFCCLIST+="${div}${track}"; div='|';
+            FSLIST[i]="$track"
+            let i++
+        done < <(find "$PHONOGRAMDIR" $DIRDEPTHVIEW -type f | egrep -i ".flac" | $SORTLIST);
+    else
+        Error "Not find $PHONOGRAMDIR"
+        QUIT -3
+    fi
+
+    if (( ${#FSLIST[@]} > 0 )); then
+
+        [[ -d "$MERGEDIR" ]] || mkdir -p "$MERGEDIR"
+        
+        if [[ "$TYPECODE" == "AUTO" ]]; then
+            msg "Get options from: $(getptnmtrack -f ${FSLIST[0]})"
+            setoptions "AUTO" "${FSLIST[0]}"
+            local MergedNameFile="$MERGEDIR/$PHONOGRAMPRJ-${BITCODE}_${FRQDIS}.$CODEFMT"
+        else
+            setoptions "$TYPECODE"
+            local MergedNameFile="$MERGEDIR/$PHONOGRAMPRJ-$TYPECODE.$CODEFMT"
+        fi
+        
+        local MergedNameFile_tmp="$MergedNameFile.tmp"
+
+        if [[ -f "$MergedNameFile" ]]; then
+
+            viewtracks -v "$MERGEDIR"
+            while :; do
+                msg -n "The files have already been merged. Merged again? (y/n): "
+                read -e -p "" ans
+                case "$ans" in
+                y|Y) echo -e " Delete prev. merge for $MergedNameFile"; ans="y";
+                     break;
+                ;;
+                n|N) msg "$msgmerge"; QUIT 0;
+                ;;
+                *)   msg "Unknown answear"
+                ;;
+                esac
+            done
+
+            case "$ans" in
+            y|Y)
+                rm -fR "$MERGEDIR"/"$MergedNameFile"
+            ;;
+            *)
+                msg "$msgmerge"; QUIT 0;
+            ;;
+            esac
+        fi
+
+        viewtracks -v "$PHONOGRAMDIR"
+        CodeInfo "$MERGEDIR" "$(getptnmtrack -f "$MergedNameFile")" "$IFOPTIONS"
+
+        if [[ "$CUECREATE" == "YES" ]]; then
+            getinfotag -a "${FSLIST[0]}" "$NTR"
+            msg -n "CUE: $(getptnmtrack -f "$CUEFILE") ..."
+            echo "REM GENRE $GENRE" > "$CUEFILE"
+            echo "REM DATE $(date +%Y)" >> "$CUEFILE"
+            echo "REM DISCID 35WCSN12C4F59z" >> "$CUEFILE"
+            echo "REM COMMENT \"Phonograph $version (c) wocson\"" >> "$CUEFILE"
+            echo "PERFORMER \"$ARTIST\"" >> "$CUEFILE"
+            echo "TITLE \"$ALBUM\"" >> "$CUEFILE"
+            echo "FILE \"$(getptnmtrack -f "$MergedNameFile")\" WAVE" >> "$CUEFILE"
+
+            let trk=1
+            for (( i=0; i<${#FSLIST[@]} ; i++ )); do
+                name="$(getptnmtrack -f "${FSLIST[i]}")"
+                getinfotag -a "${FSLIST[i]}" "001"
+                TRK=$(getntrk $trk 1)
+
+                echo "  TRACK $TRK AUDIO" >> "$CUEFILE"
+                echo "    TITLE \"$TITLE\"" >> "$CUEFILE"
+                echo "    PERFORMER \"$ALBUM\"" >> "$CUEFILE"
+
+                local tm=$(durationtrack -p "${FSLIST[i]}")
+
+                tmsum=$(echo "$tm+$tmsum" | bc)
+                tm=$(gettm "$tmsum")
+                MMSS=$(echo "$tm" | cut -f2- -d':' | cut -f1 -d'.');
+                FF=$(echo "$tm" | cut -f2- -d':' | cut -f2 -d'.')
+                echo "    INDEX 01 $SAVETMINDEX" >> "$CUEFILE"
+                let trk++
+                SAVETMINDEX="$MMSS:$FF"
+            done
+            msg " ${LGREEN}OK"
+        fi
+
+        if ! [[ -z "$FFCCLIST" ]]; then
+            msg -n "Wait merge ..."
+            ffmpeg -hide_banner -i concat:"$FFCCLIST" $FOPTIONS -map_metadata -1 -f flac -y "$MergedNameFile_tmp" &> /dev/null
+            if [ $? -eq 0 ]; then
+                msg "${LGREEN}OK"
+                
+                TITLE="$NAMEPHONOGRAM"; ARTIST="$NAMEPHONOGRAM"; ALBUM="Merged"; YEAR="$(date "+%Y")";
+                TRACKNUM="001"; GENRE="Music"; COMMENTS="Phonogram for DAT-recorder / Phonograph (c) wocson"; 
+                CHANNELS="$CHANNELS";
+                
+                settags "$MergedNameFile_tmp" "$MergedNameFile" "001"
+                
+                msg "Time phonogram: $(durationtrack -h "$MergedNameFile")"
+                echo "$MergedNameFile" > "$LASTPHNGRNM"
+            else
+                msg "${LRED}Error! #$?"
+            fi
+
+            "$BINDIR"/m3u2txt "txt" "$M3UFILE" > "$M3U2TXT"
+
+            infoline
+            rm "$MERGEDIR"/*.tmp
+            viewtracks -v "$MERGEDIR"
+            echo "$PHONOGRAMPRJ" > "$CURPHONOPRJ"
+        else
+            msg "List for merge empty"
+        fi
+    else
+        msgsourceempty "$PHONOGRAMDIR"
+        QUIT -3
+    fi
+}
+
+function Split()
+{
+    local PathToFile="$1"
+    local SOURCEPATHF="$1"
+    local i=0 track=""
+    
+    listsetprj
+
+    [[ -z "$SOURCEPATHF" ]] && SOURCEPATHF="$MERGEDIR"
+
+    infoline "Splitting"
+    msg "Source path: $SOURCEPATHF"
+
+    [[ -z "$PathToFile" ]] && PathToFile="$MERGEDIR"
+
+    CUEFILE="$(find "$PathToFile" $DIRDEPTHVIEW -type f | egrep -i ".cue")"
+    FLCFILE="$(find "$PathToFile" $DIRDEPTHVIEW -type f | egrep -i ".flac|.ape|.wav")"
+
+    if ! [[ -f "$CUEFILE" ]]; then echo " File CUE not find"; infoline; QUIT -3; fi
+    if ! [[ -f "$FLCFILE" ]]; then echo " File FLAC not find"; infoline; QUIT -3; fi
+
+    msg " CUE: $(getptnmtrack -f "$CUEFILE")"
+    msg "FLAC: $(getptnmtrack -f "$FLCFILE")"
+
+    if [[ "${ARGV[1]}" == "-s" ]]; then  msg "Splitting only..."
+    else msg "Splitting and coding for $TYPECODE..."; fi
+
+    if ! [[ -d "$SOURCEDIR" ]]; then mkdir -p "$SOURCEDIR"; fi
+
+    "$BINDIR"/flac2mp3 "$CUEFILE" "$FLCFILE" "EXTERNCALL" "$SOURCEDIR"
+
+    msg -n "Set name..."
+
+    let i=0
+    while read -r track; do
+    
+        if [[ $i == 0 ]]; then let i++; continue; fi
+    
+        let j=i-1
+        ANamefl[$j]="$track"; let i++
+
+    done < <(cueprint "$CUEFILE" | grep -i title | cut -f2 -d":" | awk '{$1=$1}1');
+
+    let i=0
+    while read -r track; do
+    
+        let j=i+1
+        (( $j < 10 )) && NN="0$j" || NN="$j"
+        
+        mv "$track" "$SOURCEDIR"/"$NN-${ANamefl[$i]}.flac" ;
+        let i++
+        
+    done < <(find "$SOURCEDIR" $DIRDEPTHVIEW -type f | $SORTLIST);
+
+    msg "${LTGREEN}OK."
+    msg "Split files save:"
+    infoline
+    viewtracks -v "$SOURCEDIR"
+}
+
+function checkphgrname()
+{
+    if [[ -z "$NAMEPHONOGRAM" ]]; then
+
+        while [ 1 ]; do
+
+            msg "\nEdit settings:" 
+            msg "1: Edit phonograph settings"                        
+            msg "2: Edit project settings"
+            msg "q: Quit and close"
+            read -e -p " >>> " ans
+
+            case $ans in
+            [1])
+                read -e -p "$(msg -n "Phonogram Name: ")" NAMEPHONOGRAM
+                phonogramprj 
+                "$EDITOR" "$PHONOGRAMDIR/phonograph.prj"
+                source "$PHONOGRAMDIR/phonograph.prj"
+            ;&            
+            [2])
+                "$EDITOR" "$PRFXDIR/.config/Phonograph/phonograph.conf"
+                source "$CONFDIR/phonograph.conf"
+            ;;
+            [qQ])
+                msg "Close\n"; QUIT -3;
+            ;;
+            *) 
+                echo " Unknown answear..."
+            ;;
+            esac
+
+            [[ -z "$NAMEPHONOGRAM" ]] && Info "Phonogram name not set!" || break
+
+        done
+        phonogramprj
+    fi
+}
+
+function idshow()
+{
+   local cnt=""
+    ## Current albnumcounts
+    if [[ -f "$ALBLIST" ]]; then
+        cnt="$(cat "$ALBLIST")"
+        echo -e "$cnt"
+    fi
+}
+
+function setidlst()
+{
+   local cnt=""
+   pct=" ${LYELLOW}Counts album ID:${STDCL} ${BCYAN}$NAMEPHONOGRAM"
+
+    if [[ -f "$ALBLIST" ]]; then
+        cnt="$(cat "$ALBLIST")"
+        [[ -n $cnt ]] && pct="$cnt"
+    fi
+}
+
+function initcodes()
+{
+    checkphgrname
+
+    if ! [[ "${ARGV[1]}" == "-r" ]]; then
+        if ! [[ -d "$PHONOGRAMDIR" ]]; then mkdir -p "$PHONOGRAMDIR"; fi
+
+        ## Current track
+        let ntr=1
+        if [[ -f "$CURNUMTRACK" ]]; then
+            let ntrz=$(cat "$CURNUMTRACK")
+            [[ -n $ntrz ]] && let ntr="$ntrz"
+        fi
+
+        ## Current num album
+        let nlb=0
+        if [[ -f "$CURNUMALBUM" ]]; then
+            let nlbz=$(cat "$CURNUMALBUM")
+            [[ -n $nlbz ]] && let nlb=$nlbz
+        fi
+
+        ALBUM_SV=""
+        if [[ -f "$FALBUMSAMEN" ]]; then
+            ALSV="$(cat "$FALBUMSAMEN")"
+            [[ -n $ALSV ]] && ALBUM_SV="$ALSV"
+        fi
+
+        if [[ -f "$LASTFBC" ]]; then
+            source "$LASTFBC"
+        else    
+            CORRECTFQBC="YES"
+        fi
+
+        setidlst
+    fi
+    let ctrk=1
+}
+
+function getaudiostream()
+{
+    local nfile="$1" nmfile="" LN=""
+
+    nmfile="$(getptnmtrack -n "$nfile")"
+    FMT="$(gettrackparam "$nfile" "codec_name")"
+    msg "Audio stream save to: ${nmfile}.$FMT"
+    msg -n "Wait..."
+
+    ffmpeg -hide_banner -i "$nfile" -vn -acodec copy -y -threads $NTHREADS "$SOURCEDIR"/"$nmfile".$FMT &> /dev/null
+
+    if [ $? -eq 0 ]; then msg "${LGREEN}Ok."; else Error "Recode # $?"; fi
+}
+
+RecodeDir=""
+
+function recode()
+{
+    local track="$1" format_name="$2" nmfile="" NTR="$3" NLB="$4"
+    msg -n "Recode: $IROPTIONS ... "
+
+    RecodeDir="$RECODEDIR"/"$PHONOGRAMPRJ"/"$NLB-$ARTIST-$ALBUM"
+    [[ -d "$RecodeDir" ]] || mkdir -p "$RecodeDir"
+
+    #else RCODEFMT get from .conf
+    nmfile="$(getptnmtrack -n "$track")"
+
+    # Recode
+    TMP00="$TMPDIR/tmp00.$RCODEFMT"
+    ffmpeg -hide_banner -i "$track" $ROPTIONS -f $RCODEFMT -y -threads $NTHREADS "$TMP00" &> /dev/null
+    if [ $? -eq 0 ]; then
+        msg "${LGREEN}OK"
+        msg "Store: $RecodeDir"
+        msg "Save name: ${nmfile}.$RCODEFMT"
+        local Nametrack="$RecodeDir"/"$nmfile".$RCODEFMT
+        settags "$TMP00" "$Nametrack" "$NTR";
+    else
+        Error "Recode # $?"
+    fi
+}
+
+function tracksrecode()
+{
+    local track="" NTR="" NLB=""
+
+    for (( j=0; j < $NDIRS; j++ )); do
+
+        getlsfile "${LISTDIRS[$j]}"
+
+        for (( i=0; i < $NTRACKS; i++ )); do
+
+            track="${LISTTRACKS[$i]}"
+
+            if [[ -f "$track" ]]; then
+
+                NTR=$(getntrk $ntr);
+                infoline -S "[$NTR]-[$(getntrk $ctrk)/$(getntrk $NTRACKS)] $NAMEPHONOGRAM"
+
+                [[ "$TYPECODE" == "AUTO" ]] && setoptions "AUTO" "$track"
+                
+                Nametrack=$(getptnmtrack -f "$track")
+                codec_name="$(gettrackparam "$track" "codec_name")"
+                format_name="$(gettrackparam "$track" "format_name")"
+                
+                CodeInfo "$SOURCEPATHF" "$Nametrack [$format_name/$codec_name]" "Recode: $format_name->$RCODEFMT | $IROPTIONS"
+                getinfotag -a "$track" "$NTR"
+
+                if [[ "$ALBUM_SV" != "$ALBUM" ]]; then
+                    let nlb++;                
+                    ALBUM_SV="$ALBUM"
+                fi
+                
+                NLB=$(getntrk $nlb);
+                recode "$track" "$format_name" "$NTR" "$NLB"
+                let ctrk++
+                let ntr++
+            fi
+        done
+    done
+
+    infoline
+    viewtracks -v "$RecodeDir"
+    msg -n "Recode: $ntr track";
+    let ntr--;
+    if (( $ntr > 1 )); then msg "\bs"; else echo ""; fi
+
+    echo "$ntr" > "$CURNUMTRACK"
+    echo "$nlb" > "$CURNUMALBUM"
+    echo "$PHONOGRAMPRJ" > "$CURPHONOPRJ"
+    echo "$ALBUM_SV" > "$FALBUMSAMEN"
+}
+
+function phonogramcode()
+{
+    local track="" FILTERA="" OPTS="" sv_ntr="$ntr" Nametrack=""
+    msg "Phonogram Generate for DAT-recorder"
+
+    idshow
+    getlsfile "$SOURCEDIR"
+    SOURCEPATHF="$SOURCEDIR"
+    
+    if (( NTRACKS > 0 )); then
+        ## Create m3u file
+        if ! [[ -f "$M3UFILE" ]]; then
+            echo '#EXTM3U'  > "$M3UFILE"
+            echo '#EXTM3U' >> "$M3UFILE"
+        fi
+    fi
+
+    for (( i=0; i < $NTRACKS; i++ )); do
+
+        track="${LISTTRACKS[i]}"
+
+        if [[ -f "$track" ]]; then
+
+            [[ "$track" =~ ".cue" ]] && continue
+
+            NTR=$(getntrk $ntr);
+            Nametrack=$(getptnmtrack -f "$track")
+            infoline -S "[$NTR]-[$(getntrk $ctrk)/$(getntrk $NTRACKS)] $NAMEPHONOGRAM"
+
+            TMP00="$TMPDIR/tmp00.flac"
+            TMP01="$TMPDIR/tmp01.flac"
+
+            [[ "$TYPECODE" == "AUTO" ]] && setoptions "AUTO" "$track"      
+            
+            CodeInfo "$SOURCEPATHF" "$Nametrack" "$IFOPTIONS"
+            getinfotag -a "$track" "$NTR"
+
+            if [[ "$ALBUM_SV" != "$ALBUM" ]]; then
+                let nlb++;                
+                pct+="\n $nlb. $ARTIST - $ALBUM - $sv_ntr"
+                echo -e "$pct" > "$ALBLIST"
+                ALBUM_SV="$ALBUM"
+            fi
+
+            NLB=$(getntrk $nlb);
+            #Recode
+            if [[ "${RECODECREATE^^}" == "YES" ]]; then SH=" -"; recode "$track" "$format_name" "$NTR" "$NLB"; fi
+
+            local Backupsdir="$BACKUPDIR"/"$PHONOGRAMPRJ"/"$NLB-$ARTIST-$ALBUM"
+            [[ -d "$Backupsdir" ]] || mkdir -p "$Backupsdir"
+            cp "$track" "$Backupsdir"/
+
+            ffmpeg -hide_banner -i "$track" $FOPTIONS -f flac -map_metadata -1 -y -threads $NTHREADS "$TMP00" &> /dev/null
+            if ! [ $? -eq 0 ]; then Error " # $? Phonogram internal code"; return; fi
+
+            ## Add before/after effects
+            # Check GAIN
+            msg -n "Edit:"
+            CLIPMAX="$(round "$CLIPGAIN" 0)"
+            maxvol=$(round "$MAXVOL" 0)
+            
+            if (( maxvol > CLIPMAX )); then
+                ## Set param for GAIN / Remove silence
+                msg -n "${LCYAN}GAIN: ${CLIPGAIN}dB (${maxvol}dB/${CLIPMAX}dB)";
+                FILTERA="volume=${CLIPGAIN}dB,silenceremove=start_periods=1:start_duration=1:start_threshold=-60dB:detection=peak,aformat=dblp,areverse,silenceremove=start_periods=1:start_duration=1:start_threshold=-60dB:detection=peak,aformat=dblp,areverse"
+            else
+                ## set param for Remove silence
+                FILTERA="silenceremove=start_periods=1:start_duration=1:start_threshold=-60dB:detection=peak,aformat=dblp,areverse,silenceremove=start_periods=1:start_duration=1:start_threshold=-60dB:detection=peak,aformat=dblp,areverse"
+            fi
+            
+            msg -n "${LCYAN}Silence: remove..."             
+            ffmpeg -hide_banner -i "$TMP00" $FOPTIONS -f flac -filter:a "$FILTERA" -y -threads $NTHREADS "$TMP01" &> /dev/null
+            if ! [ $? -eq 0 ]; then Error "# $?: FADE / GAIN"; return; fi
+
+            ## Add Silence Begin/End
+            msg -n "${LCYAN}\b\b\b\b, add $TIMEPADBGN $TIMEPADEND."
+            FILTERA="adelay=$TIMEPADBGN|$TIMEPADBGN,apad=pad_dur=$TIMEPADEND"
+
+            ffmpeg -hide_banner -i "$TMP01" $FOPTIONS -f flac -filter:a "$FILTERA" -y -threads $NTHREADS "$TMP00" &> /dev/null
+            if ! [ $? -eq 0 ]; then Error "# $?: Add begin and end silence"; return; fi
+
+            ## add Fade
+            msg "${LCYAN}Fade: $FADESZBGN $FADESZEND"
+            FLTCLX="afade=d=$FADESZBGN,areverse,afade=d=$FADESZEND,areverse"
+
+            ffmpeg -hide_banner -i "$TMP00" $FOPTIONS -f flac -filter_complex "$FLTCLX" -y -threads $NTHREADS "$TMP01" &> /dev/null
+            if ! [ $? -eq 0 ]; then Error "# $?: Add fade"; return; fi
+
+            TM=$(date +%H%M%S)
+            nametrack="$NTR-$TM-$(echo "$NAMETRC" | rev | cut -f1 -d"/" | rev)"
+            PhonoTrackName="$PHONOGRAMDIR/$nametrack"
+            msg "Store: $PHONOGRAMDIR"
+            msg "Save Name: $nametrack"
+            settags "$TMP01" "$PhonoTrackName" "$NTR"
+            add2m3u "$PhonoTrackName" "$NTR"
+            rm "$TMP00"; rm "$TMP01";
+            # if success remove source file
+            rm "$track"
+            
+            let ctrk++
+            let ntr++
+            sv_ntr="$ntr"
+        fi
+    done
+
+    infoline
+    viewtracks -v "$PHONOGRAMDIR"; let ntr--;
+    msg -n "Code: ${LMAGENTA}$ntr${NORMAL} ${LCYAN}track"
+    if (( $ntr > 1 )); then msg "\b${LCYAN}s"; else echo ""; fi
+    msg "m3u-List: $NAMEM3U"
+
+    [[ "${ARGV[1]}" == "-a" || "${MERGE^^}" == "YES" ]] && merge
+
+    idshow
+    let ntr++;
+
+    echo "$ntr" > "$CURNUMTRACK"
+    echo "$nlb" > "$CURNUMALBUM"
+    echo "$PHONOGRAMPRJ" > "$CURPHONOPRJ"
+    echo "$ALBUM_SV" > "$FALBUMSAMEN"
+    droplsfile
+    droplsdirs
+}
+
+function showtag()
+{
+    local lln=$((TC-1)) LS="" lln=$((TC-1))
+    LS="┌$(printf "─%.s" $(seq $lln))"; zprintf "${INFOC}%-s┐\n" "${LS:0:lln}"
+    LS="│          Title: ${TITLE}$(printf " %.s" $(seq $lln))";       zprintf "%-s│\n" "${LS:0:lln}"
+    LS="│         Artist: ${ARTIST}$(printf " %.s" $(seq $lln))";      zprintf "%-s│\n" "${LS:0:lln}"
+    LS="│          Album: ${ALBUM}$(printf " %.s" $(seq $lln))";       zprintf "%-s│\n" "${LS:0:lln}"
+    LS="│           Year: ${YEAR}$(printf " %.s" $(seq $lln))";        zprintf "%-s│\n" "${LS:0:lln}"
+    LS="│       Tracknum: ${TRACKNUM}$(printf " %.s" $(seq $lln))";    zprintf "%-s│\n" "${LS:0:lln}"
+    LS="│          Genre: ${GENRE}$(printf " %.s" $(seq $lln))";       zprintf "%-s│\n" "${LS:0:lln}"
+    LS="│       Comments: ${COMMENTS}$(printf " %.s" $(seq $lln))";    zprintf "%-s│\n" "${LS:0:lln}"
+    LS="│       Duration: ${DURATION}$(printf " %.s" $(seq $lln))";    zprintf "%-s│\n" "${LS:0:lln}"
+    LS="│ Duration (sec): ${DURATIONSEC}$(printf " %.s" $(seq $lln))"; zprintf "%-s│\n" "${LS:0:lln}"
+    LS="│       Channels: ${CHANNELS}$(printf " %.s" $(seq $lln))";    zprintf "%-s│\n" "${LS:0:lln}"
+    LS="│           Rate: ${RATE}$(printf " %.s" $(seq $lln))";        zprintf "%-s│\n" "${LS:0:lln}"
+    LS="│     max_volume: ${MAXVOL}$(printf " %.s" $(seq $lln))";      zprintf "%-s│\n" "${LS:0:lln}"
+    LS="└$(printf "─%.s" $(seq $lln))"; zprintf "%-s┘${NORMAL}\n" "${LS:0:lln}"
+}
+
+function settagman()
+{
+#    Error "Not correct work. Brocken function."
+#    return
+
+    local track="$1"
+    local path=$(getptnmtrack -p "$track")
+    local name=$(getptnmtrack -n "$track")
+    local extn=$(getptnmtrack -e "$track")
+
+    local TMPSRC="$path/$name.tmp.$extn"
+
+    if [[ -f "$track" ]]; then
+
+        LLANG="$LANG"; LLC_ALL="$LC_ALL";
+        export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8;
+        getinfotag -a "$track"
+
+        while :; do
+
+            showtag
+            read -p " TITLE ($TITLE): "   tag; TL=${tag:-${TITLE}};
+            read -p " ARTIST ($ARTIST): " tag; AR=${tag:-$ARTIST};
+            read -p " ALBUM ($ALBUM): "   tag; AL=${tag:-$ALBUM};
+            read -p " YEAR ($YEAR): "     tag; YR=${tag:-$YEAR};
+            read -p " GENRE ($GENRE): "   tag; GN=${tag:-$GENRE};
+
+            if [[ "$TL" == "$TITLE" && "$AR" == "$ARTIST" && "$AL" == "$ALBUM" && "$YR" == "$YEAR" && "$GN" == "$GENRE" ]]; then
+                msg -n "Tag not have chnage... exit/again (e/a)?: "
+                read -e -p "" ans
+                case "$ans" in
+                e|E)
+                    QUIT 0
+                ;;
+                a|A)
+                    continue
+                ;;
+                *)
+                    msg "Unknown answear!\n"
+                ;;
+                esac
+
+            fi
+
+            TITLE="$TL"; ARTIST="$AR"; ALBUM="$AL"; YEAR="$YR"; GENRE="$GN"
+
+            while :; do
+            msg "y-Yes, n-No, c-Cancel"
+            msg -n "Correct input tags? (y/n/c): "
+                read -e -p "" ans
+                case "$ans" in
+                y|Y)
+                    local CHANNELS="$(gettrackparam "$track" "channels" "ASIS")"
+                    local BITRATE="320k"
+                    local FRQDIS="$(gettrackparam "$track" "sample_rate" "ASIS")"
+                    local BTCODE="$(gettrackparam "$track" "sample_fmt" "ASIS")"
+                    local OPTIONS="-ac $CHANNELS -ab $BITRATE -ar $FRQDIS -sample_fmt $BTCODE"
+                    local codec_name="$(gettrackparam "$track" "codec_name" "ASIS")"
+                    local format_name="$(gettrackparam "$track" "format_name" "ASIS")"
+
+                    msg "Code: $codec_name, $FRQDIS Hz, $([[ $CHANNELS == 2 ]] && echo "stereo" || echo "$CHANNELS"), $BTCODE, $BITRATE kb/s, $format_name"
+
+                    ffmpeg -hide_banner -i "$track" $OPTIONS -f $format_name -map_metadata -1 -y -threads $NTHREADS "$TMPSRC" &> /dev/null
+                    if ! [ $? -eq 0 ]; then Error "#$? settagman"; return; fi
+
+                    settags "$TMPSRC" "$track" "$TRACKNUM"
+                    rm -f "$TMPSRC"
+                    getinfotag -a "$track"; showtag
+                    QUIT 0
+                ;;
+                n|N)
+                    break
+                ;;
+                a|A|c|C)
+                    QUIT 0
+                ;;
+                *)
+                    msg "Unknown answear!\n"
+                ;;
+                esac
+            done
+        done
+    else
+        Error "Track $track not find."
+    fi
+}
+
+function viewconf()
+{
+    cat "$PRFXDIR/.config/Phonograph/phonograph.conf"
+    echo ''
+}
+
+function QUIT()
+{
+    [[ "${ARGV[1]}" == "version" || "${ARGV[1]}" =~ "help" || -z "${ARGV[1]}" || "${ARGV[1]}" =~ "help" ]] || infoline -R "v.$(Version) wocson(c)$(date +%Y)"
+    
+    export LANG=$LLANG; export LC_ALL=$LLC_ALL
+    
+    [[ -f "$fSAVE_TRACK" ]] && rm -f "$fSAVE_TRACK"
+    [[ -f "$fSAVE_SECTION" ]] &&  rm -f "$fSAVE_SECTION"
+    [[ -f "$fSAVE_TRACKINFO" ]] && rm -f "$fSAVE_TRACKINFO"
+    cd "$OLDDIR"
+    exit $1
+}

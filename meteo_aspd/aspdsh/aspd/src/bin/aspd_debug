@@ -1,0 +1,151 @@
+#!/bin/bash
+################################################################
+##
+## ASPD changer
+##
+## wocson (c)
+##
+## Requaired: mc mcedit mcview rar 7z ncat awk(gawk) sed zsh lftp enca mutt
+##
+export LANG=ru_RU.UTF-8
+export LC_ALL=ru_RU.UTF-8
+
+WORKTYPE=debug
+
+if [ $WORKTYPE == debug ]; then CONF="aspd_debug.conf"
+else CONF="aspd.conf"
+fi
+
+if [ -f /usr/local/etc/aspd/$CONF ] ; then source /usr/local/etc/aspd/$CONF
+elif [ -f /etc/aspd/$CONF ] ; then source /etc/aspd/$CONF
+else  echo "Файл настроек: $CONF в /usr/local/etc/aspd/ или /etc/aspd/ не найден";  exit 1
+fi
+
+source $LIB/aspd_inc.sh
+
+  if [ -z "$1" ]; then usage; exit 0; fi
+
+  sndsyson
+
+  case "$1" in
+  help|h) if ! [ -z "$2" ]; then help "$2"
+		  else usage;	fi  
+  ;;
+  rmdl) infoline "Удаление отложенных отправок"; txt="";
+		if [ -f "$INFODIR/delay" ]; then rm -v "$INFODIR/delay" &> /dev/null
+		  txt+=" Сигнальный файл. "
+		else txt+=" Нет сигнального файла. "; fi
+
+		if [ -f "$LDIRDELAY/avos.txt" ]; then rm -v "$LDIRDELAY/avos.txt"  &> /dev/null
+		  txt+=" Файл отправки. Удалёно."
+		else txt+=" Нет отложенных файлов."; fi
+		outt "$txt"; status;
+  ;;
+  llist|ll|l)	msgls "$2";
+  ;;
+  rita|rt|t)	exec 7>/dev/tcp/$RITASERVER/$RITAPORT;
+				rita "$2" "$3"
+				exec 7>&-
+  ;;
+  ver|v)		version
+  ;;
+  stat|st|u)	status;
+  ;;
+  setperm|sp|p) setallperm $2;
+  ;;
+  outt|ot|o)	if ! [ -z "$2" ]; then 
+					case "$2" in
+					  -l) outt -l "$3" ;;
+					  -s) outt -s "$3" ;;
+					   *) outt "$2" ;;
+					esac
+				else 
+				  help "outt"; 
+				fi
+  ;;
+  info|nf|f)	if ! [ -z "$2" ]; then 
+					case "$2" in
+					  -l) infoline -l "$3" ;;
+					  -s) infoline -s "$3" ;;
+					   *) infoline "$2" ;;
+					esac
+				else 
+				  help "info"; 
+				fi
+  ;;
+  *)  INIT
+
+	  case "$1" in
+	  send|sn|s)	if ! locked $LOCKED_SEND ; then
+				  if [ -f $INFODIR/send ] && [ -z "$2" ]; then
+				    rm $INFODIR/send 2>&1 > /dev/null
+				    msgsend
+				  elif [ -f $INFODIR/delay ] && [ -z "$2" ]; then
+					if tmcheckavos "SILENT"; then
+				  	  rm $INFODIR/delay 2>&1 > /dev/null
+					  if [ -f "$LDIRDELAY/avos.txt" ]; then
+						mv "$LDIRDELAY/avos.txt" "$LDIRFORSEND"
+				  		msgsend
+					  fi
+					fi
+				  elif ! [ -z "$2" ]; then
+				    msgsend "$2" "$3"
+				  else
+				    if [ $WORKTYPE == debug ]; then outt "Нет сигнала на отправку в $INFODIR"; fi
+				  fi
+				fi
+	  ;;
+	  recv|rc|r)	if ! locked $LOCKED_RECV; then
+				  msgrecv "$2" "$3"
+				fi
+	  ;;
+	  email|em|m)	if ! locked $LOCKED_MAIL; then
+				  ADRS="";
+				  if echo "$2" | grep "@" > /dev/null; then
+			    	ADRS="$2"
+				  else
+					ps_echo "E-mail: "; read ADRS;
+					if echo "$ADRS" | egrep -v "@" > /dev/null; then
+					  outt "Адрес задан неверно. Отмена"; CLOSE;
+					  help email
+					  exit 1
+					fi
+				  fi
+
+				  shift 2
+				  SUBJ=""; TXTM=""; ATCH="";
+				  while getopts "s:t:a:f:" Options; do
+					case $Options in
+					  s) SUBJ="$OPTARG";;
+					  t) TXTM+="\n\n$OPTARG";;
+					  a) ATCH="$OPTARG";;
+					  f) FLET="$OPTARG"
+						 if ! [ -f "$FLET" ]; then echo "Файл $FLET не найден"; exit $E_OPTERROR;
+						 else TXTM+="\n`cat \"$FLET\"`"
+						 fi
+						 ;;
+					  *) echo "Задан недопустимый ключ."
+						 exit
+					  ;;
+					esac
+				  done
+#				  echo -e "A: $ADRS\nS: $SUBJ\nT:\n=====\n$TXTM\n=====\nA:$ATCH";
+				  msgmail "$ADRS" "$SUBJ" "$TXTM" "$ATCH";
+				fi
+	  ;;
+	  rlist|rl|i)	msgrl "$2";
+	  ;;
+	  del|dl|d)		msgdel "$2";
+	  ;;
+	  abook|ab|a)	abook
+	  ;;
+	  letter|lt|e)	msglt "$2"
+	  ;;
+	  *)			unknown "$1";
+	  ;;
+	  esac
+  ;;
+  esac
+
+CLOSE
+exit 0

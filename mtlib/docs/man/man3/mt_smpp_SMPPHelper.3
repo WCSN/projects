@@ -1,0 +1,69 @@
+.TH "mt::smpp::SMPPHelper" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::smpp::SMPPHelper \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <SMPPHelper.h>\fP
+.PP
+Inherits \fBmt::Logable\fP.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSMPPHelper\fP ()"
+.br
+.ti -1c
+.RI "int32_t \fBinit\fP ()"
+.br
+.ti -1c
+.RI "int32_t \fBgetMessage\fP (Smpp::SubmitSm *sm, std::string &body)"
+.br
+.ti -1c
+.RI "int32_t \fBgetMessage\fP (Smpp::DeliverSm *pdu, std::string &body)"
+.br
+.ti -1c
+.RI "Smpp::SmeAddress \fBcreateSmeAdress\fP (const std::string &)"
+.br
+.ti -1c
+.RI "\fBCodingScheme\fP \fBgetCodingScheme\fP (Smpp::SubmitSm *pdu)"
+.br
+.ti -1c
+.RI "\fBCodingScheme\fP \fBgetCodingScheme\fP (Smpp::DeliverSm *pdu)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 19 of file SMPPHelper.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::smpp::SMPPHelper::SMPPHelper ()"
+.PP
+Definition at line 13 of file SMPPHelper.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "Smpp::SmeAddress mt::smpp::SMPPHelper::createSmeAdress (const std::string & addr)"
+.PP
+Definition at line 26 of file SMPPHelper.cpp.
+.SS "\fBCodingScheme\fP mt::smpp::SMPPHelper::getCodingScheme (Smpp::SubmitSm * pdu)\fC [inline]\fP"
+.PP
+Definition at line 36 of file SMPPHelper.h.
+.SS "\fBCodingScheme\fP mt::smpp::SMPPHelper::getCodingScheme (Smpp::DeliverSm * pdu)\fC [inline]\fP"
+.PP
+Definition at line 40 of file SMPPHelper.h.
+.SS "int32_t mt::smpp::SMPPHelper::getMessage (Smpp::DeliverSm * pdu, std::string & body)"
+.PP
+Definition at line 83 of file SMPPHelper.cpp.
+.SS "int32_t mt::smpp::SMPPHelper::getMessage (Smpp::SubmitSm * sm, std::string & body)"
+.PP
+Definition at line 56 of file SMPPHelper.cpp.
+.SS "int32_t mt::smpp::SMPPHelper::init ()"
+.PP
+Definition at line 19 of file SMPPHelper.cpp.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

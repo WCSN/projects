@@ -1,0 +1,82 @@
+#!/bin/bash
+###############################################################################
+##
+##  flac2mp3
+##
+##  Split solid flac-file to tracks, code to mp3 320 kbit/c
+##  Разделить непрерывный flac на треки, сохранить mp3 320 kbit/c
+##
+##  Install needed packets:
+##  Устанавливаем необходимые пакеты:
+##   # sudo pkg install cuetools shntool flac wavpack
+##
+##  wocson (c)
+##
+##  Origin: URL: https://www.opennet.ru/tips/info/2071.shtml
+##
+###############################################################################
+[[ -f "./Makefile" ]] && DEBUG="YES" || DEBUG="NO"; [[ "${DEBUG^^}" == "YES" ]] && PRFXDIR="$PWD/scr" || PRFXDIR="$HOME" # $PRFXDIR
+
+function TRACE()
+{
+    if [[ "$DEBUG" == "YES" ]]; then echo -e "\nTRACE $@"; fi
+}
+
+CUEFILE="$1"
+FLCFILE="$2"
+EXTERN="$3"
+
+MP3DIR="./mp3"
+
+if [[ "$EXTERN" == "EXTERNCALL" ]]; then
+    FLCDIR="$4"
+else
+    if ! [ -d "$MP3DIR" ]; then mkdir "$MP3DIR"; fi
+    FLCDIR="./flac"
+fi
+
+help()
+{
+    echo "usage: flac2mp3 cue-file flac-file"
+    if [ "$CUEFILE" ]; then echo "Error: $CUEFILE"; fi
+    echo
+}
+
+if [[ -f "$CUEFILE" ]]; then
+    if [[ -f "$FLCFILE" ]]; then
+
+        ##  Создаём каталоги mp3 и save
+        if ! [[ -d "$FLCDIR" ]]; then mkdir "$FLCDIR"; fi
+
+        ##  Выделяем треки flac на основании индекса .cue
+        ##  кодируем кодеком без потерь flac
+
+        MASKSPLIT="Split_track-"
+        cuebreakpoints "$CUEFILE" | shnsplit -O always -a "$MASKSPLIT" -d "$FLCDIR" -o flac "$FLCFILE"
+#        cat "$CUEFILE" | grep -i "INDEX 01" | cut -f2 -d'X' | cut -f3 -d' ' | shnsplit -a "$MASKSPLIT" -d "$FLCDIR" -o flac "$FLCFILE"
+#        shnsplit -f "$CUEFILE" -t "%n-%t" -d "$FLCDIR" -o flac "$FLCFILE"
+
+        ## Delete all pregap
+        rm "$FLCDIR"/*pregap*
+
+        ##  Переносим мета-теги из cue в полученные файлы треков
+        cuetag.sh "$CUEFILE" "$FLCDIR"/*.flac
+
+        if ! [[ "$EXTERN" == "EXTERNCALL" ]]; then
+
+            ##  Конвертируем все flac в mp3. Результат в каталоге для mp3
+            for track in "$FLCDIR"/"$MASKSPLIT"*.flac; do
+
+                mp3file="${track[@]/%flac/mp3}"
+                ffmpeg -i "$track" -ab 320 "$mp3file"
+                mv "$mp3file" "$MP3DIR"/
+
+           done
+        fi
+    else
+        help "Do not set flac-file"
+    fi
+else
+    help "Do not set cue-file"
+fi
+

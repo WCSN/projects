@@ -1,0 +1,152 @@
+.TH "mt::DataPacket" 3 "Fri Jan 21 2011" "mtlib" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+mt::DataPacket \- 
+.PP
+Shell for data packets.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <DataPacket.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBsrcHostAsString\fP () const "
+.br
+.RI "\fIReturn source host of the packet as std::string. \fP"
+.ti -1c
+.RI "uint32_t \fBsrcHost\fP () const "
+.br
+.RI "\fIReturn source host of the packet as uint32_t. \fP"
+.ti -1c
+.RI "uint32_t \fBsrcPort\fP () const "
+.br
+.RI "\fIReturn source port of the packet. \fP"
+.ti -1c
+.RI "std::string \fBdstHostAsString\fP () const "
+.br
+.RI "\fIReturn destination host of the packet as std::string. \fP"
+.ti -1c
+.RI "uint32_t \fBdstHost\fP () const "
+.br
+.RI "\fIReturn destination host of the packet as uint32_t. \fP"
+.ti -1c
+.RI "uint32_t \fBdstPort\fP () const "
+.br
+.RI "\fIReturn destination port of the packet. \fP"
+.ti -1c
+.RI "const \fBByteBuffer\fP & \fBdata\fP () const "
+.br
+.in -1c
+.PP
+.RI "\fB\fP"
+.br
+ 
+.PP
+.in +1c
+.in +1c
+.ti -1c
+.RI "\fBDataPacket\fP ()"
+.br
+.RI "\fIDefault constructor. \fP"
+.ti -1c
+.RI "\fBDataPacket\fP (const std::string &src_host, uint32_t src_port, const std::string &dst_host, uint32_t dst_port, const \fBByteBuffer\fP &data)"
+.br
+.ti -1c
+.RI "\fBDataPacket\fP (uint32_t src_host, uint32_t src_port, uint32_t dst_host, uint32_t dst_port, const \fBByteBuffer\fP &data)"
+.br
+.ti -1c
+.RI "virtual \fB~DataPacket\fP ()"
+.br
+.in -1c
+.in -1c
+.SH "Detailed Description"
+.PP 
+Shell for data packets. 
+.PP
+Definition at line 15 of file DataPacket.h.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "mt::DataPacket::DataPacket ()"
+.PP
+Default constructor. 
+.PP
+Definition at line 5 of file DataPacket.cpp.
+.SS "mt::DataPacket::DataPacket (const std::string & src_host, uint32_t src_port, const std::string & dst_host, uint32_t dst_port, const \fBByteBuffer\fP & data)"\fBParameters:\fP
+.RS 4
+\fIsrc_host\fP Source host of the packet. 
+.br
+\fIsrc_port\fP Source port of the packet. 
+.br
+\fIdst_host\fP Destination host of the packet. 
+.br
+\fIdst_port\fP Destination port of the packet. 
+.br
+\fIdata\fP Data of the packet. 
+.RE
+.PP
+
+.PP
+Definition at line 11 of file DataPacket.cpp.
+.SS "mt::DataPacket::DataPacket (uint32_t src_host, uint32_t src_port, uint32_t dst_host, uint32_t dst_port, const \fBByteBuffer\fP & data)"\fBParameters:\fP
+.RS 4
+\fIsrc_host\fP Source host of the packet. 
+.br
+\fIsrc_port\fP Source port of the packet. 
+.br
+\fIdst_host\fP Destination host of the packet. 
+.br
+\fIdst_port\fP Destination port of the packet. 
+.br
+\fIdata\fP Data of the packet. 
+.RE
+.PP
+
+.PP
+Definition at line 20 of file DataPacket.cpp.
+.SS "mt::DataPacket::~DataPacket ()\fC [virtual]\fP"
+.PP
+Definition at line 29 of file DataPacket.cpp.
+.SH "Member Function Documentation"
+.PP 
+.SS "const \fBByteBuffer\fP & mt::DataPacket::data () const\fC [inline]\fP"
+.PP
+Definition at line 103 of file DataPacket.h.
+.SS "uint32_t mt::DataPacket::dstHost () const\fC [inline]\fP"
+.PP
+Return destination host of the packet as uint32_t. 
+.PP
+Definition at line 95 of file DataPacket.h.
+.SS "std::string mt::DataPacket::dstHostAsString () const\fC [inline]\fP"
+.PP
+Return destination host of the packet as std::string. 
+.PP
+Definition at line 91 of file DataPacket.h.
+.SS "uint32_t mt::DataPacket::dstPort () const\fC [inline]\fP"
+.PP
+Return destination port of the packet. 
+.PP
+Definition at line 99 of file DataPacket.h.
+.SS "uint32_t mt::DataPacket::srcHost () const\fC [inline]\fP"
+.PP
+Return source host of the packet as uint32_t. 
+.PP
+Definition at line 83 of file DataPacket.h.
+.SS "std::string mt::DataPacket::srcHostAsString () const\fC [inline]\fP"
+.PP
+Return source host of the packet as std::string. 
+.PP
+Definition at line 79 of file DataPacket.h.
+.SS "uint32_t mt::DataPacket::srcPort () const\fC [inline]\fP"
+.PP
+Return source port of the packet. 
+.PP
+Definition at line 87 of file DataPacket.h.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for mtlib from the source code.

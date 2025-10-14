@@ -1,0 +1,33 @@
+#!/bin/bash
+##
+##
+## Convert Russian caliber to US
+##
+##
+
+source ./share/bash.inc
+
+INCH=25.4
+
+clear
+
+for (( yt=0 ; ; yt+=10 ))
+do
+
+    message 5 $(( $yt+2 )) $LGREEN 'RU cal= '
+    read CAL
+
+    message 5 $(( $yt+3 )) $LRED "US cal= $(echo "scale=3 ; $CAL/$INCH" | bc)" ; echo -n \"
+    setcolor $LTCYAN
+
+    echo -e "\nContinue?"
+
+    select yn in "Yes" "No"; do
+	case $yn in
+    	    Yes )  break;;
+    	    No )  exit;;
+	esac
+    done
+done
+
+setcolor $CLSTD

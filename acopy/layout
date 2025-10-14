@@ -1,0 +1,8 @@
+#!/bin/bash
+
+tmux new-session -d -n BACKUPs "sudo htop"
+tmux split-window "sudo gstat"
+tmux split-window -h "sudo tail -f -n 50 /var/log/messages"
+tmux select-layout -p 1
+tmux split-window -h "sudo tail -f -n 50 /var/log/backdb/backdb.log"
+tmux attach-session
