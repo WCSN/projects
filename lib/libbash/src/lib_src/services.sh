@@ -6,73 +6,88 @@
 ##
 ############################################################################
 NAMEPKG="libbash"
-VERPKG="0.9.01"
+VERPKG="0.10.31"
 
-. $HOME/.config/shells/share/tcolors.sh
+. $HOME/.local/share/shells/lib/tcolors.sh
+. $HOME/.local/share/shells/lib/helpsys.sh
 
 ARGV[0]="$0"; let i=1; for arg in "$@"; do ARGV[$i]="$arg"; let i++; done
 ARGC=${#ARGV[@]}
+ANSW=""
 
-TL=$(tput lines); TC=$(tput cols);
+TL=`tput lines`
+TC=`tput cols`
 
-gX=0; gY=0;
+gX=0
+gY=0
 
 DialogType="text" # window/text
 UCH="255"
 DIALOG=${DIALOG=dialog}
 
-function gotoxy()
+
+gotoxy()
 {
     echo -en "\033[$2;$1"; echo -en 'f'
 }
 
-function setcolor()
+
+getcolor()
+{
+  local CL="$1";  echo -en "${!CL}"
+}
+
+
+setcolor()
 {
     echo -en "$1"
 }
 
-function setbackcolor()
+setbackcolor()
 {
     echo -en $1
 }
 
-function clrscr()
+clrscr()
 {
     echo -en $CLSTD
     clear
 }
 
-function outtextxy()
+outtextxy()
 {
     gotoxy $1 $2
     echo -en "$3"
 }
 
-function _outtextxy()
+_outtextxy()
 {
-    gotoxy $1 $2 ;
-    [ -z "$4" ] && format="%s" || format="$4";
-    echo "printf \"$format\" \"$3\"" | zsh
+  gotoxy $1 $2 ;
+  if [ -z "$4" ]; then format="%s";
+  else format="$4"; fi
+  echo "printf \"$format\" \"$3\"" | zsh
 }
 
-function strlen()
+strlen()
 {
     local string="$1"
     echo -en "${#string}"
 }
 
-function getxy()
-{
-    local pos
-    IFS='[;' read -p $'\e[6n' -d R -a pos -rs || echo "failed with error: $? ; ${pos[*]}"
-    gX="${pos[2]}"; gY="${pos[1]}";
-}
-
-function getcursorxy()
+getxy()
 {
   local pos
   IFS='[;' read -p $'\e[6n' -d R -a pos -rs || echo "failed with error: $? ; ${pos[*]}"
-  gX=${pos[2]}; gY=${pos[1]};
+  gX="${pos[2]}"
+  gY="${pos[1]}"
+}
+
+getcursorxy()
+{
+  local pos
+  IFS='[;' read -p $'\e[6n' -d R -a pos -rs || echo "failed with error: $? ; ${pos[*]}"
+  gX=${pos[2]}
+  gY=${pos[1]}
 }
 
 Outtext() 
@@ -86,12 +101,17 @@ Outtext()
 
 TRACE()
 { 
-    if [[ $DEBUG == ON ]]; then
-        local sh=":"; echo -en "\n"; echo -en "${RED}TRACE: ${STDCL}" 
-        for arg in $@; do echo -en "$arg$sh "; sh=""; done 
-        echo -en "\n"
-    fi
-    echo -en "\n"
+    [[ $DEBUG != ON ]] && return;
+    
+    echo -en "${BRED}";   printf "%-10s" "TRACE ${1}"
+    echo -en "${YELLOW}"; printf "=%.0s" $(seq $((TC-11)));
+    echo -en "\n" 
+
+    shift 1
+    for arg in $@; do 
+        echo -en "${YELLOW}==> ${BGREEN}${arg}: ${STDCL}${!arg}${STDCL}\n"
+    done 
+    echo -en "${YELLOW}"; printf "=%.0s" $(seq $((TC-1))); echo -en "\n"
 }
 
 wprint() 
@@ -119,16 +139,22 @@ cpdir()
     [[ -d "$DSTDIR" ]] && cp -rf "$SRCDIR"/* "$DSTDIR"/ || cp -rf "$SRCDIR" "$DSTDIR"
 }
 
-Choice()
+choice()
 {
-    local answ="" Question="$1" defansw="$2" 
-    read -p " $Question [$defansw]: " answ; answ=${answ:-$defansw}
-    echo "$answ"
+    local answ="" TEXT="$1" Vansw="$2" Defansw="$3" 
+    local LSENTENS="$TEXT"; 
+    
+    [[ -n $Vansw   ]] && LSENTENS="${LSENTENS} ($Vansw)"
+    [[ -n $Defansw ]] && LSENTENS="${LSENTENS}[$Defansw]"
+
+    read -p " ${LSENTENS}: " answ; answ=${answ:-$Defansw}
+    echo -n "$answ"
 }
 
-YesNo()
+yesno()
 {
-    local Title="$1" Question="$2" 
+    local Title="$1" Question="$2" defansw="$3"
+    [[ -z $defansw ]] && defansw='n'
     UCH="255"
 
     if [[ "$DialogType" == "window" ]]; then
@@ -142,7 +168,7 @@ YesNo()
         *)UCH="255";;
         esac
     else
-        case $(Choice "$Question" "Yes/No") in
+        case $(choice ">> $Question" "y/n" "$defansw") in
         y|Y) UCH="0";;
         n|N) UCH="1";;
           *) UCH="255";;
@@ -150,16 +176,28 @@ YesNo()
     fi
 }
 
-Gline()
+##
+## $1 - Colors
+## $2 - Title
+## $3 - Symbol for line
+##
+Hline()
 { 
-    [[ -z "$2" ]] && syml="─" || syml="$2";
-    echo -en $1 ; wprint "${syml}%.0s" $(seq $TC) ; echo "" 
+    local TITLE="" HCLR="${BGREEN}" symbln="─" 
+
+    [[ -n "$1" ]] &&  TITLE="$1"
+    [[ -n "$2" ]] &&   HCLR="$2"  
+    [[ -n "$3" ]] && symbln="$3"                      
+
+    echo -en "${HCLR}"; wprint "${symbln}%.0s" $(seq $TC); 
+    getxy; gotoxy 3 $gY; 
+    echo -en "${TITLE}${BREAK}\n"
 }
 
 #
 # boxInfo "string1" "string2" "looooooooooooooooooooooooooongstring"
 #
-TITLEBOX=""
+ODTITLEBOX=""
 TLCLR="${BLUE}${BGWHITE}"
 FGCLR="${BLACK}"
 BGCLR="${BGWHITE}"
@@ -170,96 +208,11 @@ boxInfo()
 
     for str in $msglines; do (( "${#str}+2" >= "$mxlen" )) && let mxlen=${#str}+2; done
     let mxlens=$mxlen-2
+
     [[ -n "$TITLEBOX" ]] && printf "${TLCLR} %-${mxlen}s ${STDCL}\n" "$TITLEBOX" 
+    
     printf "${FGCLR}${BGCLR}┌"; printf "─%.0s" $(seq $mxlen); printf "┐${STDCL}\n";
     for str in $msglines; do printf "${FGCLR}${BGCLR}│ %-${mxlens}s │${STDCL}\n" "$str"; done
     printf "${FGCLR}${BGCLR}└"; printf "─%.0s" $(seq $mxlen); printf "┘${STDCL}\n"
 }
 
-declare -A HelpCnt
-declare -a HelpVarCmd
-let hIndex=0
-NAMEPGR="unnamed (unset)"
-VERPRG="0.0.XX (unset)"
-Annotation="(unset)"
-CommonFormat="(unset)"
-let iN=0
-
-getVerprg()
-{
-    echo -en "$VERPRG"
-}
-
-HelpAnnotation()
-{
-    [[ "$Annotation" == "(unset)" && -n "$1" ]] && Annotation="$1"
-}
-
-HelpVarCmd()
-{
-    CommonFormat[$hIndex]="$1"
-    let hIndex=+1
-}
-
-HelpSubCmd()
-{
-    local key="$1" description="$2"
-
-    if [[ "$(isakey $key)" == "NO" ]]; then
-        HelpCnt["$key"]="$description" 
-        let iN+=1
-    fi
-}
-
-Helpline()
-{
-    let szN="$1+2" szC="$2+1"
-    local cmd="$3"
-
-    if [[ $(isakey $cmd) == "NO" ]]; then
-        format="%-${szN}s${BRED}%-${szC}s${STDCL} - %-s"
-        wprint "\n$format" " " "${cmd}" "Comand not defined\n\n"  
-        wprint "$format" " " "Command" "Description\n"          
-    else
-        format="%-${szN}s${BWHITE}%-${szC}s${STDCL} - %-s"
-        wprint "$format" " " "${cmd}" "${HelpCnt[$cmd]}\n"  
-    fi
-}
-
-HelpAll()
-{
-    for key in $lkeys; do Helpline "$sh1" "$sh2" "$key"; done
-}
-
-isakey()
-{
-    local key
-    for key in ${!HelpCnt[@]}; do 
-        if [[ "$key" == "$1" ]]; then
-            echo -n "YES"
-            return
-        fi
-    done
-    echo -n "NO"
-}
-
-Help()
-{
-    local subcmd="$1" sh1 sh2 
-    let sh1=${#NAMEPRG} 
-    let sh2=0
-
-    wprint "\n ${BWHITE}$NAMEPRG${STDCL} ver. $VERPRG - ${Annotation}\n Usage: " 
-    for fmtcmd in "${CommonFormat[@]}"; do wprint " ${BWHITE}$NAMEPRG${STDCL} $fmtcmd\n"; done
-    HelpSubCmd "help" "$NAMEPRG help [subcomand]"
-    lkeys="$(for s in ${!HelpCnt[@]}; do echo "$s"; done | sort)"
-    for cmd in $lkeys; do (( "$sh2" <= "$(strlen $cmd)" )) && sh2=$(strlen "$cmd"); done
-
-    if [[ -n "$subcmd" ]]; then
-        Helpline "$sh1" "2" "$subcmd" 
-        [[ $(isakey $subcmd) == "NO" ]] && HelpAll
-    else
-        HelpAll
-    fi
-    echo
-}

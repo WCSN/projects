@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. "$HOME"/.config/shells/share/include/services.sh
+. "$HOME"/.local/share/shells/lib/services.sh
 
 DialogType="window" # text
 YesNo "Checking packages" "window Do You want to continue?"

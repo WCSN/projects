@@ -1,0 +1,15 @@
+|==== Install: 
+1   User
+        make user
+2   All users
+        make users
+3   Root
+        make root
+4   System
+        make system
+!==== Devel:
+5   Pull
+        make pull
+6   Commit
+        make commit
+

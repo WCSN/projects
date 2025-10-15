@@ -4,6 +4,7 @@
 ## wocson (c) lic. BSD
 ##
 ################################################################
+. $HOME/.local/share/shells/lib/services.sh
 . ./.settings/shells.conf
 . ./.settings/outfns.sh
 
@@ -16,14 +17,10 @@ cleanprev()
     local FPATHDEL="$1/.local/share"
 
     for fname in $LIST4DEL; do 
-        if [[ -f "$FPATHDEL/$fname" ]]; then
-            $sudoup rm "$FPATHDEL/$fname" &> /dev/null 
-        fi
+        [[ -f "$FPATHDEL/$fname" ]] && $sudoup rm "$FPATHDEL/$fname" &> /dev/null 
     done
 
-    if [[ -d "$FPATHDEL"/shells ]]; then
-        $sudoup rm -R "$FPATHDEL"/shells &> /dev/null
-    fi
+    [[ -d "$FPATHDEL"/shells ]] && $sudoup rm -R "$FPATHDEL"/shells &> /dev/null
 }
 
 warning()
@@ -38,7 +35,7 @@ cat << EOF
 EOF
     fi
 
-    [ "$OPTYPE" == "system" ] && echo "    and";
+    [[ "$OPTYPE" == "system" ]] && echo "    and";
 
     if [ "$OPTYPE" == "users" ] || [ "$OPTYPE" == "system" ]; then 
 cat << EOF
@@ -61,30 +58,19 @@ EOF
 cpsh2user()
 {
     local fdir="$1" username="$2"
-
-    Checkallpermissions "$username" "$fdir"
-
-    echo "Copy to $fdir ..."
     
     if [ $(id $username | echo $?) -eq 0 ]; then
 
         uid=$(id $username | cut -d'=' -f2 | cut -d'(' -f1)
         gid=$(id $username | cut -d'=' -f3 | cut -d'(' -f1)
-
-        echo "`id $username`"
-        echo "User: $username with perm.: $uid:$gid"
-        echo -en "Copy... "        
         
-        if [[ $username == "$USER" ]] ;then 
-            sudoup=""; 
-        else
-            sudoup="sudo"; 
-        fi    
+        echo -e "Copy for User: ${BGREEN}${username} ${STDCL}\nID: ${BBLUE}$(id $username)${STDCL}\nPath: ${BWHITE}$fdir${STDCL}"
+        
+        [[ $username == "$USER" ]] && sudoup="" || sudoup="sudo"; 
 
         cleanprev "$fdir" 
-
         $sudoup rsync -a ./src/common/ "$fdir"/ 
-        
+       
         if [[ "$username" == "root" ]]; then
             $sudoup rsync -a ./src/root/ "$fdir"
         else 
@@ -92,12 +78,11 @@ cpsh2user()
             [[ "$XFILES" == "YES" ]] && $sudoup rsync -a ./src/xfiles/ "$fdir"
         fi
         
-        echo -en "Set permission... "
         $sudoup chown -Rf $uid:$gid "$fdir" 
         $sudoup chmod -f 700 "$fdir" 
-        echo -en "Done\n\n"
+        echo -e "Ready\n"
     else
-       echo "ERROR: User: $username not find on system."
+       echo -e "${ERR} ERROR: User $username not find on system. "
     fi
 }
 
@@ -106,7 +91,7 @@ cpsh2users()
     echo "Copy shells for users on system."
     echo "Directory: $DIRECTORY"
     
-    if [[ -n "$WINDOMAIN" ]]; then echo "Windomain: $WINDOMAIN"; else echo -en "Windomain: none\n\n"; fi
+    [[ -n "$WINDOMAIN" ]] && echo "Windomain: $WINDOMAIN" ||  echo -en "Windomain: none\n\n"
 
     if [[ -d "$DIRECTORY" ]]; then
         for fdir in $DIRECTORY/* ; do
@@ -134,8 +119,7 @@ copy2skel()
     sudo rm -R "/etc/skel/"* &> /dev/null
     sudo rm -R "/etc/skel/".* &> /dev/null
 
-    echo "Copy to skel:"
-    echo "    /etc/skel /etc"
+    echo -e "Copy to:\n\t/etc/skel"
 
     # Copy to skel
     sudo chown -Rf $perm ./src/etc/
@@ -144,16 +128,11 @@ copy2skel()
     sudo rsync -a ./src/user/ /etc/skel/
     [[ "$XFILES" == "YES" ]] && sudo rsync -a ./src/xfiles/ /etc/skel/
     
-    echo "    /usr/share/skel"
+    echo -e "\t/usr/share/skel"
 
     sudo rsync -a ./src/common/ /usr/share/skel/
     sudo rsync -a ./src/user/ /usr/share/skel/
     
-#    if [[ "$XFILES" == "YES" ]]; then
-#        sudo rsync -a ./src/xfiles/ /usr/share/skel/
-#        sudo mv -f /usr/share/skel/.Xresources /usr/share/skel/dot.Xresources
-#    fi
-
     sudo mv -f /usr/share/skel/.bash_logout /usr/share/skel/dot.bash_logout
     sudo mv -f /usr/share/skel/.bash_profile /usr/share/skel/dot.bash_profile
     sudo mv -f /usr/share/skel/.bashrc /usr/share/skel/dot.bashrc
@@ -163,21 +142,17 @@ copy2skel()
     sudo mv -f /usr/share/skel/.profile /usr/share/skel/dot.profile
 
     # set perm on local setup dirs
-    echo "Set permission... "
+    echo "Set permission: $perm"
 
     sudo chown -Rf $perm /etc
     sudo chown -f $perm /etc/csh*
     sudo chown -f $perm /etc/zl*
     sudo chown -Rf $perm /usr/share/skel
-
-    echo -en "Copy to skel done\n\n"
 }
     
 finish()
 {
-    if [[ -f /usr/bin/bzip2 ]]; then 
-        sudo mv -f /usr/bin/bzip2 /usr/bin/bzip2_old
-    fi
+    [[ -f /usr/bin/bzip2 ]] && sudo mv -f /usr/bin/bzip2 /usr/bin/bzip2_old
 
     if strcnt "BSD" $(uname) ; then
         sudo ln -sf /usr/local/bin/zsh /bin/zsh
@@ -186,19 +161,14 @@ finish()
         sudo ln -sf /etc/zlogin /usr/local/etc/zlogin
         sudo ln -sf /etc/zlogout /usr/local/etc/zlogout
 
-        if ! [[ -f /usr/local/bin/7za ]]; then 
-            sudo ln -sf /usr/local/bin/7zz /usr/local/bin/7za
-        fi
+        [[ -f /usr/local/bin/7za ]] || sudo ln -sf /usr/local/bin/7zz /usr/local/bin/7za
 
     elif strcnt "Linux" $(uname) ; then 
         sudo ln -sf /usr/bin/pbzip2 /usr/bin/bzip2
 
-        if ! [[ -f /usr/bin/7zz ]]; then 
-            sudo ln -sf /usr/bin/7zz /usr/bin/7za
-        fi
+        [[ -f /usr/bin/7zz ]] || sudo ln -sf /usr/bin/7zz /usr/bin/7za
     fi
 }
-
 
 case "$OPTYPE" in 
 user)
@@ -266,12 +236,10 @@ system)
         echo "Your answear '$answ'. Break. Sorry"
         exit 11
     fi
-
     finish
-    echo "Done for System."
 ;;
 build)
-    cp -fv ./.settings/.mc.menu.gen ./.mc.menu
+    cp -afT ./.settings/.mc.menu.gen ./.mc.menu
 ;;
 pull)
 	git pull
@@ -288,8 +256,8 @@ commit)
 ;;
 esac
 
-if [[ "$(uname)" == "FreeBSD" && $sudoup == sudo ]]; then
-    $sudoup cap_mkdb /etc/login.conf
-fi
+[[ "$(uname)" == "FreeBSD" && $sudoup == sudo ]] && $sudoup cap_mkdb /etc/login.conf
+
+echo "Install shells env Done"
 
 exit 0

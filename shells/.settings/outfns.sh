@@ -46,28 +46,4 @@ checkonsu()
     retcd="$?"
 }
 
-Checkallpermissions()
-{
-    local user=$1 fdir=$2
-
-    echo "Check permission... to $user"
-    group="$(id -gn "$user")"
-    echo "User have permission: ${user}:${group}"
-
-    if [ "$HOME" == "$fdir" ]; then return; fi
-
-    if [ -f "$(which sudo)" ]; then
-        sudo -n ls $fdir > /dev/null   
-        retcd="$?"
-        if [ $retcd -ne 0 ]; then
-            echo "Check Your permissions."
-            exit 11
-        else
-            return
-        fi
-    else
-        return
-    fi
-}
-
 strcnt(){ [ -z "$1" ] || { [ -z "${2##*$1*}" ] && [ -n "$2" ];}; }
