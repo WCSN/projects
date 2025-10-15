@@ -50,9 +50,9 @@ Checkallpermissions()
 {
     local user=$1 fdir=$2
 
-    echo "Check permission for You as: $USER to $user"
-    groups="$(id -Gn "$USER" | grep -o -E "wheel|root" )"
-    echo "Your member group(s): $groups"
+    echo "Check permission... to $user"
+    group="$(id -gn "$user")"
+    echo "User have permission: ${user}:${group}"
 
     if [ "$HOME" == "$fdir" ]; then return; fi
 

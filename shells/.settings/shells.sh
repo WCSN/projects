@@ -89,9 +89,7 @@ cpsh2user()
             $sudoup rsync -a ./src/root/ "$fdir"
         else 
             $sudoup rsync -a ./src/user/ "$fdir"
-            if [[ "$XFILES" == "YES" ]]; then
-                $sudoup rsync -a ./src/xfiles/ "$fdir"
-            fi
+            [[ "$XFILES" == "YES" ]] && $sudoup rsync -a ./src/xfiles/ "$fdir"
         fi
         
         echo -en "Set permission... "
@@ -137,30 +135,28 @@ copy2skel()
     sudo rm -R "/etc/skel/".* &> /dev/null
 
     echo "Copy to skel:"
-    echo "    /etc/skel /etc\n"
+    echo "    /etc/skel /etc"
 
     # Copy to skel
     sudo chown -Rf $perm ./src/etc/
     sudo rsync -a ./src/etc/ /etc/
     sudo rsync -a ./src/common/ /etc/skel/
     sudo rsync -a ./src/user/ /etc/skel/
-    if [[ "$XFILES" == "YES" ]]; then
-        sudo rsync -a ./src/xfiles/ /etc/skel/
-    fi
-
-    echo "    /usr/share/skel\n"
+    [[ "$XFILES" == "YES" ]] && sudo rsync -a ./src/xfiles/ /etc/skel/
+    
+    echo "    /usr/share/skel"
 
     sudo rsync -a ./src/common/ /usr/share/skel/
     sudo rsync -a ./src/user/ /usr/share/skel/
-    if [[ "$XFILES" == "YES" ]]; then
-        sudo rsync -a ./src/xfiles/ /usr/share/skel/
-    fi
+    
+#    if [[ "$XFILES" == "YES" ]]; then
+#        sudo rsync -a ./src/xfiles/ /usr/share/skel/
+#        sudo mv -f /usr/share/skel/.Xresources /usr/share/skel/dot.Xresources
+#    fi
 
-    sudo mv -f /usr/share/skel/.Xresources /usr/share/skel/dot.Xresources
     sudo mv -f /usr/share/skel/.bash_logout /usr/share/skel/dot.bash_logout
     sudo mv -f /usr/share/skel/.bash_profile /usr/share/skel/dot.bash_profile
     sudo mv -f /usr/share/skel/.bashrc /usr/share/skel/dot.bashrc
-                                   
     sudo mv -f /usr/share/skel/.tcshrc /usr/share/skel/dot.tcshrc
     sudo mv -f /usr/share/skel/.zshrc /usr/share/skel/dot.zshrc
     sudo mv -f /usr/share/skel/.shrc /usr/share/skel/dot.shrc
