@@ -68,8 +68,8 @@ cpsh2user()
     
     if [ $(id $username | echo $?) -eq 0 ]; then
 
-        uid=`id $username | cut -d'=' -f2 | cut -d'(' -f1`
-        gid=`id $username | cut -d'=' -f3 | cut -d'(' -f1`
+        uid=$(id $username | cut -d'=' -f2 | cut -d'(' -f1)
+        gid=$(id $username | cut -d'=' -f3 | cut -d'(' -f1)
 
         echo "`id $username`"
         echo "User: $username with perm.: $uid:$gid"
