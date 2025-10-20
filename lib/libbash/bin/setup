@@ -11,11 +11,12 @@ ver=0.6.07
 PRJSDIR="$HOME/projects"
 SRCSDIR="${PRJSDIR}/lib/libbash/src/lib_src"
 DSTNDIR="$HOME/.config/shells/share"
+Z_SBER="$HOME/Z_SBER/.config/shells/share/"
 
-echo "Install..."
+echo " - Install libbash"
 
 # To Local
-echo "Local"
+echo " - Local"
+"$PRJSDIR"/shells/bin/setup
 
-cp -fr $SRCSDIR/* $DSTNDIR/
-echo "Done"
+[[ $1 != "No" ]] && echo " Done"

@@ -27,16 +27,19 @@ getVerprg()
 helpline()
 {
     let szN="$1+2" szC="$2"
-    local cmd="$3"
+    local cmd="$3" mcmd="$4 "
 
     if [[ $(isakey $cmd) != "NO" ]]; then
         format="%-${szN}s${BWHITE}%-${szC}s${STDCL} - %-s"
-        wprint "$format" "" "${cmd}" "${HelpCmd[$cmd]}\n"  
+        wprint "$format" "" "${mcmd}${cmd}" "${HelpCmd[$cmd]}\n"  
     fi
 }
 
 helpAll()
 {
+    for fmtcmd in "${HelpCnt[@]}"; do wprint " $fmtcmd\n"; done
+    lkeys="$(for s in ${!HelpCmd[@]}; do echo "$s"; done | sort)"
+    for cmd in $lkeys; do (( "$sh2" <= "$(strlen $cmd)" )) && sh2=$(strlen "$cmd"); done
     for key in $lkeys; do helpline "$sh1" "$sh2" "$key"; done
 }
 
@@ -76,6 +79,8 @@ HelpAddCmnt() #3+Mix
 HelpAddSCmd() #4+
 {
     local key="$1" description="$2"
+    key=$(echo $key | cut -f1 -d'|')
+
     if [[ "$cmdm" == "0" ]]; then HelpCnt[$iCnt]="${WHITE}command: "; let iCnt++; cmdm=1; fi
 
     [[ "$(isakey $key)" == "NO" ]] && HelpCmd["$key"]="$description" 
@@ -85,7 +90,7 @@ HelpAddNts() #End
 {
     local description="$1"
 
-    HelpNts[$iNts]="${GREEN}Notes:${STDCL} $description" 
+    HelpNts[$iNts]="\n${GREEN}Notes:${STDCL}  $description" 
     let iNts++
 }
 
@@ -94,20 +99,15 @@ Help()
     local subcmd="$1" sh1=${#NAMEPRG} sh2=0
 
     HelpAddSCmd "help" "$NAMEPRG help [command]"
-    wprint " ${BWHITE}$NAMEPRG${STDCL} ver. $VERPRG - ${Annotation}\n Usage: \n" 
-
-    for fmtcmd in "${HelpCnt[@]}"; do wprint " $fmtcmd\n"; done
-
-    lkeys="$(for s in ${!HelpCmd[@]}; do echo "$s"; done | sort)"
-
-    for cmd in $lkeys; do (( "$sh2" <= "$(strlen $cmd)" )) && sh2=$(strlen "$cmd"); done
+    wprint " ${BWHITE}${NAMEPRG}${STDCL} ver. $VERPRG - ${Annotation}\n Usage: \n" 
 
     if [[ -n "$subcmd" ]]; then
-        helpline "$sh1" "4" "$subcmd" 
+        helpline "$sh1" "4" "$subcmd" "${NAMEPRG}"
         [[ $(isakey $subcmd) == "NO" ]] && helpAll
     else
+
         helpAll
-        for fmtnts in "${HelpNts[@]}"; do wprint " $fmtnts\n"; done
+        for note in "${HelpNts[@]}"; do wprint " $note\n"; done
     fi
     wprint "%$((TC))s\n" " wocson (c) 2008"
 }

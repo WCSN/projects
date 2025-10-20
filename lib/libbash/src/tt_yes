@@ -1,9 +1,9 @@
 #!/bin/bash
 
-. "$HOME"/.local/share/shells/lib/services.sh
+. ./lib_src/services.sh
 
 DialogType="window" # text
-YesNo "Checking packages" "window Do You want to continue?"
+yesno "Checking packages" "window Do You want to continue?"
 
 case ${UCH} in
     0) echo "Да";;
@@ -12,7 +12,7 @@ case ${UCH} in
 esac
 
 DialogType="text"
-YesNo "Checking packages" "text Do You want to continue?"
+yesno "Checking packages" "text Do You want to continue?"
 
 case ${UCH} in
     0) echo "Да";;

@@ -1,7 +1,11 @@
-#!/bin/perl -CS
+#!/bin/perl
 ##############################################################################
 ##
 ## translit
+##
+## xdotool key 'ctrl+c'; xclip -out -sel clip | translit | xclip -in -sel clip; xdotool key 'ctrl+v'
+##
+## Повесить на глобальный хот-кей. 
 ##
 ## wocson (c) 2008 BSD
 ##

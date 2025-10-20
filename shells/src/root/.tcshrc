@@ -2,7 +2,7 @@
 ##
 ## .tcshrc - resource script, read at beginning of execution by each shell
 ##
-## wocson (c) 2024
+## wocson (c) 2024 BSD
 ##
 ## see also csh(1), environ(7).
 ##
@@ -12,7 +12,7 @@
 ## fstat /dev/dsp* /dev/mixer* | tail -n +2 | awk '{print $3}' | xargs sh -c 'sudo kill -9 $0 $*'
 ##
 set LIBINCPATH="$HOME/.local/share/shells"
-source $LIBINCPATH/tcshrc.sh
+source $LIBINCPATH/tcshrc.tcsh
 #set PROXY="10.10.3.210:3128"
 
 if ( `id -u` == 0) then

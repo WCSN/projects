@@ -6,11 +6,11 @@
 ##
 ##############################################################################
 
-alias outinfo "source $LIBINCPATH/tcshrc.d/prx_outinfo.tcsh"
-alias setproxy "source $LIBINCPATH/tcshrc.d/prx_setproxy.tcsh"
-alias unsetproxy "source $LIBINCPATH/tcshrc.d/prx_unsetproxy.tcsh"
-alias usage "source $LIBINCPATH/tcshrc.d/prx_usage.tcsh"
-alias warnerr "source $LIBINCPATH/tcshrc.d/prx_warnerr.tcsh"
+alias outinfo "source $LIBINCPATH/prx_outinfo.tcsh"
+alias setproxy "source $LIBINCPATH/prx_setproxy.tcsh"
+alias unsetproxy "source $LIBINCPATH/prx_unsetproxy.tcsh"
+alias usage "source $LIBINCPATH/prx_usage.tcsh"
+alias warnerr "source $LIBINCPATH/prx_warnerr.tcsh"
 
 set argc = $#
 set CMD = ""

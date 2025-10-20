@@ -6,9 +6,9 @@
 ##
 ############################################################################
 
-alias proxy "source $LIBINCPATH/tcshrc.d/proxy.tcsh"
+alias proxy "source $LIBINCPATH/proxy.tcsh"
 
-set aliascmd = (`grep 'alias' $LIBINCPATH/share/aliases.sh | grep -v '#' | tr " " "@" | tr '\n' ' '`)
+set aliascmd = (`grep 'alias' $LIBINCPATH/aliases.tcsh | grep -v '#' | tr " " "@" | tr '\n' ' '`)
 
 foreach cmd ( ${aliascmd} )
     set cmd = `echo "$cmd" | tr '@' ' ' | tr '=' ' ' | tr "'" " "`

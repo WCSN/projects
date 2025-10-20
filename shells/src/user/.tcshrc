@@ -13,7 +13,7 @@
 ## fstat /dev/dsp* /dev/mixer* | tail -n +2 | awk '{print $3}' | xargs sh -c 'sudo kill -9 $0 $*'
 ##
 set LIBINCPATH="$HOME/.local/share/shells"
-source $LIBINCPATH/tcshrc.sh
+source $LIBINCPATH/tcshrc.tcsh
 #set PROXY = "10.10.3.210:3128"
 
 if (`id -u` == 0) then
@@ -46,7 +46,7 @@ setenv GDK_USE_XFT 		1
 setenv BLOCKSIZE		K
 #setenv CLICOLOR		true
 
-setenv LD_LIBRARY_PATH $LD_LIBRARY_PATH:$HOME/lib
+#set LD_LIBRARY_PATH = ( $LD_LIBRARY_PATH:$HOME/lib )
 
 ## LOCALE
 utf > /dev/null

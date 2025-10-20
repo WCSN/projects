@@ -2,7 +2,7 @@
 ##
 ## .zshrc - resource script, read at beginning of execution by each shell
 ##
-## wocson (c) 2024
+## wocson (c) 2024 BSD
 ##
 ## for user
 ##
