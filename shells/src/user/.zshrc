@@ -32,8 +32,8 @@ export PATH="$PATH:$HOME/bin"
 #export PACKAGEROOT=ftp://ftp.corbina.ru
 #export NEWSSERVER=your.news.server
 
-[ -f $(which most) ] && export PAGER=most    || export PAGER=less
-[ -f $(which mc)   ] && export EDITOR=mcedit || export EDITOR=vim
+[[ -f $(which most) ]] && export PAGER=most    || export PAGER=less
+[[ -f $(which mc)   ]] && export EDITOR=mcedit || export EDITOR=vim
 
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/lib
  

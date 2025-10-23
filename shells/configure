@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ##############################################################################
 ##
 ## Shells. Configure
@@ -13,7 +13,7 @@ OSTYPE="$(uname)"
 ## For find compratible on Linux
 if [[ "${OSTYPE^^}" =~ "BSD" ]]; then
     cp -f "$SETTINGS"/Makefile.BSD ./Makefile
-    echo "BSD type"
+    echo "Create BSD 'Makefile' type"
 elif [[ "${OSTYPE^^}" == "LINUX" ]]; then
     cp -f "$SETTINGS"/Makefile.Lnx ./Makefile
     echo "Linux type"
@@ -23,8 +23,9 @@ fi
 
 cp ./$SETTINGS/mc.menu.gen ./.mc.menu
 
+echo "'make system' - install for all system"
+echo "'make user'   - install for current user"
+echo "'make users'  - install for all users"
+echo -e "'make root'   - install for root\n"
+
 exit 0
-
-
-
-

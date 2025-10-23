@@ -33,8 +33,8 @@ export PATH="$PATH:$HOME/bin"
 #export PACKAGESITE=$PACKAGEROOT/pub/FreeBSD/ports/`uname -p`/packages-9-stable/All/
 #export NEWSSERVER=your.news.server
 
-[ -f $(which most) ] && export PAGER=most || export PAGER=less
-[ -f $(which mc) ] && export EDITOR=mcedit || export EDITOR=vim
+[[ -f $(which most) ]] && export PAGER=most || export PAGER=less
+[[ -f $(which mc) ]] && export EDITOR=mcedit || export EDITOR=vim
 
 source $LIBINCPATH/alias_wake.sh
 

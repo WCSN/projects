@@ -15,7 +15,7 @@ prompt_command()
         ERRPROMPT=" ($?) "
     fi
 
-    local TIME=$( date +%l:%M | cut -f2 -d' ' )
+    local TIME=$( date +%H:%M | cut -f2 -d' ' )
     local CURENT_PATH=$(echo ${PWD/#$HOME/\~})
 
     # trim long path
