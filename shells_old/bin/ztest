@@ -1,0 +1,129 @@
+############################################################################
+##
+##  for test
+##
+##  wocson (c) 2024
+##
+############################################################################
+. "../.config/shells.conf"
+. "./zfncode.sh"
+
+OPTYPE=$1
+
+warning()
+{
+if [ "$OPTYPE" == "root" ] || [ "$OPTYPE" == "ALL" ] ; then
+cat << EOF
+    Changing the environment for root is usually not performed. 
+    This user is left with the default settings. The change may 
+    create unforeseen problems.
+EOF
+fi
+
+[ "$OPTYPE" == "ALL" ] && echo "    and";
+
+if [ "$OPTYPE" == "users" ] || [ "$OPTYPE" == "ALL" ]; then 
+cat << EOF
+    Environment changes for all users in the system (except root).
+EOF
+fi
+cat << EOF
+    You should make changes only if you are completely 
+    confident in your actions.
+EOF
+}
+
+warning $OPTYPE
+
+exit 0 
+##################################################
+
+
+pathsudoers="/usr/local/etc"
+
+retcd=1
+
+  if ! [ $retcd -eq 0 ]; then
+     checkonsu 
+  fi
+
+
+exit 0 
+##################################################
+#array=( $(ls /) )
+#array=( "$(ls -1 /)" )
+
+IFS=' '; 
+array=( "$(ls -1 /)" ) 
+
+for i in ${array[@]}
+do
+    echo $i
+done
+
+exit
+
+if strcnt "BSD" $(uname) ; then
+
+  echo "This BSD family"
+
+fi
+
+exit 0 
+##################################################
+
+FPATHDEL="$HOME/.config"
+echo $LIST4DEL
+
+    for fname in $LIST4DEL; do 
+        if ! [[ -f "$FPATHDEL/$fname" ]]; then
+            TRACE "rm \"$FPATHDEL/$fname\" &> /dev/null "
+        fi
+    done
+
+exit
+##################################################
+
+ if [ -f "$(which zsh)" ]; then
+    echo find
+ else
+    echo nofind
+ fi
+
+exit 0 
+##################################################
+
+ count=1;
+
+ while true; do
+
+  echo $count
+
+    [ $count -gt 2 ] &&  break;
+   
+
+  count=$((count+=1))
+
+ done
+
+exit 0 
+##################################################
+
+let count=0 > /dev/null
+let count=count+1 > /dev/null
+
+echo $count
+
+
+exit 0 
+##################################################
+
+defansw="sold"
+
+read -p " U have needed permishens?(Y/n)[$defansw]: " answ; answ=${answ:-$defansw}
+
+echo "==> $answ"
+
+exit 0 
+##################################################
+

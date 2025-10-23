@@ -1,0 +1,5 @@
+# $FreeBSD$
+#
+# System-wide .zlogout file for zsh
+
+clear

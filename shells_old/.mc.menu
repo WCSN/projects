@@ -1,0 +1,30 @@
+| ==== Install for: ==========
+
+0 user
+    ./bin/install user
+
+1 All users
+	./bin/install users
+
+2 !!! root
+    ./bin/install root
+
+3 System
+	./bin/install system
+
+| ==== Devel =================
+
+4 build
+    ./bin/install build
+
+5 backup (tar.bz2)
+    ./bin/install backup
+
+6 clean
+    ./bin/install clean
+
+7 svn update
+	svn update
+
+8 svn commit
+	svn commit -m correct

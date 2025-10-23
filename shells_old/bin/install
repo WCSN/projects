@@ -1,0 +1,67 @@
+#!/usr/bin/env sh
+############################################################################
+##
+##  install shells
+##
+##  wocson (c) 2024 lic. BSD
+##
+############################################################################
+typesetup=$1
+Packman="pkg"
+
+. "./inst.conf"
+. "./bin/zfncode.sh"
+
+#===========================================================================
+main()
+{
+    if [ "$CHECKPKGS" == "YES" ] ; then
+        if strcnt "BSD" $(uname) ; then
+            if [ $(id -u) -eq 0 ]; then
+                pkg install $LIST4INST
+            else
+                checkinstposs
+            fi    
+        elif strcnt "Linux" $(uname) ; then
+            echo "Linux? Wath use: dnf yum apt zypper pkg ...?"
+            echo "Or set PACKMAN in inst.conf (a/n - break)"
+
+            read -p "Package manager: (a/n) [$PACKMAN]: " Packman; Packman=${Packman:-$PACKMAN}
+
+            if [ $Packman == "a" ] || [ $Packman == "n" ]; then exit 0; fi
+
+            if [ $(id -u) -eq 0 ]; then
+                if [ -f "$(which $Packman)" ]; then
+                    "$Packman" install $LIST4INST
+                else 
+                    echo "Package manager: $Packman don't find"
+                fi
+            else
+                if [ -f "$(which $Packman)" ]; then
+                    checkinstposs "$Packman"
+                else 
+                    echo "Package manager: $Packman don't found"
+                fi
+            fi
+        else
+            echo -e "Unknown OS... Sorry Exit\n"
+            exit 10
+        fi
+    elif [ -z "$CHECKPKGS" ]; then
+        echo "Can't installed shells. Exit."
+        echo "CHECKPKGS=[YES|NO] in setup.conf not defined"
+        exit 9 
+    else
+        echo "Your probably have all the necessary permission..." 
+    fi
+
+    echo -e "\nInstall shells environments..."
+    if [ -f /usr/local/bin/bash ] && [ ! -f /bin/bash ]; then sudo ln -sf /usr/local/bin/bash /bin/bash; fi
+
+    /bin/bash ./bin/zshmake.sh "$1" "$Packman"
+
+    return 0
+}
+
+Warning
+main $typesetup

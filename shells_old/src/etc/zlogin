@@ -1,0 +1,15 @@
+# $FreeBSD$
+#
+# System-wide .zlogin file for zsh.
+#
+# Check system messages
+if [[ `uname` == 'FreeBSD' ]]; then
+    msgs -q
+    # Allow terminal messages
+    mesg y
+fi
+
+#if [ ! $DISPLAY ] && [ ! $SSH_TTY ]; then
+#    echo "\nWarning: For work with unicode run 'jfbterm'\n"
+#fi
+

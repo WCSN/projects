@@ -1,0 +1,7 @@
+#!/bin/bash
+
+disk=/dev/ada0 ; echo "Drive $disk `smartctl -a $disk | grep _Celsius`"
+disk=/dev/ada1 ; echo "Drive $disk `smartctl -a $disk | grep _Celsius`"
+disk=/dev/ada2 ; echo "Drive $disk `smartctl -a $disk | grep _Celsius`"
+
+sleep 5
