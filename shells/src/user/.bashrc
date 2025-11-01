@@ -35,7 +35,7 @@ export PATH="$PATH:$HOME/bin"
 [[ -f $(which most) ]] && export PAGER=most || export PAGER=less
 [[ -f $(which mc) ]] && export EDITOR=mcedit || export EDITOR=vim
 
-LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/lib
  
 HISTSIZE=5000
 SAVEHIST=5000
